@@ -55,7 +55,6 @@
     <a class="brand" href="#home" aria-label="返回首页"><span></span><span></span><span></span></a>
     <nav class="desktop-nav" aria-label="主导航">
       <a href="#about">关于</a>
-      <a href="#works">作品</a>
       <a href="#journey">经历</a>
       <a href="#gallery">相册</a>
     </nav>
@@ -124,63 +123,12 @@
     </section>
 
     <!-- ============================================================
-         作品区：#works
-         加一件作品 → 复制一个 <article class="work-item">，
-         改 序号 / 标题 / 说明 / 标签 / 链接 即可
-         样式 → assets/style.css 末尾的「作品区」一段
-         ============================================================ -->
-    <section class="works-section" id="works">
-      <div class="section-head">
-        <div><p class="section-kicker">02 / WORKS</p><h2>做过的东西，<br /><em>都在这儿。</em></h2></div>
-        <p>四件都是真做出来的，两件能直接点开试。<br />源码在 GitHub，随时可以翻。</p>
-      </div>
-      <div class="work-list">
-        <article class="work-item">
-          <span class="work-index">01</span>
-          <div class="work-body">
-            <h3>这个个人主页</h3>
-            <p>纯静态单页，没上任何框架：本地托管字体、原创背景音乐、花瓣式相册与灯箱、响应式布局全部手写。发布走自己写的 Python 脚本，一条命令推到 GitHub Pages。</p>
-            <ul class="work-tags"><li>HTML / CSS</li><li>JavaScript</li><li>GitHub Pages</li></ul>
-          </div>
-          <div class="work-meta"><span class="work-state">持续迭代</span><a href="https://github.com/Inx-lnx/personal-homepage" target="_blank" rel="noopener">源码 ↗</a></div>
-        </article>
-        <article class="work-item">
-          <span class="work-index">02</span>
-          <div class="work-body">
-            <h3>数字分身</h3>
-            <p>页面下方那个问答机器人：53 条本地知识库、关键词打分匹配，带打字动画、追问推荐和输入联想。纯前端实现，不联网、不调用模型、零成本运行。</p>
-            <ul class="work-tags"><li>JavaScript</li><li>交互设计</li><li>本地知识库</li></ul>
-          </div>
-          <div class="work-meta"><span class="work-state">V3</span><a href="#chat">直接试 ↗</a></div>
-        </article>
-        <article class="work-item">
-          <span class="work-index">03</span>
-          <div class="work-body">
-            <h3>反馈系统</h3>
-            <p>页面底部的留言表单，数据存在 Supabase。权限交给数据库的 RLS 策略兜底，前端只放设计上允许公开的匿名密钥——所以源码完全公开，别人也读不走留言。</p>
-            <ul class="work-tags"><li>Supabase</li><li>RLS 权限</li><li>REST API</li></ul>
-          </div>
-          <div class="work-meta"><span class="work-state">已上线</span><a href="#feedback">去留言 ↗</a></div>
-        </article>
-        <article class="work-item">
-          <span class="work-index">04</span>
-          <div class="work-body">
-            <h3>原创背景音乐</h3>
-            <p>右下角循环的那首曲子是自己写的：钢琴加小提琴，A 小调 60 BPM，两分多钟。写代码卡住的时候就循环它。</p>
-            <ul class="work-tags"><li>作曲</li><li>编曲</li></ul>
-          </div>
-          <div class="work-meta"><span class="work-state">原创</span></div>
-        </article>
-      </div>
-    </section>
-
-    <!-- ============================================================
          经历时间线：#journey
          按「阶段」写，不写具体日期；等有确切时间了，在 tl-stage 里补年份即可
          ============================================================ -->
     <section class="journey-section" id="journey">
       <div class="section-head">
-        <div><p class="section-kicker">03 / JOURNEY</p><h2>怎么一步步<br /><em>走到现在。</em></h2></div>
+        <div><p class="section-kicker">02 / JOURNEY</p><h2>怎么一步步<br /><em>走到现在。</em></h2></div>
         <p>学校课程之外，基本靠想做点什么时现学。<br />每一版都留在本地，看得见进步。</p>
       </div>
       <ol class="timeline">
@@ -213,7 +161,7 @@
 
     <section class="skills-section">
       <div class="skills-heading">
-        <p class="section-kicker">04 / CAPABILITIES</p>
+        <p class="section-kicker">03 / CAPABILITIES</p>
         <h2>持续进化的<br /><em>能力矩阵。</em></h2>
       </div>
       <div class="skill-list">
@@ -231,7 +179,7 @@
          ============================================================ -->
     <section class="now-section" id="now">
       <div class="section-head">
-        <div><p class="section-kicker">05 / NOW</p><h2>最近在做的<br /><em>三件事。</em></h2></div>
+        <div><p class="section-kicker">04 / NOW</p><h2>最近在做的<br /><em>三件事。</em></h2></div>
         <p>时间基本分给这三条线，<br />主页是它们共同的练习场。</p>
       </div>
       <div class="now-grid">
@@ -256,7 +204,7 @@
 
     <section class="gallery-section" id="gallery">
       <div class="section-head">
-        <div><p class="section-kicker">06 / MOMENTS</p><h2>生活的切片。</h2></div>
+        <div><p class="section-kicker">05 / MOMENTS</p><h2>生活的切片。</h2></div>
         <p>九张照片围成一朵花。<br />点击任意一张可放大查看。</p>
       </div>
       <div class="flower">
@@ -277,7 +225,7 @@
 
     <section class="chat-section" id="chat">
       <div class="chat-copy">
-        <p class="section-kicker">07 / DIGITAL TWIN</p>
+        <p class="section-kicker">06 / DIGITAL TWIN</p>
         <h2>想了解更多？<br /><em>直接问我。</em></h2>
         <p>数字分身是我的一本本地小抄：学习、AI、经历、作品、兴趣、联系方式、这站怎么做出来的，都能问。<br /><small class="chat-note">纯前端本地知识库 · 不联网 · 不收集任何信息</small></p>
         <div class="chat-quick">
@@ -330,7 +278,7 @@
     </section>
 
     <section class="feedback-section" id="feedback">
-      <div><p class="section-kicker">08 / FEEDBACK</p><h2>你的想法，<br /><em>会让这里更好。</em></h2></div>
+      <div><p class="section-kicker">07 / FEEDBACK</p><h2>你的想法，<br /><em>会让这里更好。</em></h2></div>
       <form id="feedback-form" novalidate>
         <!-- 蜜罐字段：真人看不见也不会填，机器人往往会填 → 前端直接丢弃，不进数据库 -->
         <div class="form-honey" aria-hidden="true"><label for="fb-website">网站</label><input id="fb-website" name="website" type="text" tabindex="-1" autocomplete="off" /></div>
@@ -348,7 +296,7 @@
       <div class="footer-main">
         <div class="footer-brand"><span class="footer-logo"><i></i><i></i><i></i></span><strong>崇施涵</strong></div>
         <div class="footer-cta"><p>LET'S CREATE SOMETHING</p><a href="mailto:sora291933347@tju.edu.cn">sora291933347@tju.edu.cn <span>↗</span></a><button id="copy-mail" class="copy-mail" type="button" data-mail="sora291933347@tju.edu.cn">复制邮箱</button><span id="copy-mail-status" class="copy-mail-status" role="status" aria-live="polite"></span></div>
-        <nav><a href="#about">关于</a><a href="#works">作品</a><a href="#journey">经历</a><a href="#gallery">相册</a><a href="#chat">数字分身</a><a href="#feedback">反馈</a></nav>
+        <nav><a href="#about">关于</a><a href="#journey">经历</a><a href="#gallery">相册</a><a href="#chat">数字分身</a><a href="#feedback">反馈</a></nav>
       </div>
       <div class="footer-bottom"><small>© 2026 CHONG SHIHAN</small><button id="back-top" type="button">BACK TO TOP ↑</button><small>SHENZHEN, CHINA</small></div>
     </footer>
