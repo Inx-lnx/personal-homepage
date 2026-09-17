@@ -119,17 +119,52 @@
       <div class="chat-copy">
         <p class="section-kicker">04 / DIGITAL TWIN</p>
         <h2>想了解更多？<br /><em>直接问我。</em></h2>
-        <p>数字分身已经准备好了。你可以问关于学习、AI、兴趣或最近在做的事情。</p>
+        <p>数字分身是我的一本本地小抄：学习、AI、作品、兴趣、联系方式、这站怎么做出来的，都能问。<br /><small class="chat-note">纯前端本地知识库 · 不联网 · 不收集任何信息</small></p>
         <div class="chat-quick">
-          <button class="chip" data-q="你是谁？">你是谁？</button>
-          <button class="chip" data-q="你最近在做什么？">最近在做什么？</button>
-          <button class="chip" data-q="你有什么兴趣？">有什么兴趣？</button>
+          <div class="quick-group">
+            <span class="quick-title">学习</span>
+            <div class="quick-row">
+              <button class="chip" data-q="你是谁？">你是谁？</button>
+              <button class="chip" data-q="你在学什么？">在学什么？</button>
+              <button class="chip" data-q="你最近在做什么？">最近在做什么？</button>
+            </div>
+          </div>
+          <div class="quick-group">
+            <span class="quick-title">作品</span>
+            <div class="quick-row">
+              <button class="chip" data-q="这网站怎么做出来的？">这站怎么做的？</button>
+              <button class="chip" data-q="你还做过什么？">还做过什么？</button>
+              <button class="chip" data-q="你的技能怎么样？">技能怎么样？</button>
+            </div>
+          </div>
+          <div class="quick-group">
+            <span class="quick-title">兴趣</span>
+            <div class="quick-row">
+              <button class="chip" data-q="你有什么兴趣？">有什么兴趣？</button>
+              <button class="chip" data-q="你喜欢听什么音乐？">听什么音乐？</button>
+              <button class="chip" data-q="你打羽毛球厉害吗？">羽毛球怎么样？</button>
+            </div>
+          </div>
+          <div class="quick-group">
+            <span class="quick-title">联系</span>
+            <div class="quick-row">
+              <button class="chip" data-q="怎么联系你？">怎么联系你？</button>
+              <button class="chip" data-q="能帮我做一个网站吗？">能帮我做个网站吗？</button>
+              <button class="chip" data-q="你是真人吗？">你是真人吗？</button>
+            </div>
+          </div>
         </div>
       </div>
       <div class="chat-window">
-        <div class="window-bar"><span></span><span></span><span></span><b>DIGITAL_TWIN.EXE</b></div>
-        <div id="chat-box" class="chat-box" aria-live="polite"><div class="msg bot"><span class="bubble">你好，我是崇施涵的数字分身。有什么想了解的？</span></div></div>
-        <form id="chat-form" class="chat-input" autocomplete="off"><input id="chat-text" type="text" placeholder="输入你的问题…" maxlength="100" /><button type="submit" class="send-btn">发送 ↗</button></form>
+        <div class="window-bar"><span></span><span></span><span></span><b>DIGITAL_TWIN.EXE</b><button id="chat-clear" class="chat-clear" type="button" title="清空对话，重新开始">清空</button></div>
+        <div id="chat-box" class="chat-box" aria-live="polite"><div class="msg bot"><span class="bubble">你好呀！我是崇施涵的数字分身，关于学习、AI、兴趣都可以问我～</span></div></div>
+        <form id="chat-form" class="chat-input" autocomplete="off">
+          <div class="chat-field">
+            <input id="chat-text" type="text" placeholder="输入你的问题…" maxlength="100" role="combobox" aria-autocomplete="list" aria-controls="chat-suggest" />
+            <div id="chat-suggest" class="chat-suggest" role="listbox" hidden></div>
+          </div>
+          <button type="submit" class="send-btn">发送 ↗</button>
+        </form>
       </div>
     </section>
 
