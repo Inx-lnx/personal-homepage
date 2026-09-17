@@ -487,3 +487,6 @@ document.getElementById("back-top")?.addEventListener("click",()=>window.scrollT
 
 /* V5 相册加载占位：图片迟迟没出来时给出可见反馈，而不是空白 */
 (()=>{const run=()=>{document.querySelectorAll(".petal img").forEach(im=>{const okk=()=>im.complete&&im.naturalWidth>0;if(okk())return;const t=setTimeout(()=>{if(!okk())im.classList.add("img-pending")},3500);im.addEventListener("load",()=>{clearTimeout(t);im.classList.remove("img-pending")},{once:true});im.addEventListener("error",()=>{clearTimeout(t);im.classList.remove("img-pending");im.classList.add("img-failed")},{once:true})})};document.readyState==="loading"?document.addEventListener("DOMContentLoaded",run,{once:true}):run()})();
+
+/* V6 动画兜底：无论滚动监听是否生效，内容都不会永久停在不可见状态 */
+setTimeout(()=>{document.querySelectorAll(".reveal").forEach(el=>el.classList.add("is-visible"))},3500);
