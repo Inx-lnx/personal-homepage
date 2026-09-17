@@ -22,10 +22,11 @@
     cool-mode.js      # cool 输入彩蛋：粒子特效
     meteors.js        # 流星雨背景
     config.js         # Supabase 公开配置 + 背景音乐配置 + 内容保护开关
-    avatar.jpg        # 当前头像
+    avatar.jpg        # 头像原图（保留作母版，页面不再直接引用）
+    avatar-preview.jpg# 头像显示图（首屏加载用，长边 1000px）
     og-cover.png      # 分享卡片封面（og:image）
     favicon.svg / icon-192.png / icon-512.png / apple-touch-icon.png
-    gallery/          # 相册图片 gallery-01 ~ gallery-09（九张照片围成花瓣）
+    gallery/          # 相册图片：preview-01~09（花瓣显示图）+ gallery-01~09（点开看大图时加载的原图）
     music/            # 背景音乐目录（内置原创钢琴曲 bgm.mp3，详见该目录下 README.txt）
     fonts/            # 本地托管字体：Inter + Noto Sans SC（31 个 woff2 子集 + fonts.css）
   tools/
