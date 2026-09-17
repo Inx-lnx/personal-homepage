@@ -1,0 +1,186 @@
+/* 字体（Inter + Noto Sans SC）由 index.html 的 <link> 加载，
+   不在这里用 @import（@import 会阻塞渲染）。离线时回退系统字体。 */
+
+:root{--bg:#050505;--panel:#0b0b0d;--line:#252529;--text:#f6f6f3;--muted:#929298;--purple:#641cff;--purple2:#9d56ff;--white:#f4f4f1;--black:#050505;--max:1320px;--grad-anim:gradient-text-flow 9s linear infinite}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth;background-color:#050505}body{font-family:Inter,"Noto Sans SC",sans-serif;background:transparent;color:var(--text);line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}a{color:inherit;text-decoration:none}button,input,textarea,select{font:inherit}button{color:inherit}::selection{background:var(--purple);color:#fff}
+/* ---------- 页面整体底色：黑 → 紫 → 蓝 渐变 ----------
+   用「固定层」实现而非 background-attachment:fixed：body 上有
+   overflow-x:hidden，fixed 定位层更可控，且无论滚到哪一段，整条
+   渐变始终完整铺满视口（不会在长页面里被拉长稀释）。
+   注：body:before 已被噪点层占用，故新开 html:before。 */
+html:before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(168deg,#050505 0%,#0d0422 16%,#230c56 40%,#2b1573 60%,#1a1e63 80%,#141f5e 100%)}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:20;opacity:.045;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E")}
+.topbar{height:76px;padding:0 max(28px,calc((100vw - var(--max))/2));display:grid;grid-template-columns:1fr auto 1fr;align-items:center;border-bottom:1px solid #171719;position:absolute;top:0;left:0;right:0;z-index:10;background:rgba(5,5,5,.58);backdrop-filter:blur(16px)}
+.brand,.footer-logo{display:grid;width:30px;height:26px;grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(2,1fr);gap:3px}.brand span,.footer-logo i{display:block;background:#fff}.brand span:nth-child(1),.footer-logo i:nth-child(1){grid-row:1/3}.brand span:nth-child(3),.footer-logo i:nth-child(3){grid-column:2}.desktop-nav{display:flex;gap:34px;font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:#adadb1}.desktop-nav a{transition:.2s}.desktop-nav a:hover{color:#fff}.contact-button{justify-self:end;background:var(--purple);padding:12px 18px;text-transform:uppercase;font-size:11px;font-weight:700;letter-spacing:.08em;box-shadow:0 0 35px rgba(100,28,255,.35);transition:.25s}.contact-button:hover,.primary-button:hover{background:#7b37ff;transform:translateY(-2px)}.contact-button b,.primary-button b{margin-left:18px;font-size:14px}
+.hero{min-height:100vh;position:relative;display:flex;align-items:center;padding:150px max(28px,calc((100vw - var(--max))/2)) 100px;overflow:hidden;background:radial-gradient(circle at 74% 45%,rgba(95,28,219,.13),transparent 27%)}.hero:before{content:"";position:absolute;inset:0;background:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:64px 64px;mask-image:linear-gradient(to bottom,transparent 7%,#000 45%,transparent 98%)}.hero-copy{position:relative;z-index:2;width:62%}.eyebrow,.section-kicker,.mini-label{font-size:10px;letter-spacing:.22em;font-weight:700;color:#a8a8ae;text-transform:uppercase}.eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:36px}.eyebrow span{width:6px;height:6px;background:var(--purple2);box-shadow:0 0 12px var(--purple2)}h1{font-size:clamp(58px,7.2vw,112px);line-height:.92;letter-spacing:-.07em;font-weight:600;max-width:920px}h1 span{color:#85858a}.hero-intro{margin-top:38px;max-width:520px;color:#a0a0a6;font-size:15px}.hero-actions{display:flex;align-items:center;gap:36px;margin-top:42px}.primary-button{display:inline-flex;align-items:center;justify-content:space-between;background:var(--purple);min-width:168px;padding:15px 18px;text-transform:uppercase;font-size:11px;font-weight:700;letter-spacing:.09em;border:0;box-shadow:0 0 36px rgba(100,28,255,.25);transition:.25s;cursor:pointer}.primary-button.small{min-width:210px}.text-link{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#c5c5c8}.text-link span{margin-left:14px}.hero-portrait{position:absolute;z-index:1;width:min(38vw,510px);height:min(38vw,510px);right:max(26px,calc((100vw - var(--max))/2));top:52%;transform:translateY(-46%)}.portrait-frame{position:absolute;inset:17%;border-radius:50%;overflow:hidden;filter:saturate(1.06) contrast(1.02);box-shadow:inset 0 0 60px #000,0 0 80px rgba(105,36,255,.12)}.portrait-frame:after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 70px 28px #050505}.portrait-frame img{width:100%;height:100%;object-fit:cover;object-position:42% 36%}.orbit{position:absolute;border:1px solid rgba(162,116,255,.27);border-radius:50%;inset:8%;transform:rotate(-18deg) scaleY(.48)}.orbit:before,.orbit:after{content:"";position:absolute;width:6px;height:6px;border:1px solid var(--purple2);background:#080808;transform:rotate(18deg);box-shadow:0 0 12px var(--purple2)}.orbit:before{left:13%;top:33%}.orbit:after{right:10%;bottom:27%}.orbit-two{inset:-3%;transform:rotate(63deg) scaleY(.42);opacity:.6}.floating-label{position:absolute;font-size:9px;letter-spacing:.16em;color:#9a9aa0;border:1px solid #2a2a30;padding:7px 9px;background:#09090b}.label-one{left:4%;top:23%}.label-two{right:2%;bottom:20%}.scroll-cue{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);font-size:8px;letter-spacing:.2em;color:#68686e}.scroll-cue span{display:inline-block;width:26px;height:1px;background:#4c4c50;margin-right:10px;vertical-align:middle}
+.statement{max-width:var(--max);margin:auto;padding:150px 28px;text-align:center;border-bottom:1px solid rgba(157,86,255,.16)}.statement h2,.skills-heading h2,.section-head h2,.chat-copy h2,.feedback-section h2{font-size:clamp(42px,5.4vw,76px);line-height:1.08;letter-spacing:-.055em;margin-top:25px}.statement h2 em,.skills-heading h2 em,.chat-copy h2 em,.feedback-section h2 em{font-style:normal;color:#6f6f74}.statement-copy{max-width:650px;margin:36px auto;color:var(--muted);font-size:16px}
+.feature-grid{position:relative;max-width:var(--max);margin:0 auto 145px;padding:0;display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:0}.feature-grid:before{content:"";position:absolute;top:0;bottom:0;left:50%;width:100vw;transform:translateX(-50%);background:radial-gradient(circle at 16% 10%,rgba(100,28,255,.12),transparent 58%),linear-gradient(180deg,transparent 0%,rgba(8,8,15,.42) 20%,rgba(8,8,15,.42) 80%,transparent 100%);border-top:1px solid rgba(157,86,255,.16);border-bottom:1px solid rgba(157,86,255,.16);z-index:0;pointer-events:none}.feature-card{min-height:520px;background:transparent;padding:44px 34px;display:flex;flex-direction:column;justify-content:space-between;position:relative;z-index:1;overflow:hidden;transition:.35s}.feature-card+.feature-card{border-left:1px solid rgba(157,86,255,.16)}.feature-card:hover{background:rgba(157,86,255,.06)}.feature-card:before{content:"";position:absolute;width:230px;height:230px;background:radial-gradient(circle,rgba(103,30,255,.11),transparent 62%);right:-80px;top:-80px;filter:blur(28px)}.card-index{font-size:10px;color:#66666c;letter-spacing:.15em}.feature-card h3{font-size:35px;letter-spacing:-.04em;line-height:1.07;margin:13px 0 18px}.feature-card p:not(.mini-label){color:#88888f;font-size:13px;max-width:330px}.card-arrow{position:absolute;right:30px;top:29px;font-size:23px;color:#777}.terminal-art{height:180px;border:1px solid rgba(157,86,255,.2);background:#070708;margin:30px 0;padding:15px;position:relative;box-shadow:0 15px 50px rgba(0,0,0,.4)}.terminal-art i{width:6px;height:6px;background:#3f3f44;border-radius:50%;display:inline-block;margin-right:4px}.terminal-art code{display:block;color:#8d5cff;font-size:11px;line-height:2;margin-top:25px}.sphere{width:180px;height:180px;border-radius:50%;margin:18px auto;background:repeating-radial-gradient(ellipse at 35% 40%,transparent 0 6px,rgba(126,67,255,.28) 7px 8px),radial-gradient(circle at 35% 30%,#4b2688,#09090b 68%);box-shadow:0 0 60px rgba(100,28,255,.18);transform:rotate(-18deg)}
+.skills-section{max-width:var(--max);margin:auto;padding:135px 28px;display:grid;grid-template-columns:.85fr 1.15fr;gap:100px}.skill-list{border-top:1px solid var(--line)}.skill-row{display:grid;grid-template-columns:50px 1fr auto;align-items:center;padding:25px 4px;border-bottom:1px solid var(--line);transition:.2s}.skill-row:hover{padding-left:14px;background:#0a0a0c}.skill-row span,.skill-row i{font-size:10px;color:#68686e;font-style:normal;letter-spacing:.12em}.skill-row strong{font-size:21px;font-weight:500}.skill-row i{color:#9e76ff}
+.gallery-section{max-width:var(--max);margin:auto;padding:130px 28px}.section-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:55px}.section-head>p{font-size:12px;color:var(--muted)}.flower{container-type:inline-size;position:relative;width:min(100%,570px);aspect-ratio:1/1;height:auto;margin:0 auto}.flower-inner{position:relative;width:100%;height:100%}.flower-center{position:absolute;left:50%;top:50%;width:11.9cqw;height:11.9cqw;margin:-5.95cqw 0 0 -5.95cqw;border-radius:50%;background:linear-gradient(135deg,var(--purple2),#a78bfa);color:#fff;font-size:4.9cqw;line-height:11.9cqw;text-align:center;border:1px solid rgba(196,181,253,.6);box-shadow:0 4px 16px rgba(0,0,0,.35),0 0 18px rgba(139,92,246,.45);z-index:10}.petal{position:absolute;left:50%;top:50%;margin:0;transform-origin:0 0;transform:rotate(var(--r));transition:transform .25s ease;cursor:zoom-in}.petal img{display:block;width:29.8cqw;height:auto;border-radius:10px;border:3px solid rgba(157,86,255,.85);box-shadow:0 8px 20px rgba(2,6,23,.55),0 0 14px rgba(139,92,246,.3)}.petal:hover{transform:rotate(var(--r)) scale(1.07);z-index:5}.petal:hover img{box-shadow:0 8px 24px rgba(2,6,23,.6),0 0 22px rgba(157,86,255,.5)}.petal.reveal{transform:rotate(var(--r)) translateY(28px)}.petal.reveal.is-visible{transform:rotate(var(--r));transition:transform .25s ease,opacity .45s ease}.petal.reveal.is-visible:hover{transform:rotate(var(--r)) scale(1.07);z-index:5}@supports not (width:1cqw){.flower{width:570px;height:570px}.flower-center{width:68px;height:68px;margin:-34px 0 0 -34px;font-size:28px;line-height:68px}.petal img{width:170px}}
+.chat-section{max-width:var(--max);margin:80px auto 0;padding:100px 28px 150px;display:grid;grid-template-columns:.82fr 1.18fr;gap:100px;border-top:1px solid var(--line)}.chat-copy>p:not(.section-kicker){color:var(--muted);margin-top:28px;max-width:440px}.chat-quick{display:flex;gap:8px;flex-wrap:wrap;margin-top:30px}.chip{border:1px solid #303036;background:transparent;padding:9px 13px;font-size:11px;cursor:pointer;transition:.2s}.chip:hover{border-color:var(--purple2);color:#c8adff}.chat-window{border:1px solid #29292e;background:#08080a;align-self:center;box-shadow:0 30px 80px rgba(0,0,0,.35)}.window-bar{height:42px;border-bottom:1px solid #25252a;display:flex;align-items:center;padding:0 14px;gap:6px}.window-bar span{width:6px;height:6px;border-radius:50%;background:#45454b}.window-bar span:first-child{background:var(--purple)}.window-bar b{font-size:9px;color:#777;margin-left:auto;letter-spacing:.14em}.chat-box{height:290px;padding:24px;overflow-y:auto;display:flex;flex-direction:column;gap:12px}.msg{display:flex}.msg.user{justify-content:flex-end}.bubble{max-width:80%;font-size:13px;padding:12px 14px;border:1px solid #24242a;color:#bcbcc1}.msg.bot .bubble:before{content:"> ";color:var(--purple2)}.msg.user .bubble{background:var(--purple);border-color:var(--purple);color:#fff}.typing{opacity:.55}.chat-input{border-top:1px solid #25252a;display:flex;padding:12px}.chat-input input{flex:1;border:0;background:transparent;color:#fff;outline:0;padding:10px}.chat-input button{border:0;background:var(--purple);padding:10px 18px;font-size:11px;cursor:pointer}
+.feedback-section{max-width:var(--max);margin:auto;padding:130px 28px 120px;display:grid;grid-template-columns:1fr 1fr;gap:130px;border-top:1px solid var(--line)}.feedback-section form{align-self:end}.form-line{display:grid;grid-template-columns:80px 1fr;align-items:center;border-bottom:1px solid #303035}.form-line label{font-size:10px;letter-spacing:.15em;color:#737379;text-transform:uppercase}.form-line input,.form-line select,.form-line textarea{width:100%;padding:20px 0;border:0;background:transparent;color:#eee;outline:0;resize:none}.form-line select option{background:#101012}.form-submit{margin-top:26px;width:100%}.fb-status{font-size:12px;min-height:22px;margin-top:10px}.fb-status.ok{color:#8ce0ae}.fb-status.warn{color:#ff8585}
+.pixel-transition{height:320px;position:relative;background:transparent;overflow:hidden}.pixel-transition:before{content:"";position:absolute;inset:0;background-image:linear-gradient(90deg,var(--white) 50%,transparent 50%),linear-gradient(0deg,var(--white) 50%,transparent 50%);background-size:26px 26px;-webkit-mask-image:linear-gradient(to bottom,transparent 0%,rgba(0,0,0,.4) 38%,#000 82%);mask-image:linear-gradient(to bottom,transparent 0%,rgba(0,0,0,.4) 38%,#000 82%);opacity:.92}.pixel-transition:after{content:"";position:absolute;left:0;right:0;bottom:0;height:46%;background:linear-gradient(to bottom,transparent,var(--white) 74%)}.pixel-field{position:absolute;inset:0;background-image:linear-gradient(90deg,transparent 0 47%,rgba(244,244,241,.16) 47% 53%,transparent 53% 100%);background-size:26px 26px;opacity:.5}
+footer{position:relative;z-index:21;background:var(--white);color:#090909;padding:50px max(28px,calc((100vw - var(--max))/2)) 25px}.footer-main{min-height:230px;border-bottom:1px solid #d0d0cd;display:grid;grid-template-columns:1fr 1.4fr .6fr;align-items:start;padding-top:15px}.footer-brand{display:flex;align-items:center;gap:18px}.footer-logo i{background:#080808}.footer-brand strong{font-size:30px;letter-spacing:-.04em}.footer-cta p{font-size:9px;letter-spacing:.18em;color:#777;margin-bottom:15px}.footer-cta a{font-size:clamp(18px,2vw,28px);border-bottom:1px solid #aaa;padding-bottom:8px}.footer-cta span{color:var(--purple);margin-left:10px}footer nav{display:flex;flex-direction:column;gap:8px;font-size:12px}.footer-bottom{padding-top:22px;display:flex;justify-content:space-between;align-items:center}.footer-bottom small,.footer-bottom button{font-size:8px;letter-spacing:.15em}.footer-bottom button{border:0;background:none;cursor:pointer}
+.lightbox{position:fixed;inset:0;background:rgba(3,3,6,.94);backdrop-filter:blur(6px);z-index:100;display:none;align-items:center;justify-content:center;padding:5vw;cursor:zoom-out}.lightbox.is-open{display:flex}.lightbox img{max-width:88vw;max-height:84vh;object-fit:contain;border-radius:12px;border:1px solid rgba(255,255,255,.14);box-shadow:0 24px 80px rgba(0,0,0,.7)}.lightbox button{position:absolute;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.22);color:#fff;width:44px;height:44px;border-radius:50%;cursor:pointer;font-size:17px;line-height:1;display:flex;align-items:center;justify-content:center;transition:.2s}.lightbox button:hover{background:var(--purple);border-color:transparent}.lightbox .lb-close{right:26px;top:22px}.lightbox .lb-prev{left:26px;top:50%;transform:translateY(-50%)}.lightbox .lb-next{right:26px;top:50%;transform:translateY(-50%)}.lightbox .lb-count{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);font-size:10px;letter-spacing:.2em;color:#b9b9c0}.lightbox button:disabled{opacity:.28;cursor:default}.lightbox button:disabled:hover{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.22)}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .75s ease,transform .75s ease}.reveal.is-visible{opacity:1;transform:none}
+@media(max-width:900px){.desktop-nav{display:none}.topbar{grid-template-columns:1fr 1fr}.hero{min-height:900px;align-items:flex-start;padding-top:145px}.hero-copy{width:100%}.hero-portrait{width:400px;height:400px;right:-80px;top:auto;bottom:60px;transform:none}.portrait-frame{opacity:.65}.hero-intro{max-width:390px}.feature-grid{grid-template-columns:1fr}.feature-card{min-height:410px;padding:34px 18px}.feature-card+.feature-card{border-left:0;border-top:1px solid rgba(157,86,255,.16)}.skills-section,.chat-section,.feedback-section{grid-template-columns:1fr;gap:55px}.flower{width:min(100%,440px)}.footer-main{grid-template-columns:1fr 1fr;gap:50px}.footer-main nav{display:none}}
+@media(max-width:600px){.topbar{height:66px;padding:0 18px}.contact-button{padding:10px 12px}.hero{min-height:780px;padding:120px 18px 80px}.hero-copy h1{font-size:54px}.hero-intro{font-size:13px}.hero-actions{gap:18px;align-items:flex-start;flex-direction:column}.hero-portrait{width:330px;height:330px;right:-105px;bottom:70px}.floating-label{display:none}.statement,.skills-section,.gallery-section,.chat-section,.feedback-section{padding-left:18px;padding-right:18px}.statement{padding-top:110px;padding-bottom:110px}.statement h2,.skills-heading h2,.section-head h2,.chat-copy h2,.feedback-section h2{font-size:39px}.feature-grid{margin-bottom:90px}.skills-section,.gallery-section,.chat-section,.feedback-section{padding-top:90px;padding-bottom:90px}.section-head{display:block}.section-head>p{margin-top:20px}.flower{width:100%}.chat-window{margin:0 -8px}.footer-main{display:block;min-height:250px}.footer-cta{margin-top:55px}.footer-cta a{font-size:14px;word-break:break-all}.footer-bottom small:last-child{display:none}.pixel-transition{height:210px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{opacity:1;transform:none;transition:none}.aurora-text{animation:none;background-position:50% 50%}:root{--grad-anim:none}.type-cursor{display:none}.meteor{animation:none;opacity:0}.border-beam{display:none}}
+/* ---------- 首页名字：原版炫彩 aurora 流光配色 ---------- */
+.aurora-text{display:inline-block;color:transparent;background-image:linear-gradient(120deg,#ffffff 0%,#a5f3fc 18%,#c4b5fd 38%,#f9a8d4 58%,#67e8f9 78%,#ffffff 100%);background-size:250% auto;background-position:0% 50%;background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 12px rgba(165,243,252,.32));animation:aurora-text-flow 5s ease-in-out infinite alternate}
+@keyframes aurora-text-flow{0%{background-position:0% 50%}100%{background-position:100% 50%}}
+/* ---------- 灰字 → 自动流动渐变（同一套 aurora 流光配色） ----------
+   把原来纯色填充的「设计性灰字」统一改成自动流动的渐变色：
+     h1 span #85858a · h2 em #6f6f74 · .section-kicker/.eyebrow/
+     .mini-label #a8a8ae · .card-index #66666c · .skill-row span
+     #68686e · .scroll-cue #68686e · .card-arrow #777 ·
+     .desktop-nav a #adadb1 · .text-link #c5c5c8 ·
+     .window-bar b #777 · .form-line label #737379
+   要点：
+   1. color:transparent + background-clip:text + -webkit-text-fill-color
+      三者缺一不可，否则文字整段消失（-webkit-text-fill-color 会覆盖
+      color，所以悬停改色也要一起改它）。
+   2. 无缝循环：渐变首尾同色（#a5f3fc）+ background-size:200%，
+      background-repeat 默认 repeat，动画把 background-position 从 0%
+      推到 200%（正好平移一个贴片宽度），接缝处同色，故看不到跳变。
+   3. 只套在「纯文字元素」上。附带背景色的元素不能进这组，因为
+      background-clip:text 会把它的背景色一起裁掉；含文字子元素的
+      也必须在组内（子元素会继承 -webkit-text-fill-color:transparent，
+      若不进组就会变成隐形字）。
+      故排除：.floating-label（自带 #09090b 底色药丸）、footer 与
+      .pixel-transition 内的灰字（白底，浅色渐变会看不见）。
+   4. 首屏大标题（h1 span / h2 em）额外加一层青色柔光，与名字呼应。 */
+h1 span,h2 em,.eyebrow,.section-kicker,.mini-label,.card-index,.card-arrow,.skill-row span,.scroll-cue,.desktop-nav a,.text-link,.text-link span,.window-bar b,.form-line label{color:transparent;background-image:linear-gradient(100deg,#a5f3fc 0%,#c4b5fd 26%,#f0abfc 50%,#c4b5fd 74%,#a5f3fc 100%);background-size:200% 100%;background-position:0% 50%;background-repeat:repeat;background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:var(--grad-anim)}
+h1 span,h2 em{filter:drop-shadow(0 0 14px rgba(165,243,252,.28))}
+@keyframes gradient-text-flow{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+/* 悬停改色必须用 -webkit-text-fill-color（它会覆盖 color） */
+.desktop-nav a:hover,.text-link:hover{-webkit-text-fill-color:#fff;color:#fff}
+.portrait-name{position:absolute;left:50%;top:3%;transform:translateX(-50%);z-index:3;white-space:nowrap;text-align:center;cursor:pointer}
+.portrait-name .aurora-text{font-size:clamp(26px,2.7vw,42px);font-weight:700;letter-spacing:.16em;line-height:1.1}
+@media(max-width:900px){.portrait-name .aurora-text{font-size:24px;letter-spacing:.1em}}
+@media(max-width:600px){.portrait-name .aurora-text{font-size:22px;letter-spacing:.08em}}
+/* ---------- 打字机：状态行（原版效果，逐字呈现） ---------- */
+.typed-line{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:#a5f3fc;font-size:14px;letter-spacing:.08em;margin-top:22px;min-height:21px}
+.type-cursor{display:inline-block;margin-left:3px;color:#67e8f9;animation:cursor-blink .9s steps(1) infinite}
+.type-cursor.is-idle{opacity:0}
+@keyframes cursor-blink{50%{opacity:0}}
+@media(max-width:600px){.typed-line{font-size:12.5px;margin-top:18px}}
+/* ---------- Meteors（Magic UI 移植）：Hero 流星雨背景 ---------- */
+/* .hero 本身已是 position:relative + overflow:hidden，流星由 meteors.js 注入 */
+.meteor{position:absolute;width:2px;height:2px;border-radius:9999px;background:#c4d8ff;box-shadow:0 0 6px rgba(165,243,252,.8);pointer-events:none;animation:meteor 5s linear infinite}
+.meteor::before{content:"";position:absolute;top:50%;left:0;width:50px;height:1px;transform:translateY(-50%);background:linear-gradient(to right,#9db4ff,transparent)}
+@keyframes meteor{0%{transform:rotate(var(--angle)) translateX(0);opacity:1}70%{opacity:1}100%{transform:rotate(var(--angle)) translateX(-500px);opacity:0}}
+/* ---------- Cool Mode：可按住迸发粒子的元素 ---------- */
+.portrait-frame{cursor:pointer}
+/* ---------- BorderBeam · 环绕灯带（Magic UI 移植，与原版 v3 一致） ----------
+   说明：app.js 为「经历」三张卡片注入 .border-beam，一条霓虹光点沿卡片
+   边框顺时针循环流动（offset-path 四边矩形，px 路径由 JS 按实际
+   尺寸生成）。系统开启“减少动态效果”时不注入，无任何装饰。
+   配色：光点不是单一纯色，而是渐变色 —— 由 app.js 注入
+   --beam-a（内层主色）与 --beam-b（外层收尾色），::after 亮核
+   从白热 → --beam-a → --beam-b 过渡，::before 光晕与 box-shadow
+   取 --beam-b 作为外沿辉光；三张卡片依次为 青→靛紫、靛紫→薰衣草、
+   薰衣草→粉，整体连成一条完整的渐变序列。
+   注：原版兜底色写的是 var(--accent)，当前主题没有该变量，若变量
+   缺失整个 radial-gradient 会失效、光点彻底不可见，故兜底改为 #67e8f9。 */
+.border-beam{position:absolute;top:0;left:0;width:0;height:0;border-radius:inherit;pointer-events:none;offset-path:path("M .5 .5 L 99.5 .5 L 99.5 99.5 L .5 99.5 L .5 .5");offset-distance:0%;animation:border-beam-move 5s linear infinite}
+/* 光点：柔光晕（::before）+ 亮核（::after），中心沿边框线移动 */
+.border-beam::before{content:"";position:absolute;left:50%;top:50%;width:clamp(56px,12%,110px);height:clamp(80px,30%,180px);transform:translate(-50%,-50%);background:radial-gradient(ellipse at center,var(--beam-a,#8b7bff) 0%,var(--beam-b,#67e8f9) 44%,transparent 74%);filter:blur(10px)}
+.border-beam::after{content:"";position:absolute;left:50%;top:50%;width:26px;height:26px;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.95) 0%,var(--beam-a,#8b7bff) 40%,var(--beam-b,#67e8f9) 64%,transparent 82%);color:var(--beam-b,#67e8f9);box-shadow:0 0 16px 4px currentColor}
+@keyframes border-beam-move{to{offset-distance:100%}}
+/* 不支持 offset-path 的浏览器：直接隐藏，避免静态光点停在板块中央 */
+@supports not (offset-path:path("M .5 .5 L 99.5 .5")){.border-beam{display:none}}
+/* ---------- Smooth Cursor · 平滑光标（原版 v3 效果，已恢复） ----------
+   一个紧跟指针的小圆点（.cursor-dot）+ 一个 lerp 平滑跟随的圆环
+   （.cursor-ring），悬停可交互元素时放大、按下时收缩，首次移动鼠标后
+   才显形（body.is-active 由 app.js 添加），触摸设备与系统“减少动态
+   效果”下不创建。
+   配色：原版为青色 --accent-2 + 悬停紫；当前主题已无 --accent/--accent-2
+   两个变量，故圆点直接写 #67e8f9（与打字机光标 .type-cursor、灯带起点
+   同色），悬停圆环改用主题紫 --purple2 的 85% 透明写法
+   rgba(157,86,255,.85)，贴合当前黑紫蓝配色。
+   z-index 2500：需盖过噪点层（20）、页脚（21）、灯箱（100）。 */
+.cursor-dot,.cursor-ring{position:fixed;top:0;left:0;border-radius:50%;pointer-events:none;z-index:2500;opacity:0}
+/* app.js 用 translate 定位到指针坐标，这里用负 margin 把几何中心对准指针 */
+.cursor-dot{width:8px;height:8px;margin:-4px 0 0 -4px;background:#67e8f9;box-shadow:0 0 10px rgba(103,232,249,.9);transition:width .15s,height .15s,margin .15s,background .15s}
+.cursor-ring{width:34px;height:34px;margin:-17px 0 0 -17px;border:1.5px solid rgba(103,232,249,.55);box-shadow:0 0 12px rgba(34,211,238,.25),inset 0 0 8px rgba(34,211,238,.15);transition:width .2s,height .2s,margin .2s,border-color .2s}
+/* 首次移动鼠标后才显形 */
+body.is-active .cursor-dot,body.is-active .cursor-ring{opacity:1}
+.cursor-dot.is-hover{width:12px;height:12px;margin:-6px 0 0 -6px;background:#fff}
+.cursor-ring.is-hover{width:52px;height:52px;margin:-26px 0 0 -26px;border-color:rgba(157,86,255,.85)}
+.cursor-dot.is-down{width:6px;height:6px;margin:-3px 0 0 -3px}
+.cursor-ring.is-down{width:26px;height:26px;margin:-13px 0 0 -13px}
+/* 自定义光标生效时隐藏系统光标（灯箱除外，保留“点击关闭”的 zoom-out 提示） */
+body.smooth-cursor,body.smooth-cursor a,body.smooth-cursor button,body.smooth-cursor input,body.smooth-cursor select,body.smooth-cursor textarea,body.smooth-cursor label,body.smooth-cursor .chip,body.smooth-cursor .petal,body.smooth-cursor .portrait-frame,body.smooth-cursor .portrait-name{cursor:none}
+
+/* ============================================================
+   内容保护（威慑性，非加密）—— 与 app.js 的 initContentProtection 配套
+   开关：config.js 的 blockSelect / blockImageSave
+   1. 禁止拖选文本：用 html.no-select 这个 class 承载，class 由 JS 按开关
+      添加，所以关掉开关时样式会整体失效（不会出现「配置关了却仍被锁死」）。
+      表单控件必须例外放行，否则访客无法选中、编辑、粘贴留言内容。
+   2. 禁止图片拖拽 / 长按存储：-webkit-user-drag 只被 Chrome/Edge/Safari
+      支持，Firefox 不认该属性，由 app.js 的 dragstart 兜底。
+      -webkit-touch-callout:none 只加在 img 上（关掉 iOS/安卓长按图片弹出的
+      「存储图像」菜单），不加在 html 上，以免连带影响链接的长按操作。
+   ============================================================ */
+html.no-select{-webkit-user-select:none;-moz-user-select:none;user-select:none}
+html.no-select input,html.no-select textarea,html.no-select select,html.no-select [contenteditable],html.no-select [contenteditable="true"]{-webkit-user-select:text;-moz-user-select:text;user-select:text}
+html.no-drag img{-webkit-user-drag:none;-webkit-touch-callout:none}
+
+/* ============================================================
+   背景音乐 · 右下角悬浮开关 + 进站引导气泡
+   配置：config.js 的 music（开关 / 路径 / 音量 / 文案）
+   逻辑：app.js 的 initBackgroundMusic
+   1. 位置：fixed 右下角。z-index 250 —— 需盖过噪点层(20)、页脚(21)
+      与相册灯箱(100)，但低于自定义光标(2500)；灯箱打开时按钮仍可点，
+      访客放大看照片时也能随手暂停音乐。
+   2. 三种状态由 .bgm-dock 的 data-state 驱动：
+         idle    —— 未播放：渐变按钮向外扩散呼吸光晕，主动吸引注意
+         playing —— 播放中：白色短棒跳动，外圈虚线光环旋转
+         missing —— 音频缺失：按钮转为暗红，点击时给文字提示
+   3. 音频元素本身不显示（无 controls 属性即可，这里再兜一层）。
+   ============================================================ */
+#bgm-audio{display:none}
+.bgm-dock{position:fixed;right:22px;bottom:24px;z-index:250;display:flex;flex-direction:column;align-items:flex-end;gap:10px;pointer-events:none}
+.bgm-dock>*{pointer-events:auto}
+/* ---------- 悬浮按钮 ----------
+   醒目度：这是整站唯一的交互入口，必须在深色页面里第一眼就被看到。
+   做法 = 实心渐变底 + 白色等化器 + 未播放时向外扩散的呼吸光晕。
+   状态仍全部由 .bgm-dock 的 data-state 驱动，JS 不需要改动。 */
+.bgm-btn{position:relative;width:62px;height:62px;padding:0;border:0;border-radius:50%;background:linear-gradient(140deg,#7c3aed 0%,#a855f7 45%,#22d3ee 100%);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 10px 30px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.18) inset,0 0 26px rgba(124,58,237,.55);transition:transform .25s ease,box-shadow .25s ease,filter .25s ease}
+.bgm-btn:hover{transform:translateY(-2px) scale(1.05);filter:brightness(1.08);box-shadow:0 14px 36px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.3) inset,0 0 40px rgba(34,211,238,.7)}
+.bgm-btn:active{transform:translateY(0) scale(.97)}
+.bgm-btn:focus-visible{outline:2px solid #67e8f9;outline-offset:3px}
+/* 未播放时向外扩散的呼吸光晕：主动把视线拉过去 */
+.bgm-btn:before{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid rgba(103,232,249,.85);opacity:0;pointer-events:none}
+.bgm-dock[data-state="idle"] .bgm-btn:before{animation:bgm-attract 2.4s ease-out infinite}
+@keyframes bgm-attract{0%{opacity:.9;transform:scale(.92)}70%{opacity:0;transform:scale(1.35)}100%{opacity:0;transform:scale(1.35)}}
+/* 播放/暂停的等化器短棒 */
+.bgm-bars{display:flex;align-items:flex-end;gap:3.5px;height:22px}
+.bgm-bars i{display:block;width:4px;height:7px;border-radius:2px;background:rgba(255,255,255,.95);box-shadow:0 1px 3px rgba(0,0,0,.35);transition:background .3s ease,height .3s ease}
+/* 外圈虚线光环：播放时才出现并缓慢旋转 */
+.bgm-ring{position:absolute;inset:-6px;border-radius:50%;border:1px dashed rgba(255,255,255,.75);opacity:0;transition:opacity .35s ease}
+.bgm-dock[data-state="playing"] .bgm-bars i{background:#fff;box-shadow:0 0 8px rgba(255,255,255,.9);animation:bgm-bounce 1s ease-in-out infinite}
+.bgm-dock[data-state="playing"] .bgm-bars i:nth-child(1){animation-delay:0s}
+.bgm-dock[data-state="playing"] .bgm-bars i:nth-child(2){animation-delay:.18s}
+.bgm-dock[data-state="playing"] .bgm-bars i:nth-child(3){animation-delay:.36s}
+.bgm-dock[data-state="playing"] .bgm-bars i:nth-child(4){animation-delay:.54s}
+.bgm-dock[data-state="playing"] .bgm-ring{opacity:1;animation:bgm-spin 8s linear infinite}
+@keyframes bgm-bounce{0%,100%{height:7px}50%{height:20px}}
+@keyframes bgm-spin{to{transform:rotate(360deg)}}
+/* 音频缺失（404 / 格式不支持）：按钮转为暗红，提示「文件没放对」 */
+.bgm-dock[data-state="missing"] .bgm-btn{background:linear-gradient(140deg,#7f1d1d 0%,#b91c1c 100%);box-shadow:0 10px 30px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.14) inset,0 0 22px rgba(185,28,28,.5)}
+.bgm-dock[data-state="missing"] .bgm-bars i{background:rgba(255,255,255,.8)}
+/* ---------- 进站引导气泡 ---------- */
+.bgm-hint{position:relative;max-width:232px;padding:13px 30px 13px 15px;border:1px solid rgba(157,86,255,.5);background:rgba(9,9,14,.9);backdrop-filter:blur(14px);box-shadow:0 14px 40px rgba(0,0,0,.5),0 0 26px rgba(124,58,237,.35);opacity:0;transform:translateY(8px);pointer-events:none;transition:opacity .35s ease,transform .35s ease}
+.bgm-dock.is-hint-open .bgm-hint{opacity:1;transform:none;pointer-events:auto}
+/* 指向按钮的小三角 */
+.bgm-hint:after{content:"";position:absolute;right:17px;bottom:-5px;width:9px;height:9px;background:rgba(9,9,14,.9);border-right:1px solid rgba(157,86,255,.5);border-bottom:1px solid rgba(157,86,255,.5);transform:rotate(45deg)}
+.bgm-hint b{display:block;font-size:12.5px;font-weight:600;color:#ececf2;letter-spacing:.01em}
+.bgm-hint span{display:block;margin-top:5px;font-size:11px;line-height:1.5;color:#8f8f97}
+.bgm-hint-close{position:absolute;right:4px;top:4px;width:20px;height:20px;padding:0;border:0;border-radius:50%;background:none;color:#7c7c85;font-size:14px;line-height:1;cursor:pointer;transition:.2s}
+.bgm-hint-close:hover{color:#fff;background:rgba(157,86,255,.28)}
+/* 系统开启「减少动态效果」：短棒不跳动，光环不转，气泡直接显示 */
+@media(prefers-reduced-motion:reduce){.bgm-dock .bgm-btn:before{animation:none;opacity:0}.bgm-dock[data-state="playing"] .bgm-bars i{animation:none;height:13px}.bgm-dock[data-state="playing"] .bgm-ring{animation:none}.bgm-hint{transition:none}}
+@media(max-width:600px){.bgm-dock{right:14px;bottom:14px;gap:8px}.bgm-btn{width:54px;height:54px}.bgm-bars{height:19px}.bgm-hint{max-width:200px;padding:11px 26px 11px 13px}}
