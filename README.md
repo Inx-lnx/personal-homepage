@@ -2,9 +2,9 @@
 
 这是一个**纯静态前端项目**，只有 HTML / CSS / JavaScript，无框架、无构建工具、无后端、无依赖。
 
-当前是 **V4**（已发布：<https://Inx-lnx.github.io/personal-homepage/>），视觉为**深空科技风 + 紫青渐变强调**：
+当前是 **V9**（已发布：<https://Inx-lnx.github.io/personal-homepage/>），视觉为**深空科技风 + 紫青渐变强调**：
 全屏深色首屏（打字机进场）、玻璃拟态卡片与 Bento 介绍区、经历时间线 / Now 两个内容区块、
-花瓣拼图相册（点击灯箱放大）、终端式数字分身（53 条本地知识库）、像素化过渡页脚。
+花瓣拼图相册（点击灯箱放大：内联小图 → 过渡图 → 高清图三级渐进）、终端式数字分身（53 条本地知识库）、像素化过渡页脚；字体已本地子集化托管，不依赖 Google Fonts。
 
 ## 项目结构
 
@@ -28,14 +28,15 @@
     favicon.svg / icon-192.png / icon-512.png / apple-touch-icon.png
     gallery/          # 相册图片：花瓣显示图已内联进 index.html；preview-01~09（灯箱过渡图，长边 500px）+ view-01~09（灯箱高清图，长边 1400px）+ gallery-01~09（原图，仅网络快时后台升级用）
     music/            # 背景音乐目录（内置原创钢琴曲 bgm.mp3，详见该目录下 README.txt）
-    fonts/            # 本地托管字体：Inter + Noto Sans SC（31 个 woff2 子集 + fonts.css）
+    fonts/            # 本地字体子集：Inter + Noto Sans SC（3 个 woff2 + fonts.css，按站点用字生成）
   tools/
     deploy_github_pages.py     # 一键发布到 GitHub Pages（只用 Python 标准库）
     capture_screenshots.py     # 生成 versions/ 里的整页截图（无头 Edge + CDP）
     verify_feedback_privacy.py # 探测反馈表是否真的对匿名访客只写不可读
     make_bgm.py                # 钢琴背景音乐生成器（可改速度/音量/结构重新生成）
     make_bgm_sampled.py        # 采样版背景音乐生成器
-    localize_fonts.py          # 从 Google Fonts 下载字体到本地，改成本地托管
+    subset_fonts.py            # 按站点实际用字生成字体子集（V9 起用这个）
+    localize_fonts.py          # 旧方案：整块搬 Google 的分块字体（已被 subset_fonts.py 取代）
   supabase/
     schema.sql        # 反馈表建表 + RLS 策略
   .github/workflows/
@@ -135,7 +136,7 @@ python tools/capture_screenshots.py --url http://127.0.0.1:8099/ --out-dir versi
    设计上就是公开的，权限由数据库的 RLS 策略控制（见 `supabase/schema.sql`）。
    **绝对不要把 `sb_secret_...` / `service_role` 密钥放进前端或仓库。**
 
-## 字体本地托管（不依赖 Google Fonts）
+## 字体本地托管 + 子集化（不依赖 Google Fonts）
 
 页面用的是 **Inter**（西文/数字）和 **Noto Sans SC**（中文）。字体文件已经下载到
 `assets/fonts/`，由 `assets/fonts/fonts.css` 本地引用 —— **不再访问
@@ -148,26 +149,44 @@ fonts.googleapis.com / fonts.gstatic.com**。
 
 | 项目 | 数值 |
 | --- | --- |
-| `@font-face` 声明 | 155 条 |
-| 实际字体文件 | 31 个 woff2（Inter 1 个 + 中文 30 个子集） |
-| 总体积 | 约 1.67 MB |
+| `@font-face` 声明 | 3 条 |
+| 实际字体文件 | 3 个 woff2（Inter 1 个 + 中文 2 个） |
+| 首屏字体总量 | 约 246 KB（fonts.css 8.8 KB + Inter 25.2 KB + 中文首屏 211.8 KB） |
+| 延后加载 | noto-subset-rest.woff2 40.1 KB（靠 `unicode-range`，用不到就不下载） |
 
-Inter 与 Noto Sans SC 都是**可变字体**，同一份子集文件同时承载 400 / 500 / 600 / 700 / 900
-五个字重，所以 155 条声明实际只对应 31 个文件。浏览器依旧按 `unicode-range`
-按需加载，访客通常只会真正下载其中几个。
+早期做法是直接搬 Google 的 31 个分块（fonts.css 207 KB + 18 个字体文件，约 1.15 MB），
+慢网下光字体就要等 30 秒。V9 起改成**按本站实际用字**生成：扫描 `index.html`、
+`404.html`、`assets/*.js`、`assets/*.css` 里出现过的全部字符（当前 1090 个），
+拉丁区间交给 Inter，汉字按「首屏常用」和「长尾」拆成两个文件。
 
-而且脚本默认只保留「页面实际出现过的字符」对应的子集：完整中文字库有 540 个子集
-（几十 MB），没必要全搬进仓库。
+Inter 与 Noto Sans SC 都是**可变字体**，同一份文件同时承载 400 / 500 / 600 / 700 / 900
+五个字重，所以 3 条声明只对应 3 个文件，渲染结果与旧方案一致。
+
+同一页面、同样限速 50 KB/s 的实测对照：
+
+| 指标 | 旧（Google 分块） | 新（本地子集） |
+| --- | --- | --- |
+| 字体相关请求 | 20 个 | 4 个 |
+| 字体字节 | 1147 KB | 246 KB（-78.5%） |
+| 字体落定时间 | 30.1 秒 | 11.7 秒 |
+
+像素级对照：页面总高、8 个区块的位置与高度完全一致，肉眼不可见的抗锯齿像素差 0.058%。
 
 ### 以后要更新字体 / 页面新增了生僻字
 
 在项目目录里重新跑一次即可，会自动补齐新用到的子集：
 
 ```powershell
-python tools/localize_fonts.py            # 正常更新
-python tools/localize_fonts.py --dry-run  # 只看统计，不下载、不改动
-python tools/localize_fonts.py --all      # 不筛选，下载全部子集（体积大很多）
+python tools/subset_fonts.py --dry-run    # 只看统计，不写文件
+python tools/subset_fonts.py --clean-old  # 生成子集，并把旧的 Google 分块归档到 versions/fonts-chunks/
 ```
+
+两个细节：
+
+- 脚本会把 Inter 的 `opsz`（光学尺寸）轴固定成默认值 —— Google 的分块没有这个轴，
+  不固定的话浏览器会对较大字号自动套用光学尺寸，西文字宽会变（实测页脚邮箱链接窄 12px）。
+- 源字体缓存在 `tools/.fontcache/`（约 18 MB，`tools/` 不发布，只在本机用）。
+  旧的 `tools/localize_fonts.py` 保留作参考，但已被 `tools/subset_fonts.py` 取代。
 
 改完后照常部署：
 
