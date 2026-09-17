@@ -195,6 +195,41 @@ python tools/deploy_github_pages.py --token-file ..\.deepworks\tmp\github_token.
 - **绝对不要把 `service_role` 密钥、数据库密码放进代码/仓库/前端**。它拥有最高权限，泄露后果严重。
 - 表单不收集手机号等敏感信息，符合课程隐私要求。
 
+### 免费项目「闲置 7 天」会被自动暂停（重要）
+
+Supabase 免费套餐的项目**连续 7 天没有活动**就会被自动暂停。暂停后最直观的现象是：
+项目域名从 DNS 上消失（`xxxx.supabase.co` 解析不到），页面底部的反馈表单提交失败，
+浏览器控制台里会看到 `getaddrinfo failed` 或 `HTTP 521` 之类的报错。
+**数据不会丢** —— 到 Supabase 控制台点一下 `Resume project` 就能恢复
+（截图里那个白色按钮，别点 `Upgrade to Pro`，那要花钱）。
+
+本站已经用 GitHub Actions 自动保活，正常情况下不会再触发这个问题：
+
+- 工作流文件：`.github/workflows/keep-supabase-alive.yml`
+- 频率：每天 02:17 UTC（北京时间 10:17）访问一次项目
+- 项目地址和公开密钥**直接读自 `assets/config.js`，工作流里不保存任何密钥**；
+  以后换了 Supabase 项目，只要改 `config.js`，保活任务会自动跟着换
+- 它同时是「探活」：某天项目完全连不上时，这次运行会**主动失败**，
+  GitHub 会给你发邮件提醒 —— 收到邮件就去控制台看看是不是又被暂停了
+
+两个需要知道的限制：
+
+1. GitHub 对 public 仓库的定时任务：**仓库连续 60 天没有提交就会被自动停用**。
+   届时到仓库的 `Actions` 页面点一下 `Enable workflow` 即可恢复。
+2. 定时任务由 GitHub 调度，可能延迟几分钟到几十分钟，这是正常的。
+
+### 怎么确认「访客真的读不到我的反馈」
+
+不用靠猜。在项目目录里跑一次真实探测（假装自己是一个拿到前端公开信息的陌生人）：
+
+```powershell
+python tools\verify_feedback_privacy.py               # 只读探测，不产生任何数据
+python tools\verify_feedback_privacy.py --test-write  # 额外测试提交是否通路（会写入一条测试记录）
+```
+
+退出码 `0` = 隐私成立（匿名读不到）；`1` = 有泄露，要立刻修；
+`2` = 无法判定（例如项目还在启动中），稍后重跑即可。
+
 ## 背景音乐（V3）
 
 页面右下角有一个悬浮播放按钮，点击即可播放 / 暂停背景音乐。首次进站会有一个小气泡引导点击。

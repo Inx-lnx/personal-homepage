@@ -1,0 +1,87 @@
+# 保活 Supabase 免费项目（定时任务）
+#
+# 背景：
+#   Supabase 免费套餐的项目「连续 7 天没有活动」会被自动暂停；一旦暂停，
+#   项目域名会从 DNS 上消失，页面底部的反馈表单就会提交失败。
+#   这个任务每天自动访问一次项目，让它保持活跃。
+#
+# 特点：
+#   * 项目地址与公开密钥直接读自 assets/config.js，本文件不保存任何密钥。
+#     以后换了 Supabase 项目，只要改 config.js，本任务自动跟随。
+#   * 既是「保活」也是「探活」：如果某次发现项目完全连不上（很可能又被暂停了），
+#     任务会主动失败，GitHub 会发邮件提醒你去 Resume 项目。
+#
+# 注意：
+#   GitHub 对 public 仓库的定时任务：仓库连续 60 天没有提交会被自动停用，
+#   届时到仓库的 Actions 页面点一下「Enable workflow」即可恢复。
+
+name: Keep Supabase alive
+
+on:
+  schedule:
+    # 每天 02:17 UTC（北京时间 10:17）运行一次
+    - cron: "17 2 * * *"
+  # 也允许在 Actions 页面手动点一下立即运行
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: 取出仓库代码
+        uses: actions/checkout@v4
+
+      - name: 从 assets/config.js 读取项目地址与公开密钥
+        id: cfg
+        run: |
+          set -euo pipefail
+          url=$(grep -oP 'supabaseUrl\s*:\s*"\K[^"]+' assets/config.js | head -n1)
+          key=$(grep -oP 'supabaseAnonKey\s*:\s*"\K[^"]+' assets/config.js | head -n1)
+          if [ -z "$url" ] || [ -z "$key" ]; then
+            echo "::error::没能从 assets/config.js 解析出 supabaseUrl / supabaseAnonKey"
+            exit 1
+          fi
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+          echo "key=$key" >> "$GITHUB_OUTPUT"
+          echo "项目地址：$url"
+
+      - name: 访问项目（保活 + 探活）
+        run: |
+          set -uo pipefail
+          url="${{ steps.cfg.outputs.url }}"
+          key="${{ steps.cfg.outputs.key }}"
+          alive=0
+
+          ping() {
+            local path="$1"
+            local code
+            code=$(curl -sS -o /dev/null -w '%{http_code}' --max-time 30 \
+                   -H "apikey: $key" \
+                   -H "Authorization: Bearer $key" \
+                   "$url$path" 2>/dev/null) || code="000"
+            echo "  GET $path -> HTTP $code"
+            # 只要能拿到 HTTP 状态码，就说明域名解析与服务在线（与权限无关，
+            # 返回 401/403 也代表项目是活的）。
+            if [ "$code" != "000" ]; then
+              alive=1
+            fi
+          }
+
+          echo "开始访问 Supabase 项目 ..."
+          ping "/rest/v1/feedback?select=id&limit=1"
+          sleep 3
+          ping "/auth/v1/health"
+          sleep 3
+          ping "/rest/v1/"
+
+          if [ "$alive" -eq 1 ]; then
+            echo "✅ 项目在线，本次保活完成。"
+          else
+            echo "::error::项目完全无法访问，可能已被暂停或删除。请到 https://supabase.com/dashboard 检查并点 Resume project。"
+            exit 1
+          fi
