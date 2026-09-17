@@ -26,7 +26,7 @@
     avatar-preview.jpg# 头像显示图（首屏加载用，长边 1000px）
     og-cover.png      # 分享卡片封面（og:image）
     favicon.svg / icon-192.png / icon-512.png / apple-touch-icon.png
-    gallery/          # 相册图片：preview-01~09（花瓣显示图）+ gallery-01~09（点开看大图时加载的原图）
+    gallery/          # 相册图片：花瓣显示图已内联进 index.html；preview-01~09（灯箱过渡图，长边 500px）+ view-01~09（灯箱高清图，长边 1400px）+ gallery-01~09（原图，仅网络快时后台升级用）
     music/            # 背景音乐目录（内置原创钢琴曲 bgm.mp3，详见该目录下 README.txt）
     fonts/            # 本地托管字体：Inter + Noto Sans SC（31 个 woff2 子集 + fonts.css）
   tools/
