@@ -283,3 +283,9 @@ html.no-drag img{-webkit-user-drag:none;-webkit-touch-callout:none}
 @media(prefers-reduced-motion:reduce){
   .now-card,.copy-mail{transition:none}
 }
+
+/* V5 图片瘦身追加 */
+picture{display:contents}
+.petal img.img-pending{min-height:96px;aspect-ratio:4/3;background:linear-gradient(135deg,rgba(100,28,255,.34),rgba(157,86,255,.14));box-shadow:0 0 18px rgba(139,92,246,.26)}
+.petal img.img-failed{min-height:96px;aspect-ratio:4/3;background:repeating-linear-gradient(135deg,rgba(157,86,255,.16) 0 10px,rgba(100,28,255,.07) 10px 20px);box-shadow:none}
+@supports not (width:1cqw){.flower{width:min(100%,570px);height:auto;aspect-ratio:1/1}.petal img{width:min(170px,38vw)}}
