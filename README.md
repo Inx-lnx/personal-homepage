@@ -150,7 +150,7 @@ fonts.googleapis.com / fonts.gstatic.com**。
 | 项目 | 数值 |
 | --- | --- |
 | `@font-face` 声明 | 3 条 |
-| 实际字体文件 | 3 个 woff2（Inter 1 个 + 中文 2 个） |
+| 实际字体文件 | 3 个 woff2：`inter-subset.woff2` 25.2 KB、`noto-subset-core.woff2` 211.8 KB、`noto-subset-rest.woff2` 40.1 KB |
 | 首屏字体总量 | 约 246 KB（fonts.css 8.8 KB + Inter 25.2 KB + 中文首屏 211.8 KB） |
 | 延后加载 | noto-subset-rest.woff2 40.1 KB（靠 `unicode-range`，用不到就不下载） |
 
