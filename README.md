@@ -17,8 +17,11 @@
     avatar.jpg        # 当前头像
     gallery/          # 相册图片 gallery-01 ~ gallery-07
     music/            # 背景音乐目录（内置原创钢琴曲 bgm.mp3，详见该目录下 README.txt）
+    fonts/            # 本地托管字体：Inter + Noto Sans SC（31 个 woff2 子集 + fonts.css）
   tools/
     make_bgm.py       # 钢琴背景音乐生成器（可改速度/音量/结构重新生成）
+    localize_fonts.py # 从 Google Fonts 下载字体到本地，改成本地托管
+    deploy_github_pages.py # 一键发布到 GitHub Pages（只用 Python 标准库）
   supabase/
     schema.sql        # 反馈表建表 + RLS 策略
   versions/           # 历史版本记录：截图 + 源码备份 + 说明
@@ -104,6 +107,48 @@ python tools/deploy_github_pages.py --wait
 2. **只有可公开的密钥才能进前端。** Supabase 的 `publishable key`（旧称 anon key）
    设计上就是公开的，权限由数据库的 RLS 策略控制（见 `supabase/schema.sql`）。
    **绝对不要把 `sb_secret_...` / `service_role` 密钥放进前端或仓库。**
+
+## 字体本地托管（不依赖 Google Fonts）
+
+页面用的是 **Inter**（西文/数字）和 **Noto Sans SC**（中文）。字体文件已经下载到
+`assets/fonts/`，由 `assets/fonts/fonts.css` 本地引用 —— **不再访问
+fonts.googleapis.com / fonts.gstatic.com**。
+
+这样做的好处：国内网络不用再等 Google，页面不会「先歪一下再变正常」，
+访客看到的排版和你本机看到的一致；GitHub Pages 自带 HTTPS，也不会被降级拦截。
+
+### 体积说明
+
+| 项目 | 数值 |
+| --- | --- |
+| `@font-face` 声明 | 155 条 |
+| 实际字体文件 | 31 个 woff2（Inter 1 个 + 中文 30 个子集） |
+| 总体积 | 约 1.67 MB |
+
+Inter 与 Noto Sans SC 都是**可变字体**，同一份子集文件同时承载 400 / 500 / 600 / 700 / 900
+五个字重，所以 155 条声明实际只对应 31 个文件。浏览器依旧按 `unicode-range`
+按需加载，访客通常只会真正下载其中几个。
+
+而且脚本默认只保留「页面实际出现过的字符」对应的子集：完整中文字库有 540 个子集
+（几十 MB），没必要全搬进仓库。
+
+### 以后要更新字体 / 页面新增了生僻字
+
+在项目目录里重新跑一次即可，会自动补齐新用到的子集：
+
+```powershell
+python tools/localize_fonts.py            # 正常更新
+python tools/localize_fonts.py --dry-run  # 只看统计，不下载、不改动
+python tools/localize_fonts.py --all      # 不筛选，下载全部子集（体积大很多）
+```
+
+改完后照常部署：
+
+```powershell
+python tools/deploy_github_pages.py --token-file ..\.deepworks\tmp\github_token.txt --wait
+```
+
+字体许可：Inter 与 Noto Sans SC 均为 **SIL Open Font License 1.1**，允许自托管与再分发。
 
 ## 可能遇到的报错与排查
 
