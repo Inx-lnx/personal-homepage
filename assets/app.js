@@ -21,14 +21,14 @@ const TWIN_KB=[
 {id:"city",ask:"你在哪个城市？",keys:["哪个城市","在哪座城市","你在哪里","天津吗","哪个地方"],answer:"人在天津：风大、煎饼果子香、宿舍网速看运气。不过这三点都不影响我写代码。",followups:["你在哪个学校？","你最近在做什么？","你有什么兴趣？"]},
 {id:"major",ask:"你在学什么？",keys:["学什么","学的是","专业","课程","在学","学的啥","学哪些","学什么专业","计算机科学与技术"],answer:"计算机科学与技术专业，主攻 AI 应用。现在手上的组合是 HTML / CSS、JavaScript、Python 和 Supabase——每样都还在「会用」通往「用得溜」的路上。",followups:["你的技能怎么样？","你最近在做什么？","你还做过什么？"]},
 {id:"focus",ask:"你主攻什么方向？",keys:["主攻","主攻方向","方向","专注","研究什么","你的目标","专长"],answer:"主攻 AI 应用：琢磨怎么让 AI 帮人更快地表达、学习和创造，然后把这些想法做成真正能点开用的东西，而不是只躺在收藏夹里。",followups:["你最近在做什么？","你的技能怎么样？","你还做过什么？"]},
-{id:"recent",ask:"你最近在做什么？",keys:["最近","在做什么","在忙","忙什么","最近在忙","最近怎么样","最近好吗","近来","干嘛呢"],answer:"最近主要忙两件事：一是持续迭代这个个人主页（从 V1 折腾到现在），二是学编程和英语。白天写代码、晚上背单词，属于「两头都想抓」。",followups:["这网站怎么做出来的？","你的技能怎么样？","你接下来打算做什么？"]},
+{id:"recent",ask:"你最近在做什么？",keys:["最近","在做什么","在忙","忙什么","最近在忙","最近怎么样","最近好吗","近来","干嘛呢"],answer:"最近主要忙三件事：高数、英语和 AI 应用——主页也在持续迭代（从 V1 折腾到现在）。白天上课写代码、晚上背单词，属于「三头都想抓」。",followups:["这网站怎么做出来的？","你的技能怎么样？","你接下来打算做什么？"]},
 {id:"skill",ask:"你的技能怎么样？",keys:["擅长","技能","会哪些","会什么技术","会哪些技术","掌握","水平怎么样","会写代码吗","会开发吗"],answer:"按主页上的自评：HTML / CSS 72%、Python 65%、JavaScript 60%、AI 应用 55%。分数不吹高，因为每样都还有明显的下一个台阶要爬。",followups:["你在学什么？","你还做过什么？","你用什么工具写代码？"]},
 {id:"html",ask:"你的 HTML / CSS 怎么样？",keys:["html","css","前端","会写页面吗","做网页","样式"],answer:"HTML / CSS 是我最熟的一环（自评 72%）：这整站就是手写的，没框架、没构建工具。所谓个人风格，其实就是把审美一点点敲进样式表里。",followups:["这网站怎么做出来的？","你的技能怎么样？","你还做过什么？"]},
 {id:"python",ask:"你的 Python 怎么样？",keys:["python","py写的","爬虫","脚本","数据处理"],answer:"Python 大约 65%，主要拿来写小工具和折腾 AI。比如这页的背景音乐就是我用 Python 生成的——不是下载的，是自己算出来的。",followups:["背景音乐是哪来的？","这网站怎么做出来的？","你的技能怎么样？"]},
 {id:"js",ask:"你的 JavaScript 怎么样？",keys:["javascript","js怎么样","js会吗","js水平","js是"],answer:"JavaScript 大约 60%，够用来到处加特效：你现在看到的这一个聊天框、相册灯箱、打字机效果都是一行行写的。属于「能跑，但每次都能发现更优雅的写法」。",followups:["这网站怎么做出来的？","你的技能怎么样？","你还做过什么？"]},
 {id:"ai",ask:"你怎么看 AI？",keys:["ai应用","人工智能","怎么用ai","怎么看ai","对ai的看法","你怎么看ai","ai水平","会训练模型吗","大模型","机器学习","ai是什么"],answer:"AI 应用是我的主攻方向（自评 55%，还在爬坡）。我更想做的是「把 AI 用起来」——让它帮我更快地把想法变成能用的东西，不只是围观它聊天。",followups:["你主攻什么方向？","你最近在做什么？","这网站怎么做出来的？"]},
 /* ---------- 作品与这站 ---------- */
-{id:"project",ask:"你还做过什么？",keys:["做过什么","作品","项目","做过哪些","做过什么项目","写过什么","你的作品"],answer:"目前最完整的一件作品就是你正在看的这个主页：纯手写 HTML / CSS / JS，从 V1 迭代到现在，集齐数字分身、相册、反馈、背景音乐和各种特效。下一个想做的还在攒想法。",followups:["这网站怎么做出来的？","你接下来打算做什么？","你的技能怎么样？"]},
+{id:"project",ask:"你还做过什么？",keys:["做过什么","作品","项目","做过哪些","做过什么项目","写过什么","你的作品"],answer:"主页的「作品」一节列了四件：这个个人主页本身（纯手写 HTML / CSS / JS，从 V1 迭代到现在）、数字分身、Supabase 反馈系统，还有一首原创背景音乐。下一个想做的还在攒想法。",followups:["这网站怎么做出来的？","你接下来打算做什么？","你的技能怎么样？"]},
 {id:"site",ask:"这网站怎么做出来的？",keys:["这网站","这站","主页怎么","网站怎么做","怎么做的","怎么搭建","做这个网站","主页是怎么","为什么做网站","建站","这个网页"],answer:"纯静态手写站：HTML + CSS + 原生 JavaScript，没有框架、没有构建工具，改完文件传到 GitHub Pages 就能访问。数字分身、相册灯箱、反馈表单、背景音乐都是自己一点点加进去的。",followups:["用了什么技术？","网站还会更新吗？","能帮我做一个吗？"]},
 {id:"stack",ask:"用了什么技术？",keys:["技术栈","用什么写的","用了什么","什么框架","vue","react","后端是什么","数据库","supabase"],answer:"前端 HTML / CSS / 原生 JS，零框架——属于「右键看一眼源码也能看懂」的那种。后端只借了 Supabase 存访客反馈（数据库允许匿名写、不允许读），托管在 GitHub Pages，域名和 HTTPS 都是白送的。",followups:["这网站怎么做出来的？","反馈去哪了？","网站还会更新吗？"]},
 {id:"vibe",ask:"Vibe Coding 是什么？",keys:["vibe","氛围编程","ai写代码","ai帮我写","ai辅助"],answer:"Vibe Coding 就是把 AI 当搭子一起写代码：我出想法和判断，它出草稿和体力活。这站不少细节就是这么磨出来的——但「要不要这么做」还是我自己拍板。",followups:["这网站怎么做出来的？","你怎么看 AI？","你最近在做什么？"]},
@@ -47,7 +47,7 @@ const TWIN_KB=[
 {id:"daily",ask:"你平时都在干嘛？",keys:["平时","日常","一天","生活","空闲","闲下来"],answer:"上课、写代码、背英语单词，中间穿插打球和看番。偶尔也会像现在这样：花一晚上给主页加个聊天框，然后觉得「还挺值」。",followups:["你最近在做什么？","你有什么兴趣？","你接下来打算做什么？"]},
 {id:"cat",ask:"你喜欢小动物吗？",keys:["猫","狗","宠物","小动物","动物"],answer:"喜欢，相册里就有它们出镜。猫狗都行——毕竟它们不会评审我的代码。",followups:["相册里是什么？","你有什么兴趣？","你是谁？"]},
 /* ---------- 经历与计划 ---------- */
-{id:"story",ask:"你的学习经历是怎样的？",keys:["经历","历程","什么时候开始","怎么开始学","学了多久","学习经历","成长"],answer:"从「想把想法变成能看的东西」开始：先摸 HTML / CSS，再补 JavaScript 和 Python，现在主攻 AI 应用。主页上那三张卡片和技能条，基本就是这段路的简写版。",followups:["你接下来打算做什么？","你的技能怎么样？","你最近在做什么？"]},
+{id:"story",ask:"你的学习经历是怎样的？",keys:["经历","历程","什么时候开始","怎么开始学","学了多久","学习经历","成长"],answer:"从「想把想法变成能看的东西」开始：先摸 HTML / CSS，再补 JavaScript 和 Python，现在主线是高数、英语和 AI。主页的「经历」一节，基本就是这段路的简写版。",followups:["你接下来打算做什么？","你的技能怎么样？","你最近在做什么？"]},
 {id:"why",ask:"为什么学计算机？",keys:["为什么学","为啥学","怎么想学","动机","为什么选","为什么学计算机"],answer:"因为计算机大概是「想法和实施之间距离最短」的一条路：有台电脑就能把脑子里的东西变成能点开的东西。这种即时反馈很上瘾。",followups:["你的学习经历是怎样的？","你主攻什么方向？","你接下来打算做什么？"]},
 {id:"plan",ask:"你接下来打算做什么？",keys:["下一步","接下来打算","接下来打算做什么","打算做什么","打算","计划","目标","以后想","未来","以后想做什么","高数"],answer:"现阶段的主线是三件事：高数、英语和 AI。高数是必修的地基，英语是为了少等别人翻译，AI 应用则是想一直做下去的方向——先把这三样学扎实，再谈别的。",followups:["你最近在做什么？","网站还会更新吗？","你的学习经历是怎样的？"]},
 {id:"english",ask:"你为什么学英语？",keys:["为什么学英语","英语","背单词","四级","六级","外语","english"],answer:"因为最好的文档、最新的论文、最好玩的项目说明大多是英文写的——英语好一点，能少等很多「别人翻译」。",followups:["你最近在做什么？","你接下来打算做什么？","你的技能怎么样？"]},
@@ -222,7 +222,7 @@ document.querySelectorAll(".chat-quick .chip").forEach(chip=>chip.addEventListen
 
 const fbForm=document.getElementById("feedback-form"),fbStatus=document.getElementById("fb-status");
 function setFbStatus(text,cls){if(!fbStatus)return;fbStatus.textContent=text;fbStatus.className="fb-status"+(cls?" "+cls:"")}
-if(fbForm)fbForm.addEventListener("submit",async e=>{e.preventDefault();const name=document.getElementById("fb-name").value.trim(),relation=document.getElementById("fb-relation").value,message=document.getElementById("fb-message").value.trim(),btn=fbForm.querySelector(".form-submit"),cfg=window.SITE_CONFIG||{};if(!name||!relation||!message){setFbStatus("请把姓名、关系和留言填写完整。","warn");return}if(!cfg.isConfigured){setFbStatus("反馈功能正在配置中，你也可以直接给我发邮件。","warn");return}btn.disabled=true;btn.textContent="提交中…";try{const res=await fetch(cfg.supabaseUrl+"/rest/v1/feedback",{method:"POST",headers:{"Content-Type":"application/json",apikey:cfg.supabaseAnonKey,Authorization:"Bearer "+cfg.supabaseAnonKey,Prefer:"return=minimal"},body:JSON.stringify({name,relation,message})});if(!res.ok)throw new Error("HTTP "+res.status);setFbStatus("收到，谢谢你的反馈。","ok");fbForm.reset()}catch(err){console.error(err);setFbStatus("提交失败，请稍后再试。","warn")}finally{btn.disabled=false;btn.innerHTML="提交反馈 <b>↗</b>"}});
+if(fbForm)fbForm.addEventListener("submit",async e=>{e.preventDefault();const name=document.getElementById("fb-name").value.trim(),relation=document.getElementById("fb-relation").value,message=document.getElementById("fb-message").value.trim(),btn=fbForm.querySelector(".form-submit"),cfg=window.SITE_CONFIG||{},honey=document.getElementById("fb-website");if(honey&&honey.value.trim()){fbForm.reset();setFbStatus("收到，谢谢你的反馈。","ok");return}if(!name||!relation||!message){setFbStatus("请把姓名、关系和留言填写完整。","warn");return}const lastAt=Number(localStorage.getItem("fb-last-at")||0);if(Date.now()-lastAt<60000){setFbStatus("刚提交过啦，等一分钟再发下一条吧。","warn");return}if(!cfg.isConfigured){setFbStatus("反馈功能正在配置中，你也可以直接给我发邮件。","warn");return}btn.disabled=true;btn.textContent="提交中…";try{const res=await fetch(cfg.supabaseUrl+"/rest/v1/feedback",{method:"POST",headers:{"Content-Type":"application/json",apikey:cfg.supabaseAnonKey,Authorization:"Bearer "+cfg.supabaseAnonKey,Prefer:"return=minimal"},body:JSON.stringify({name,relation,message})});if(!res.ok)throw new Error("HTTP "+res.status);localStorage.setItem("fb-last-at",String(Date.now()));setFbStatus("收到，谢谢你的反馈。","ok");fbForm.reset()}catch(err){console.error(err);setFbStatus("提交失败，请稍后再试。","warn")}finally{btn.disabled=false;btn.innerHTML="提交反馈 <b>↗</b>"}});
 
 (function initReveal(){if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;const targets=document.querySelectorAll(".statement>* ,.feature-card,.skills-heading,.skill-row,.section-head,.petal,.chat-copy,.chat-window,.feedback-section>*");targets.forEach(el=>el.classList.add("reveal"));const io=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add("is-visible");io.unobserve(entry.target)}}),{threshold:.08});targets.forEach(el=>io.observe(el))})();
 
@@ -230,15 +230,18 @@ if(fbForm)fbForm.addEventListener("submit",async e=>{e.preventDefault();const na
 
 document.getElementById("back-top")?.addEventListener("click",()=>window.scrollTo({top:0,behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"}));
 
+// 复制邮箱：内容保护开着的时候右键/选中都不方便，给个一键复制
+(function initCopyMail(){const btn=document.getElementById("copy-mail"),tip=document.getElementById("copy-mail-status");if(!btn||!tip)return;const mail=btn.dataset.mail||"";let timer=0;const say=t=>{tip.textContent=t;clearTimeout(timer);timer=setTimeout(()=>{tip.textContent=""},2600)};btn.addEventListener("click",async()=>{try{if(navigator.clipboard&&navigator.clipboard.writeText){await navigator.clipboard.writeText(mail)}else{const ta=document.createElement("textarea");ta.value=mail;ta.setAttribute("readonly","");ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);ta.select();document.execCommand("copy");ta.remove()}say("已复制到剪贴板")}catch(err){console.warn(err);say("复制失败，可手动选中")}})})();
+
 // 打字机状态行（原版效果）：逐字打出 → 停顿 → 逐字删除 → 下一句
-(function initTyped(){const typedEl=document.getElementById("typed-text"),cursorEl=document.querySelector(".type-cursor");if(!typedEl)return;const PHRASES=["主攻 AI 应用","练习编程中","听着音乐学习","会打羽毛球","爱看二次元","建设个人主页"];if(matchMedia("(prefers-reduced-motion: reduce)").matches){typedEl.textContent=PHRASES[0];return}let phraseIdx=0,charIdx=0,deleting=false;function step(){const phrase=PHRASES[phraseIdx];if(!deleting){charIdx++;typedEl.textContent=phrase.slice(0,charIdx);cursorEl&&cursorEl.classList.remove("is-idle");if(charIdx>=phrase.length){deleting=true;cursorEl&&cursorEl.classList.add("is-idle");setTimeout(step,1800);return}setTimeout(step,90)}else{charIdx--;typedEl.textContent=phrase.slice(0,charIdx);cursorEl&&cursorEl.classList.remove("is-idle");if(charIdx<=0){deleting=false;phraseIdx=(phraseIdx+1)%PHRASES.length;setTimeout(step,400);return}setTimeout(step,50)}}setTimeout(step,800)})();
+(function initTyped(){const typedEl=document.getElementById("typed-text"),cursorEl=document.querySelector(".type-cursor");if(!typedEl)return;const PHRASES=["高数 · 英语 · AI 应用","练习编程中","听着音乐学习","会打羽毛球","爱看二次元","把主页迭代到 V4"];if(matchMedia("(prefers-reduced-motion: reduce)").matches){typedEl.textContent=PHRASES[0];return}let phraseIdx=0,charIdx=0,deleting=false;function step(){const phrase=PHRASES[phraseIdx];if(!deleting){charIdx++;typedEl.textContent=phrase.slice(0,charIdx);cursorEl&&cursorEl.classList.remove("is-idle");if(charIdx>=phrase.length){deleting=true;cursorEl&&cursorEl.classList.add("is-idle");setTimeout(step,1800);return}setTimeout(step,90)}else{charIdx--;typedEl.textContent=phrase.slice(0,charIdx);cursorEl&&cursorEl.classList.remove("is-idle");if(charIdx<=0){deleting=false;phraseIdx=(phraseIdx+1)%PHRASES.length;setTimeout(step,400);return}setTimeout(step,50)}}setTimeout(step,800)})();
 
 // ============================================================
 // Meteors · 流星雨背景（原版 v3 效果，注入 Hero 区）
 // 说明：官方默认角度 215° 只扫过容器顶边，改为 35° 让流星
 //       斜向穿过 Hero 落下。系统开启“减少动态效果”时禁用。
 // ============================================================
-(function initMeteors(){if(!window.Meteors)return;if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;window.Meteors.init(document.querySelector(".hero"),{number:20,angle:35})})();
+(function initMeteors(){if(!window.Meteors)return;if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;const host=document.querySelector(".hero");if(!host)return;window.Meteors.init(host,{number:matchMedia("(max-width:900px)").matches?8:20,angle:35})})();
 
 // ============================================================
 // Cool Mode · 按住头像 / 名字迸发炫彩粒子（原版 v3 效果）
@@ -246,7 +249,7 @@ document.getElementById("back-top")?.addEventListener("click",()=>window.scrollT
 //       以及聊天标签 / 发送按钮时，在指针位置持续生成霓虹粒子。
 //       系统开启“减少动态效果”时禁用。
 // ============================================================
-(function initCoolMode(){if(!window.CoolMode)return;if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;document.querySelectorAll(".portrait-frame, .portrait-name, .chip, .send-btn").forEach(el=>window.CoolMode.apply(el,{particle:"circle"}))})();
+(function initCoolMode(){if(!window.CoolMode)return;if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;if(!matchMedia("(hover: hover) and (pointer: fine)").matches)return;document.querySelectorAll(".portrait-frame, .portrait-name, .chip, .send-btn").forEach(el=>window.CoolMode.apply(el,{particle:"circle"}))})();
 
 // ============================================================
 // BorderBeam · 环绕灯带（Magic UI 移植，与原版 v3 一致）

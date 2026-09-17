@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="崇施涵">
+  <rect width="64" height="64" rx="14" fill="#641cff"/>
+  <g fill="#f6f6f3">
+    <rect x="14" y="12" width="16.25" height="40"/>
+    <rect x="33.75" y="12" width="16.25" height="18.25"/>
+    <rect x="33.75" y="33.75" width="16.25" height="18.25"/>
+  </g>
+</svg>

@@ -16,7 +16,7 @@ window.SITE_CONFIG = {
   //       浏览器，访客仍可通过 view-source:、开发者工具菜单、抓包或直接下载页面
   //       拿到同样内容。把某一项设为 false 即可单独关闭它。
   blockRightClick: true,  // 右键菜单 + F12 / Ctrl+U / Ctrl+S / Ctrl+Shift+I·J·C 等查看源代码入口
-  blockSelect: true,      // 禁止鼠标拖选文本（表单输入框自动例外，否则无法编辑留言）
+  blockSelect: false,     // 允许选中 / 复制文本：设为 true 会让访客没法复制邮箱地址，得不偿失
   blockImageSave: true,   // 禁止拖拽图片，以及长按 / 右键另存图片
 
   // ---- 背景音乐（实现见 app.js 的 initBackgroundMusic，样式见 style.css 末尾）----

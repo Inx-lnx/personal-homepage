@@ -4,17 +4,59 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#2a1065" />
-  <title>崇施涵 · Personal Portfolio</title>
+  <title>崇施涵 · 天津大学 | AI 应用与作品集</title>
+  <meta name="description" content="崇施涵的个人主页：天津大学计算机科学与技术专业在读，正在高数、英语和 AI 应用三线推进。站内有作品、学习经历、相册，还有一个纯前端本地知识库「数字分身」，可以直接向它提问。" />
+  <meta name="author" content="崇施涵" />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://inx-lnx.github.io/personal-homepage/" />
+
+  <!-- 分享卡片：发到微信 / QQ / X 时会显示标题、描述和封面 -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="崇施涵 · Personal Homepage" />
+  <meta property="og:locale" content="zh_CN" />
+  <meta property="og:title" content="崇施涵 · 天津大学 | AI 应用与作品集" />
+  <meta property="og:description" content="天津大学计算机科学与技术专业在读，正在高数、英语和 AI 应用三线推进。站内有一个纯前端本地知识库「数字分身」，可以直接向它提问。" />
+  <meta property="og:url" content="https://inx-lnx.github.io/personal-homepage/" />
+  <meta property="og:image" content="https://inx-lnx.github.io/personal-homepage/assets/og-cover.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="崇施涵的个人主页封面" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="崇施涵 · 天津大学 | AI 应用与作品集" />
+  <meta name="twitter:description" content="天津大学计算机科学与技术专业在读，正在高数、英语和 AI 应用三线推进。站内有一个纯前端本地知识库「数字分身」，可以直接向它提问。" />
+  <meta name="twitter:image" content="https://inx-lnx.github.io/personal-homepage/assets/og-cover.png" />
+
+  <!-- 站点图标（生成脚本：tools 里的 make_assets.py 同款逻辑，见 .deepworks/tmp） -->
+  <link rel="icon" href="favicon.ico" sizes="any" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+  <link rel="manifest" href="manifest.webmanifest" />
+
   <!-- 字体已本地托管在 assets/fonts/，不再依赖 Google Fonts；重新生成见 tools/localize_fonts.py -->
   <link rel="stylesheet" href="assets/fonts/fonts.css" />
   <link rel="stylesheet" href="assets/style.css" />
+
+  <!-- 结构化数据：告诉搜索引擎这页讲的是谁 -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "崇施涵",
+    "url": "https://inx-lnx.github.io/personal-homepage/",
+    "email": "mailto:sora291933347@tju.edu.cn",
+    "affiliation": { "@type": "CollegeOrUniversity", "name": "天津大学" },
+    "knowsAbout": ["AI 应用", "HTML", "CSS", "JavaScript", "Python"],
+    "sameAs": ["https://github.com/Inx-lnx"]
+  }
+  </script>
 </head>
 <body>
   <header class="topbar">
     <a class="brand" href="#home" aria-label="返回首页"><span></span><span></span><span></span></a>
     <nav class="desktop-nav" aria-label="主导航">
       <a href="#about">关于</a>
-      <a href="#work">经历</a>
+      <a href="#works">作品</a>
+      <a href="#journey">经历</a>
       <a href="#gallery">相册</a>
     </nav>
     <a class="contact-button" href="#contact">联系我 <b>↗</b></a>
@@ -26,7 +68,7 @@
       <div class="hero-copy">
         <p class="eyebrow"><span></span> AVAILABLE FOR NEW IDEAS</p>
         <h1>探索<span>未知，</span><br />创造<span>可能。</span></h1>
-        <p class="hero-intro">崇施涵，一名正在学习计算机的大学生。<br />专注 AI 应用，也热爱音乐、羽毛球与二次元。</p>
+        <p class="hero-intro">崇施涵，天津大学计算机科学与技术专业在读。<br />正在高数、英语和 AI 应用三线推进，也热爱音乐、羽毛球与二次元。</p>
         <p class="typed-line"><span id="typed-text">主攻 AI 应用</span><span class="type-cursor" aria-hidden="true">▍</span></p>
         <div class="hero-actions">
           <a class="primary-button" href="#about">认识我 <b>↘</b></a>
@@ -81,9 +123,97 @@
       </article>
     </section>
 
+    <!-- ============================================================
+         作品区：#works
+         加一件作品 → 复制一个 <article class="work-item">，
+         改 序号 / 标题 / 说明 / 标签 / 链接 即可
+         样式 → assets/style.css 末尾的「作品区」一段
+         ============================================================ -->
+    <section class="works-section" id="works">
+      <div class="section-head">
+        <div><p class="section-kicker">02 / WORKS</p><h2>做过的东西，<br /><em>都在这儿。</em></h2></div>
+        <p>四件都是真做出来的，两件能直接点开试。<br />源码在 GitHub，随时可以翻。</p>
+      </div>
+      <div class="work-list">
+        <article class="work-item">
+          <span class="work-index">01</span>
+          <div class="work-body">
+            <h3>这个个人主页</h3>
+            <p>纯静态单页，没上任何框架：本地托管字体、原创背景音乐、花瓣式相册与灯箱、响应式布局全部手写。发布走自己写的 Python 脚本，一条命令推到 GitHub Pages。</p>
+            <ul class="work-tags"><li>HTML / CSS</li><li>JavaScript</li><li>GitHub Pages</li></ul>
+          </div>
+          <div class="work-meta"><span class="work-state">持续迭代</span><a href="https://github.com/Inx-lnx/personal-homepage" target="_blank" rel="noopener">源码 ↗</a></div>
+        </article>
+        <article class="work-item">
+          <span class="work-index">02</span>
+          <div class="work-body">
+            <h3>数字分身</h3>
+            <p>页面下方那个问答机器人：52 条本地知识库、关键词打分匹配，带打字动画、追问推荐和输入联想。纯前端实现，不联网、不调用模型、零成本运行。</p>
+            <ul class="work-tags"><li>JavaScript</li><li>交互设计</li><li>本地知识库</li></ul>
+          </div>
+          <div class="work-meta"><span class="work-state">V3</span><a href="#chat">直接试 ↗</a></div>
+        </article>
+        <article class="work-item">
+          <span class="work-index">03</span>
+          <div class="work-body">
+            <h3>反馈系统</h3>
+            <p>页面底部的留言表单，数据存在 Supabase。权限交给数据库的 RLS 策略兜底，前端只放设计上允许公开的匿名密钥——所以源码完全公开，别人也读不走留言。</p>
+            <ul class="work-tags"><li>Supabase</li><li>RLS 权限</li><li>REST API</li></ul>
+          </div>
+          <div class="work-meta"><span class="work-state">已上线</span><a href="#feedback">去留言 ↗</a></div>
+        </article>
+        <article class="work-item">
+          <span class="work-index">04</span>
+          <div class="work-body">
+            <h3>原创背景音乐</h3>
+            <p>右下角循环的那首曲子是自己写的：钢琴加小提琴，A 小调 60 BPM，两分多钟。写代码卡住的时候就循环它。</p>
+            <ul class="work-tags"><li>作曲</li><li>编曲</li></ul>
+          </div>
+          <div class="work-meta"><span class="work-state">原创</span></div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         经历时间线：#journey
+         按「阶段」写，不写具体日期；等有确切时间了，在 tl-stage 里补年份即可
+         ============================================================ -->
+    <section class="journey-section" id="journey">
+      <div class="section-head">
+        <div><p class="section-kicker">03 / JOURNEY</p><h2>怎么一步步<br /><em>走到现在。</em></h2></div>
+        <p>学校课程之外，基本靠想做点什么时现学。<br />每一版都留在本地，看得见进步。</p>
+      </div>
+      <ol class="timeline">
+        <li class="tl-item">
+          <span class="tl-dot" aria-hidden="true"></span>
+          <p class="tl-stage">起点</p>
+          <h3>先让想法变成能看的东西</h3>
+          <p>从 HTML 和 CSS 起手：标签、盒模型、Flex、Grid，一点点折腾出第一版能看的个人主页。现在回头看很粗糙，但那是起点。</p>
+        </li>
+        <li class="tl-item">
+          <span class="tl-dot" aria-hidden="true"></span>
+          <p class="tl-stage">V2</p>
+          <h3>让它好看，也让它动起来</h3>
+          <p>补上响应式断点、滚动进场动画、花瓣式相册与灯箱，同时把字体换成本地托管，不再依赖外部 CDN。</p>
+        </li>
+        <li class="tl-item">
+          <span class="tl-dot" aria-hidden="true"></span>
+          <p class="tl-stage">V3</p>
+          <h3>接上数据库与数字分身</h3>
+          <p>用 Supabase 做了带 RLS 权限的反馈系统，又加上纯前端的数字分身——现在它应付得了五十多个问题，答不上来还会推荐你换个问法。</p>
+        </li>
+        <li class="tl-item is-now">
+          <span class="tl-dot" aria-hidden="true"></span>
+          <p class="tl-stage">现在 · V4</p>
+          <h3>高数、英语、AI 应用三线推进</h3>
+          <p>一边补基础，一边把主页继续做深：这版顺手补齐了分享卡片、站点图标和 SEO 这些「上线之后才想起来」的细节。</p>
+        </li>
+      </ol>
+    </section>
+
     <section class="skills-section">
       <div class="skills-heading">
-        <p class="section-kicker">02 / CAPABILITIES</p>
+        <p class="section-kicker">04 / CAPABILITIES</p>
         <h2>持续进化的<br /><em>能力矩阵。</em></h2>
       </div>
       <div class="skill-list">
@@ -94,9 +224,39 @@
       </div>
     </section>
 
+    <!-- ============================================================
+         正在做（Now）：#now
+         ⚠️ 这里的三条线与数字分身的「你接下来打算做什么」是同一套说法，
+            改一处记得改另一处（assets/app.js 里的 plan 条目）
+         ============================================================ -->
+    <section class="now-section" id="now">
+      <div class="section-head">
+        <div><p class="section-kicker">05 / NOW</p><h2>最近在做的<br /><em>三件事。</em></h2></div>
+        <p>时间基本分给这三条线，<br />主页是它们共同的练习场。</p>
+      </div>
+      <div class="now-grid">
+        <article class="now-card">
+          <span class="now-badge">进行中</span>
+          <h3>高数</h3>
+          <p>必修的地基。先把微积分和线性代数的底子打扎实，后面学更硬的东西时才不会塌。</p>
+        </article>
+        <article class="now-card">
+          <span class="now-badge">进行中</span>
+          <h3>英语</h3>
+          <p>为了少等别人翻译。目标是能直接读英文文档和资料——这是学 AI 最省时间的一笔投资。</p>
+        </article>
+        <article class="now-card">
+          <span class="now-badge">进行中</span>
+          <h3>AI 应用</h3>
+          <p>想一直做下去的方向。继续啃 Python 和 AI 应用开发，下一步想做出一个真正有人用的小工具。</p>
+        </article>
+      </div>
+      <p class="now-foot">这三条线也写进了数字分身——问它「你最近在做什么」，答案和这里一致。</p>
+    </section>
+
     <section class="gallery-section" id="gallery">
       <div class="section-head">
-        <div><p class="section-kicker">03 / MOMENTS</p><h2>生活的切片。</h2></div>
+        <div><p class="section-kicker">06 / MOMENTS</p><h2>生活的切片。</h2></div>
         <p>九张照片围成一朵花。<br />点击任意一张可放大查看。</p>
       </div>
       <div class="flower">
@@ -117,7 +277,7 @@
 
     <section class="chat-section" id="chat">
       <div class="chat-copy">
-        <p class="section-kicker">04 / DIGITAL TWIN</p>
+        <p class="section-kicker">07 / DIGITAL TWIN</p>
         <h2>想了解更多？<br /><em>直接问我。</em></h2>
         <p>数字分身是我的一本本地小抄：学习、AI、作品、兴趣、联系方式、这站怎么做出来的，都能问。<br /><small class="chat-note">纯前端本地知识库 · 不联网 · 不收集任何信息</small></p>
         <div class="chat-quick">
@@ -169,12 +329,15 @@
     </section>
 
     <section class="feedback-section" id="feedback">
-      <div><p class="section-kicker">05 / FEEDBACK</p><h2>你的想法，<br /><em>会让这里更好。</em></h2></div>
+      <div><p class="section-kicker">08 / FEEDBACK</p><h2>你的想法，<br /><em>会让这里更好。</em></h2></div>
       <form id="feedback-form" novalidate>
+        <!-- 蜜罐字段：真人看不见也不会填，机器人往往会填 → 前端直接丢弃，不进数据库 -->
+        <div class="form-honey" aria-hidden="true"><label for="fb-website">网站</label><input id="fb-website" name="website" type="text" tabindex="-1" autocomplete="off" /></div>
         <div class="form-line"><label for="fb-name">姓名</label><input id="fb-name" name="name" type="text" maxlength="30" placeholder="怎么称呼你？" required /></div>
         <div class="form-line"><label for="fb-relation">关系</label><select id="fb-relation" name="relation" required><option value="" disabled selected>请选择</option><option>同学</option><option>朋友</option><option>老师</option><option>同事</option><option>家人</option><option>其他</option></select></div>
         <div class="form-line"><label for="fb-message">留言</label><textarea id="fb-message" name="message" rows="3" maxlength="500" placeholder="想对我说什么？" required></textarea></div>
         <button type="submit" class="primary-button form-submit">提交反馈 <b>↗</b></button><p id="fb-status" class="fb-status" role="status"></p>
+        <p class="form-note">留言只有我能看到，不会公开；同一台设备一分钟内只能提交一次。</p>
       </form>
     </section>
 
@@ -183,8 +346,8 @@
     <footer id="contact">
       <div class="footer-main">
         <div class="footer-brand"><span class="footer-logo"><i></i><i></i><i></i></span><strong>崇施涵</strong></div>
-        <div class="footer-cta"><p>LET'S CREATE SOMETHING</p><a href="mailto:sora291933347@tju.edu.cn">sora291933347@tju.edu.cn <span>↗</span></a></div>
-        <nav><a href="#about">关于</a><a href="#gallery">相册</a><a href="#chat">数字分身</a><a href="#feedback">反馈</a></nav>
+        <div class="footer-cta"><p>LET'S CREATE SOMETHING</p><a href="mailto:sora291933347@tju.edu.cn">sora291933347@tju.edu.cn <span>↗</span></a><button id="copy-mail" class="copy-mail" type="button" data-mail="sora291933347@tju.edu.cn">复制邮箱</button><span id="copy-mail-status" class="copy-mail-status" role="status" aria-live="polite"></span></div>
+        <nav><a href="#about">关于</a><a href="#works">作品</a><a href="#journey">经历</a><a href="#gallery">相册</a><a href="#chat">数字分身</a><a href="#feedback">反馈</a></nav>
       </div>
       <div class="footer-bottom"><small>© 2026 CHONG SHIHAN</small><button id="back-top" type="button">BACK TO TOP ↑</button><small>TIANJIN, CHINA</small></div>
     </footer>
