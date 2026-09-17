@@ -46,6 +46,65 @@ python -m http.server 8000
 npx serve .
 ```
 
+## 发布到公网：让别人输入网址就能访问
+
+线上地址（GitHub Pages，纯静态、免费、带 HTTPS）：
+
+**https://Inx-lnx.github.io/personal-homepage/**
+
+对应的代码仓库：<https://github.com/Inx-lnx/personal-homepage>
+
+### 以后怎么更新线上内容
+
+改完本地文件，在 `personal-homepage` 目录里跑一条命令就行：
+
+```powershell
+python tools/deploy_github_pages.py --token-file ..\.deepworks\tmp\github_token.txt --wait
+```
+
+脚本 `tools/deploy_github_pages.py` **只用 Python 标准库**，不需要 git / node / npm。
+它依次做四件事：确保仓库存在 → 只上传改动过的文件 → 开启 GitHub Pages → 输出访问网址。
+
+### 第一次部署需要准备 token
+
+1. 打开 <https://github.com/settings/tokens/new?scopes=repo&description=personal-homepage-deploy>
+2. `Expiration` 选 90 days，勾选 `repo` 权限，点最下方的 **Generate token**
+3. 把生成的 `ghp_...` 存进一个文本文件，例如 `..\.deepworks\tmp\github_token.txt`
+4. 这个 token 相当于密码，**用完建议去 GitHub 撤销**；下次要更新时再生成一个新的
+
+也可以不落盘，改用环境变量传：
+
+```powershell
+$env:GITHUB_TOKEN="ghp_xxx"
+python tools/deploy_github_pages.py --wait
+```
+
+### 常用参数
+
+| 参数 | 作用 |
+| --- | --- |
+| `--dry-run` | 只列出会上传哪些文件，不联网、不改动任何东西 |
+| `--repo NAME` | 用别的仓库名（默认 `personal-homepage`） |
+| `--message "..."` | 自定义提交说明 |
+| `--include-all` | 连 `versions/`、`tools/` 一起上传 |
+| `--wait` | 部署后轮询等待网址真正可访问再返回 |
+| `--workers N` | 并行上传内容的并发数（默认 6） |
+
+### 默认不会上传到公网的内容
+
+- `versions/` —— 旧版本截图与备份，属于本地开发资料
+- `tools/` —— 本地工具脚本
+- `assets/avatar.png` —— 主站没有引用（页面用的是 `avatar.jpg`），省下约 1.4 MB
+
+### 上线后必须知道的两件事
+
+1. **GitHub Pages 是纯静态托管。** 页面上的 HTML/CSS/JS 和图片都会被浏览器下载下来，
+   任何人都能通过开发者工具、抓包或直接下载拿到原始文件。
+   `config.js` 里的「内容保护开关」只是威慑，不能真正防住有心人。
+2. **只有可公开的密钥才能进前端。** Supabase 的 `publishable key`（旧称 anon key）
+   设计上就是公开的，权限由数据库的 RLS 策略控制（见 `supabase/schema.sql`）。
+   **绝对不要把 `sb_secret_...` / `service_role` 密钥放进前端或仓库。**
+
 ## 可能遇到的报错与排查
 
 | 现象 | 原因与处理 |
