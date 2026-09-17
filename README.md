@@ -1,30 +1,45 @@
-# 崇施涵 · 个人主页（极简黑白风格）
+# 崇施涵 · 个人主页
 
 这是一个**纯静态前端项目**，只有 HTML / CSS / JavaScript，无框架、无构建工具、无后端、无依赖。
 
-当前设计为**极简黑白 + 紫色强调**风格：黑色全屏首屏、超大标题、三列内容卡、
-黑白相册网格、终端式数字分身、像素化过渡到白色页尾。
+当前是 **V4**（已发布：<https://Inx-lnx.github.io/personal-homepage/>），视觉为**深空科技风 + 紫青渐变强调**：
+全屏深色首屏（打字机进场）、玻璃拟态卡片与 Bento 介绍区、作品区 / 经历时间线 / Now 三个内容区块、
+花瓣拼图相册（点击灯箱放大）、终端式数字分身（53 条本地知识库）、像素化过渡页脚。
 
 ## 项目结构
 
 ```
 个人主页/
   index.html          # 页面入口（主文件）
+  404.html            # 404 页面（回首页 / 问数字分身两个出口）
+  manifest.webmanifest# PWA 清单（图标名与主题色）
+  favicon.ico
+  robots.txt
+  sitemap.xml
   assets/
-    style.css         # 极简黑白设计系统（响应式 + 减少动态效果支持）
-    app.js            # 数字分身（本地知识库问答）+ 相册灯箱 + 进场动画 + 背景音乐
-    config.js         # Supabase 公开配置（反馈表单用）+ 背景音乐配置
+    style.css         # 深空科技风设计系统（响应式 + 减少动态效果支持）
+    app.js            # 数字分身（53 条本地知识库）+ 反馈提交 + 相册灯箱 + 进场动画 + 背景音乐
+    cool-mode.js      # cool 输入彩蛋：粒子特效
+    meteors.js        # 流星雨背景
+    config.js         # Supabase 公开配置 + 背景音乐配置 + 内容保护开关
     avatar.jpg        # 当前头像
+    og-cover.png      # 分享卡片封面（og:image）
+    favicon.svg / icon-192.png / icon-512.png / apple-touch-icon.png
     gallery/          # 相册图片 gallery-01 ~ gallery-09（九张照片围成花瓣）
     music/            # 背景音乐目录（内置原创钢琴曲 bgm.mp3，详见该目录下 README.txt）
     fonts/            # 本地托管字体：Inter + Noto Sans SC（31 个 woff2 子集 + fonts.css）
   tools/
-    make_bgm.py       # 钢琴背景音乐生成器（可改速度/音量/结构重新生成）
-    localize_fonts.py # 从 Google Fonts 下载字体到本地，改成本地托管
-    deploy_github_pages.py # 一键发布到 GitHub Pages（只用 Python 标准库）
+    deploy_github_pages.py     # 一键发布到 GitHub Pages（只用 Python 标准库）
+    capture_screenshots.py     # 生成 versions/ 里的整页截图（无头 Edge + CDP）
+    verify_feedback_privacy.py # 探测反馈表是否真的对匿名访客只写不可读
+    make_bgm.py                # 钢琴背景音乐生成器（可改速度/音量/结构重新生成）
+    make_bgm_sampled.py        # 采样版背景音乐生成器
+    localize_fonts.py          # 从 Google Fonts 下载字体到本地，改成本地托管
   supabase/
     schema.sql        # 反馈表建表 + RLS 策略
-  versions/           # 历史版本记录：截图 + 源码备份 + 说明
+  .github/workflows/
+    keep-supabase-alive.yml    # 每天探活一次，防止 Supabase 免费项目被自动暂停
+  versions/           # 历史版本记录：截图 + 源码备份 + 说明（v1 / v3 / v4）
   README.md           # 本文件
 ```
 
@@ -99,6 +114,17 @@ python tools/deploy_github_pages.py --wait
 - `tools/` —— 本地工具脚本
 - `assets/avatar.png` —— 主站没有引用（页面用的是 `avatar.jpg`），省下约 1.4 MB
 
+### 重新截版本记录图
+
+`versions/vX/` 里的桌面 / 手机整页截图可以用仓库里的脚本重新生成（先让本地预览服务器跑起来）：
+
+```powershell
+python tools/capture_screenshots.py --url http://127.0.0.1:8099/ --out-dir versions\v4
+```
+
+它会用无头 Edge 固定真实视口（桌面 1440×900 / 手机 390×844）后再抓整页，输出 `screenshot-desktop.png` 与 `screenshot-mobile.png`。
+两个坑脚本里已经处理好了：首屏用了 `100vh`（把无头窗口直接设得很高会把整页撑歪、永远截不到底），相册照片是 `loading="lazy"`（不先滚到底触发加载的话，整页图里相册区会是空的）。依赖 `pip install websocket-client`。
+
 ### 上线后必须知道的两件事
 
 1. **GitHub Pages 是纯静态托管。** 页面上的 HTML/CSS/JS 和图片都会被浏览器下载下来，
@@ -162,9 +188,9 @@ python tools/deploy_github_pages.py --token-file ..\.deepworks\tmp\github_token.
 ## 说明
 
 - 数字分身是本地内置知识库：纯前端、不联网、不收集任何信息。
-- 这是 V1 版本；V2 之后的迭代截图与备份会放在 `versions/` 下。
+- 当前是 **V4**（已发布上线：<https://Inx-lnx.github.io/personal-homepage/>）；从 V1 起每一版的截图与源码备份都放在 `versions/` 下（现有 `v1` / `v3` / `v4`）。
 
-## 数字分身怎么改（V3 交互升级）
+## 数字分身怎么改（V4：53 条本地知识库）
 
 ### 知识库在哪儿
 
@@ -199,6 +225,8 @@ python tools/deploy_github_pages.py --token-file ..\.deepworks\tmp\github_token.
 ## 访客反馈功能（V3 · Supabase）
 
 页面底部有「给我反馈」表单（姓名 + 与我的关系 + 反馈内容），提交后写入 Supabase，你在控制台查看。
+
+表单在 V4 加了防滥用与易用性处理：**蜜罐字段**（机器人填了直接静默丢弃）、**60 秒提交节流**（用 `localStorage` 记录上次提交时间，防误触重复提交）、必填校验，以及页脚的一键复制邮箱按钮。
 
 ### 一次性配置步骤
 
