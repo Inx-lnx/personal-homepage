@@ -223,25 +223,12 @@ html.no-drag img{-webkit-user-drag:none;-webkit-touch-callout:none}
 @media(prefers-reduced-motion:reduce){.msg.bot .bubble.is-thinking,.msg.bot .bubble.is-typing:after{animation:none}}
 
 /* ============================================================
-   V4 新增：作品区 #works / 经历时间线 #journey / 正在做 #now
+   V4 新增分区：经历时间线 #journey / 正在做 #now
+   原作品区块 #works 已于 V5 移除，相关样式一并删除（备份在 .deepworks/tmp）
    想让某一块留白更大或更紧，改各自的 padding 就行
    ============================================================ */
 
-/* ---------- 作品区 ---------- */
-.works-section,.journey-section,.now-section{max-width:var(--max);margin:0 auto;padding:130px 28px}
-.works-section{padding-top:0}
-.work-list{border-top:1px solid var(--line)}
-.work-item{display:grid;grid-template-columns:56px minmax(0,1fr) 180px;gap:26px;align-items:start;padding:32px 14px;border-bottom:1px solid var(--line);transition:background .25s ease,padding .25s ease}
-.work-item:hover{background:rgba(157,86,255,.045);padding-left:22px}
-.work-index{font-size:10px;letter-spacing:.16em;color:#7a7a82;padding-top:7px}
-.work-body h3{font-size:clamp(19px,2.1vw,25px);font-weight:500;letter-spacing:-.03em;margin:0 0 10px;color:var(--text)}
-.work-body p{margin:0;color:#9a9aa1;font-size:13.5px;line-height:1.75;max-width:620px}
-.work-tags{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:15px 0 0;padding:0}
-.work-tags li{border:1px solid rgba(157,86,255,.28);color:#bda6f5;font-size:10px;letter-spacing:.09em;padding:5px 9px;white-space:nowrap}
-.work-meta{display:flex;flex-direction:column;align-items:flex-end;gap:11px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;text-align:right}
-.work-state{color:#7a7a82;border-bottom:1px solid #2a2a30;padding-bottom:2px}
-.work-meta a{color:#c8adff;border-bottom:1px solid rgba(200,173,255,.35);padding-bottom:3px;transition:.2s}
-.work-meta a:hover{color:#fff;border-color:#fff}
+.journey-section,.now-section{max-width:var(--max);margin:0 auto;padding:130px 28px}
 
 /* ---------- 经历时间线 ---------- */
 .timeline{list-style:none;margin:0;padding:0 0 0 26px;position:relative}
@@ -282,24 +269,17 @@ html.no-drag img{-webkit-user-drag:none;-webkit-touch-callout:none}
 .petal img{border-width:2px;border-color:rgba(157,86,255,.55)}
 
 @media(max-width:900px){
-  .works-section,.journey-section,.now-section{padding:92px 20px}
-  .works-section{padding-top:0}
-  .work-item{grid-template-columns:40px minmax(0,1fr);gap:16px;padding:26px 8px}
-  .work-meta{grid-column:2;flex-direction:row;align-items:center;justify-content:flex-start;gap:16px;margin-top:14px;text-align:left}
+  .journey-section,.now-section{padding:92px 20px}
   .now-grid{grid-template-columns:1fr}
   .now-card{padding:28px 22px}
   .now-card+.now-card{border-left:0;border-top:1px solid var(--line)}
 }
 @media(max-width:600px){
-  .works-section,.journey-section,.now-section{padding:74px 16px}
-  .works-section{padding-top:0}
+  .journey-section,.now-section{padding:74px 16px}
   .timeline{padding-left:20px}
   .tl-item{padding:0 0 34px 24px}
   .tl-dot{left:-20px}
-  .work-item{padding:24px 4px}
-  .work-item:hover{padding-left:8px}
 }
 @media(prefers-reduced-motion:reduce){
-  .work-item,.now-card,.copy-mail,.work-meta a{transition:none}
-  .work-item:hover{padding-left:14px}
+  .now-card,.copy-mail{transition:none}
 }
