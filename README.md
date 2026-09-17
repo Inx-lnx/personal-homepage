@@ -15,7 +15,7 @@
     app.js            # 数字分身问答 + 相册灯箱 + 进场动画 + 背景音乐
     config.js         # Supabase 公开配置（反馈表单用）+ 背景音乐配置
     avatar.jpg        # 当前头像
-    gallery/          # 相册图片 gallery-01 ~ gallery-07
+    gallery/          # 相册图片 gallery-01 ~ gallery-09（九张照片围成花瓣）
     music/            # 背景音乐目录（内置原创钢琴曲 bgm.mp3，详见该目录下 README.txt）
     fonts/            # 本地托管字体：Inter + Noto Sans SC（31 个 woff2 子集 + fonts.css）
   tools/
