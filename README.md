@@ -2,9 +2,9 @@
 
 这是一个**纯静态前端项目**，只有 HTML / CSS / JavaScript，无框架、无构建工具、无后端、无依赖。
 
-当前是 **V9**（已发布：<https://Inx-lnx.github.io/personal-homepage/>），视觉为**深空科技风 + 紫青渐变强调**：
+当前是 **V10**（已发布：<https://Inx-lnx.github.io/personal-homepage/>），视觉为**深空科技风 + 紫青渐变强调**：
 全屏深色首屏（打字机进场）、玻璃拟态卡片与 Bento 介绍区、经历时间线 / Now 两个内容区块、
-花瓣拼图相册（点击灯箱放大：内联小图 → 过渡图 → 高清图三级渐进）、终端式数字分身（53 条本地知识库）、像素化过渡页脚；字体已本地子集化托管，不依赖 Google Fonts。
+花瓣拼图相册（点击灯箱放大：内联小图 → 过渡图 → 高清图三级渐进）、终端式数字分身（53 条本地知识库）、像素化过渡页脚；字体已本地子集化托管，不依赖 Google Fonts；V10 起带 Service Worker，断网也能打开。
 
 ## 项目结构
 
@@ -16,9 +16,10 @@
   favicon.ico
   robots.txt
   sitemap.xml
+  sw.js               # Service Worker：离线缓存（V10，必须放在站点根目录）
   assets/
     style.css         # 深空科技风设计系统（响应式 + 减少动态效果支持）
-    app.js            # 数字分身（53 条本地知识库）+ 反馈提交 + 相册灯箱 + 进场动画 + 背景音乐
+    app.js            # 数字分身（53 条本地知识库）+ 反馈提交 + 相册灯箱 + 进场动画 + 背景音乐 + SW 注册（V10）
     cool-mode.js      # cool 输入彩蛋：粒子特效
     meteors.js        # 流星雨背景
     config.js         # Supabase 公开配置 + 背景音乐配置 + 内容保护开关
@@ -195,6 +196,27 @@ python tools/deploy_github_pages.py --token-file ..\.deepworks\tmp\github_token.
 ```
 
 字体许可：Inter 与 Noto Sans SC 均为 **SIL Open Font License 1.1**，允许自托管与再分发。
+
+## 离线可用（V10 · Service Worker）
+
+站点根目录的 `sw.js` 让页面在断网时也能打开：
+
+- **HTML**：网络优先，离线时回落到缓存里的首页。所以每次联网访问都能拿到最新页面，不会出现「改了却看不到」。
+- **静态资源**（CSS / JS / 字体 / 相册图 / 音乐）：缓存优先，第二次访问直接读本地缓存不走网络，同时后台悄悄更新。
+- 首页、404 页、样式、脚本、字体 CSS 在首次访问后预缓存；字体二进制与相册图在首次用到时自动入库。
+- 首次访问只是把 Service Worker 装上，**第二次打开（或再刷新一次）才由它接管**——这是浏览器规定，不是故障。
+
+### 改了站点文件要顺手做一件事
+
+把 `sw.js` 顶部的版本号加一，例如 `const CACHE = "ph-v10";` → `const CACHE = "ph-v11";`。
+不加也能用（HTML 走网络优先，内容照样是新的），但旧缓存文件会一直留在访客浏览器里。
+
+### 怎么自己验证离线能不能用
+
+1. 用本地服务器打开页面（见上面「方式 B」），按 F12 打开开发者工具。
+2. `Application → Service Workers` 里应看到 `sw.js` 状态为 activated。
+3. 在 `Network` 面板勾上 `Offline`，按 Ctrl+R 刷新：页面照常显示，相册、灯箱、数字分身都在。
+4. 想清掉缓存：同面板点 `Unregister`，或清一次浏览器缓存。
 
 ## 可能遇到的报错与排查
 

@@ -493,3 +493,7 @@ setTimeout(()=>{document.querySelectorAll(".reveal").forEach(el=>el.classList.ad
 
 /* V7 高清升级：内联小图先秒显；只有屏幕像素密度确实需要更清晰时才去后台取网络图（省流量，慢网下不添乱） */
 (()=>{const go=()=>{const c=navigator.connection||{};if(c.saveData)return;if(/(^|-)2g$/.test(c.effectiveType||""))return;document.querySelectorAll("img[data-hi]").forEach(im=>{const hi=im.dataset.hi;if(!hi)return;const need=Math.ceil((im.clientWidth||im.width||0)*(window.devicePixelRatio||1)*1.15);if(im.naturalWidth>=need)return;const b=new Image();b.onload=()=>{if(b.naturalWidth>im.naturalWidth)im.src=hi};b.src=hi})};if(document.readyState==="complete")go();else window.addEventListener("load",()=>setTimeout(go,1200),{once:true})})();
+
+
+/* V10 离线可用：注册 Service Worker（仅 http/https，file:// 打开时自动跳过） */
+if("serviceWorker" in navigator && location.protocol.indexOf("http")===0){window.addEventListener("load",()=>{navigator.serviceWorker.register("sw.js").catch(()=>{});});}
