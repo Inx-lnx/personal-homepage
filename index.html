@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#2a1065" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>崇施涵 · 天津大学 | 个人主页</title>
   <meta name="description" content="崇施涵的个人主页：天津大学计算机科学与技术专业在读，正在高数、英语和 AI 应用三线推进。站内有学习经历、生活相册，还有一个纯前端本地知识库「数字分身」，可以直接向它提问。" />
   <meta name="author" content="崇施涵" />
@@ -32,7 +33,10 @@
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
   <link rel="manifest" href="manifest.webmanifest" />
 
-  <!-- 字体已本地托管在 assets/fonts/，不再依赖 Google Fonts；重新生成见 tools/localize_fonts.py -->
+  <!-- 字体已本地子集化托管在 assets/fonts/，不再依赖 Google Fonts；重新生成见 tools/subset_fonts.py -->
+  <!-- 首屏要用的两个子集提前预加载，省掉「先下 fonts.css、解析后才知道字体地址」的串行等待 -->
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/inter-subset.woff2" crossorigin="anonymous" />
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/noto-subset-core.woff2" crossorigin="anonymous" />
   <link rel="stylesheet" href="assets/fonts/fonts.css" />
   <link rel="stylesheet" href="assets/style.css" />
 
@@ -265,7 +269,7 @@
         </div>
       </div>
       <div class="chat-window">
-        <div class="window-bar"><span></span><span></span><span></span><b>DIGITAL_TWIN.EXE</b><button id="chat-clear" class="chat-clear" type="button" title="清空对话，重新开始">清空</button></div>
+        <div class="window-bar"><span></span><span></span><span></span><b>DIGITAL_TWIN.EXE</b><button id="chat-clear" class="chat-clear" type="button" title="清空对话，重新开始" aria-label="清空对话，重新开始">清空</button></div>
         <div id="chat-box" class="chat-box" aria-live="polite"><div class="msg bot"><span class="bubble">你好呀！我是崇施涵的数字分身，关于学习、AI、兴趣都可以问我～</span></div></div>
         <form id="chat-form" class="chat-input" autocomplete="off">
           <div class="chat-field">
