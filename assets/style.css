@@ -23,14 +23,14 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:20;opa
 footer{position:relative;z-index:21;background:var(--white);color:#090909;padding:50px max(28px,calc((100vw - var(--max))/2)) 25px}.footer-main{min-height:230px;border-bottom:1px solid #d0d0cd;display:grid;grid-template-columns:1fr 1.4fr .6fr;align-items:start;padding-top:15px}.footer-brand{display:flex;align-items:center;gap:18px}.footer-logo i{background:#080808}.footer-brand strong{font-size:30px;letter-spacing:-.04em}.footer-cta p{font-size:9px;letter-spacing:.18em;color:#777;margin-bottom:15px}.footer-cta a{font-size:clamp(18px,2vw,28px);border-bottom:1px solid #aaa;padding-bottom:8px}.footer-cta span{color:var(--purple);margin-left:10px}footer nav{display:flex;flex-direction:column;gap:8px;font-size:12px}.footer-bottom{padding-top:22px;display:flex;justify-content:space-between;align-items:center}.footer-bottom small,.footer-bottom button{font-size:8px;letter-spacing:.15em}.footer-bottom button{border:0;background:none;cursor:pointer}
 .lightbox{position:fixed;inset:0;background:rgba(3,3,6,.94);backdrop-filter:blur(6px);z-index:100;display:none;align-items:center;justify-content:center;padding:5vw;cursor:zoom-out}.lightbox.is-open{display:flex}.lightbox img{max-width:88vw;max-height:84vh;object-fit:contain;border-radius:12px;border:1px solid rgba(255,255,255,.14);box-shadow:0 24px 80px rgba(0,0,0,.7)}.lightbox button{position:absolute;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.22);color:#fff;width:44px;height:44px;border-radius:50%;cursor:pointer;font-size:17px;line-height:1;display:flex;align-items:center;justify-content:center;transition:.2s}.lightbox button:hover{background:var(--purple);border-color:transparent}.lightbox .lb-close{right:26px;top:22px}.lightbox .lb-prev{left:26px;top:50%;transform:translateY(-50%)}.lightbox .lb-next{right:26px;top:50%;transform:translateY(-50%)}.lightbox .lb-count{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);font-size:10px;letter-spacing:.2em;color:#b9b9c0}.lightbox button:disabled{opacity:.28;cursor:default}.lightbox button:disabled:hover{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.22)}
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .75s ease,transform .75s ease}.reveal.is-visible{opacity:1;transform:none}
-@media(max-width:900px){.desktop-nav{display:none}.topbar{grid-template-columns:1fr 1fr}.hero{min-height:900px;align-items:flex-start;padding-top:145px}.hero-copy{width:100%}.hero-portrait{width:400px;height:400px;right:-80px;top:auto;bottom:60px;transform:none}.portrait-frame{opacity:.65}.hero-intro{max-width:390px}.feature-grid{grid-template-columns:1fr}.feature-card{min-height:410px;padding:34px 18px}.feature-card+.feature-card{border-left:0;border-top:1px solid rgba(157,86,255,.16)}.skills-section,.chat-section,.feedback-section{grid-template-columns:1fr;gap:55px}.flower{width:min(100%,440px)}.footer-main{grid-template-columns:1fr 1fr;gap:50px}.footer-main nav{display:none}}
-@media(max-width:600px){.topbar{height:66px;padding:0 18px}.contact-button{padding:10px 12px}.hero{min-height:780px;padding:120px 18px 80px}.hero-copy h1{font-size:54px}.hero-intro{font-size:13px}.hero-actions{gap:18px;align-items:flex-start;flex-direction:column}.hero-portrait{width:330px;height:330px;right:-105px;bottom:70px}.floating-label{display:none}.statement,.skills-section,.gallery-section,.chat-section,.feedback-section{padding-left:18px;padding-right:18px}.statement{padding-top:110px;padding-bottom:110px}.statement h2,.skills-heading h2,.section-head h2,.chat-copy h2,.feedback-section h2{font-size:39px}.feature-grid{margin-bottom:90px}.skills-section,.gallery-section,.chat-section,.feedback-section{padding-top:90px;padding-bottom:90px}.section-head{display:block}.section-head>p{margin-top:20px}.flower{width:100%}.chat-window{margin:0 -8px}.footer-main{display:block;min-height:250px}.footer-cta{margin-top:55px}.footer-cta a{font-size:14px;word-break:break-all}.footer-bottom small:last-child{display:none}.pixel-transition{height:210px}}
+@media(max-width:900px){.desktop-nav{display:none}.topbar{grid-template-columns:1fr 1fr}.hero{min-height:100vh;min-height:100svh;align-items:flex-start;padding-top:145px}.hero-copy{width:100%}.hero-portrait{width:400px;height:400px;right:-80px;top:auto;bottom:60px;transform:none}.portrait-frame{opacity:.65}.hero-intro{max-width:390px}.feature-grid{grid-template-columns:1fr}.feature-card{min-height:410px;padding:34px 18px}.feature-card+.feature-card{border-left:0;border-top:1px solid rgba(157,86,255,.16)}.skills-section,.chat-section,.feedback-section{grid-template-columns:1fr;gap:55px}.flower{width:min(100%,440px)}.footer-main{grid-template-columns:1fr 1fr;gap:50px}.footer-main nav{display:none}}
+@media(max-width:600px){.topbar{height:66px;padding:0 18px}.contact-button{padding:10px 12px}.hero{min-height:100vh;min-height:100svh;padding:120px 18px 80px}.hero-copy h1{font-size:54px}.hero-intro{font-size:13px}.hero-actions{gap:18px;align-items:flex-start;flex-direction:column}.hero-portrait{width:330px;height:330px;right:-105px;bottom:70px}.floating-label{display:none}.statement,.skills-section,.gallery-section,.chat-section,.feedback-section{padding-left:18px;padding-right:18px}.statement{padding-top:110px;padding-bottom:110px}.statement h2,.skills-heading h2,.section-head h2,.chat-copy h2,.feedback-section h2{font-size:39px}.feature-grid{margin-bottom:90px}.skills-section,.gallery-section,.chat-section,.feedback-section{padding-top:90px;padding-bottom:90px}.section-head{display:block}.section-head>p{margin-top:20px}.flower{width:100%}.chat-window{margin:0 -8px}.footer-main{display:block;min-height:250px}.footer-cta{margin-top:55px}.footer-cta a{font-size:14px;word-break:break-all}.footer-bottom small:last-child{display:none}.pixel-transition{height:210px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{opacity:1;transform:none;transition:none}.aurora-text{animation:none;background-position:50% 50%}:root{--grad-anim:none}.type-cursor{display:none}.meteor{animation:none;opacity:0}.border-beam{display:none}}
 /* ---------- 首页名字：原版炫彩 aurora 流光配色 ---------- */
 .aurora-text{display:inline-block;color:transparent;background-image:linear-gradient(120deg,#ffffff 0%,#a5f3fc 18%,#c4b5fd 38%,#f9a8d4 58%,#67e8f9 78%,#ffffff 100%);background-size:250% auto;background-position:0% 50%;background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 12px rgba(165,243,252,.32));animation:aurora-text-flow 5s ease-in-out infinite alternate}
 @keyframes aurora-text-flow{0%{background-position:0% 50%}100%{background-position:100% 50%}}
-/* ---------- 灰字 → 自动流动渐变（同一套 aurora 流光配色） ----------
-   把原来纯色填充的「设计性灰字」统一改成自动流动的渐变色：
+/* ---------- 流光彩字（V11 起范围已收敛到首屏 h1 span + 姓名 .aurora-text） ----------
+   V10 曾把下面这串「设计性灰字」全部改成自动流动的渐变：
      h1 span #85858a · h2 em #6f6f74 · .section-kicker/.eyebrow/
      .mini-label #a8a8ae · .card-index #66666c · .skill-row span
      #68686e · .scroll-cue #68686e · .card-arrow #777 ·
@@ -49,9 +49,16 @@ footer{position:relative;z-index:21;background:var(--white);color:#090909;paddin
       若不进组就会变成隐形字）。
       故排除：.floating-label（自带 #09090b 底色药丸）、footer 与
       .pixel-transition 内的灰字（白底，浅色渐变会看不见）。
-   4. 首屏大标题（h1 span / h2 em）额外加一层青色柔光，与名字呼应。 */
-h1 span,h2 em,.eyebrow,.section-kicker,.mini-label,.card-index,.card-arrow,.skill-row span,.scroll-cue,.desktop-nav a,.text-link,.text-link span,.window-bar b,.form-line label{color:transparent;background-image:linear-gradient(100deg,#a5f3fc 0%,#c4b5fd 26%,#f0abfc 50%,#c4b5fd 74%,#a5f3fc 100%);background-size:200% 100%;background-position:0% 50%;background-repeat:repeat;background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:var(--grad-anim)}
-h1 span,h2 em{filter:drop-shadow(0 0 14px rgba(165,243,252,.28))}
+   4. 首屏大标题（h1 span）额外加一层青色柔光，与名字呼应。
+   V11 变更：上述「统一改成流动渐变」的范围已收敛为 h1 span 一处
+   （.aurora-text 是上面单独定义的另一套）。原因：整页到处同时在流动
+   会拉平视觉层级，首屏大标题不再突出；且每个文字元素常驻
+   background-clip:text + 无限动画，中低端手机上明显掉帧，10px 级
+   小字也更难读。其余元素回到静态灰，并提亮到 WCAG AA 之上——见文件
+   末尾「V11 · 视觉收敛与可读性」一段；想整站恢复 V10，把下面这条的
+   选择器重新展开成上面那串灰字清单即可。 */
+h1 span{color:transparent;background-image:linear-gradient(100deg,#a5f3fc 0%,#c4b5fd 26%,#f0abfc 50%,#c4b5fd 74%,#a5f3fc 100%);background-size:200% 100%;background-position:0% 50%;background-repeat:repeat;background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:var(--grad-anim)}
+h1 span{filter:drop-shadow(0 0 14px rgba(165,243,252,.28))}
 @keyframes gradient-text-flow{0%{background-position:0% 50%}100%{background-position:200% 50%}}
 /* 悬停改色必须用 -webkit-text-fill-color（它会覆盖 color） */
 .desktop-nav a:hover,.text-link:hover{-webkit-text-fill-color:#fff;color:#fff}
@@ -290,3 +297,51 @@ picture{display:contents}
 .petal img.img-failed{min-height:96px;aspect-ratio:4/3;background:repeating-linear-gradient(135deg,rgba(157,86,255,.16) 0 10px,rgba(100,28,255,.07) 10px 20px);box-shadow:none}
 @supports not (width:1cqw){.flower{width:min(100%,570px);height:auto;aspect-ratio:1/1}.petal img{width:min(170px,38vw)}}
 .petal img:focus-visible{outline:2px solid var(--purple2);outline-offset:3px}
+
+/* ============================================================
+   V11 · 视觉收敛与可读性
+   背景：整页评估后做了三项收敛（特效收敛 / 移动端 / 可读性）。
+   约定：本节全部写在文件末尾，靠「后者优先」覆盖前面的旧值；
+        回退到 V10 只需删掉本节、并把上面「流光彩字」的选择器恢复成
+        那一串灰字清单即可。
+   ============================================================ */
+
+/* ---------- 1. 静态灰回填 ----------
+   上游「流光彩字」一节原本把下面这些元素一并改成了自动流动的渐变，
+   现收敛回静态色。颜色取 #9a9aa2 而非原来的 #66666c / #68686e /
+   #737379：这些 9–13px 小字都排在 #050505~#0d0422 的深底上，原值
+   对比度多在 3.0:1 上下（低于 WCAG AA 的 4.5:1），#9a9aa2 约 6.9:1，
+   属于「看上去仍是灰字、但看得清」的区间。 */
+h2 em{color:#6f6f74}
+.eyebrow,.section-kicker,.mini-label{color:#a8a8ae}
+.card-index,.card-arrow,.skill-row span,.window-bar b,.form-line label{color:#9a9aa2}
+.desktop-nav a{color:#adadb1}
+.text-link,.text-link span{color:#c5c5c8}
+
+/* ---------- 2. 可读性：深色底上的正文/小字抬到 AA 之上 ---------- */
+.feature-card p:not(.mini-label){color:#9a9aa2}
+.chat-note,.chat-clear,.form-note{color:#9a9aa2}
+/* 快捷提问的分组标题原来只有 9px + #67676f，是全页最难读的一处，
+   颜色提亮之外字号也加一档 */
+.quick-title{color:#9a9aa2;font-size:10px}
+/* 经历区小标题：紫字压在深紫底上，对比度刚好卡在 4.5 边缘，提亮更稳 */
+.tl-stage{color:#a99ce0}
+.bgm-hint span{color:#a0a0a8}
+
+/* ---------- 3. 自定义光标：输入密集区让位给系统光标 ----------
+   由 app.js 的 initSmoothCursor 负责增删 body.cursor-ui-off：指针进入
+   .chat-section / .feedback-section 时挂上，离开自动摘掉。这两条都必须
+   !important —— body.smooth-cursor 那组 cursor:none 的选择器特异性更高，
+   不强制覆盖的话系统光标仍然是隐藏的。 */
+body.cursor-ui-off .cursor-dot,
+body.cursor-ui-off .cursor-ring{opacity:0!important}
+body.smooth-cursor.cursor-ui-off,
+body.smooth-cursor.cursor-ui-off *{cursor:auto!important}
+
+/* ---------- 4. 跳到主要内容 + 全站键盘焦点 ----------
+   页首第一个可聚焦元素，键盘/读屏用户按 Tab 的第一落点，直接跳过顶栏导航。
+   自定义光标被隐藏时，焦点环是键盘用户唯一的定位线索，所以补一条统一的
+   :focus-visible（原来只有相册花瓣有）。 */
+.skip-link{position:absolute;left:-9999px;top:0;z-index:3000;background:var(--purple);color:#fff;padding:12px 18px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.skip-link:focus{left:12px;top:12px}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible,[tabindex]:focus-visible{outline:2px solid #67e8f9;outline-offset:3px}

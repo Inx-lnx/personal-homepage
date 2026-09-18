@@ -55,6 +55,7 @@
   </script>
 </head>
 <body>
+  <a class="skip-link" href="#main">跳到主要内容</a>
   <header class="topbar">
     <a class="brand" href="#home" aria-label="返回首页"><span></span><span></span><span></span></a>
     <nav class="desktop-nav" aria-label="主导航">
@@ -65,7 +66,7 @@
     <a class="contact-button" href="#contact">联系我 <b>↗</b></a>
   </header>
 
-  <main>
+  <main id="main">
     <section class="hero" id="home">
       <div class="hero-noise"></div>
       <div class="hero-copy">
@@ -108,7 +109,7 @@
       </article>
       <article class="feature-card">
         <span class="card-index">02</span>
-        <div class="terminal-art" aria-hidden="true"><i></i><i></i><i></i><code>&gt; building ideas_<br />&gt; learning everyday<br />&gt; shipping v4</code></div>
+          <div class="terminal-art" aria-hidden="true"><i></i><i></i><i></i><code>&gt; building ideas_<br />&gt; learning everyday<br />&gt; shipping v10</code></div>
         <div>
           <p class="mini-label">BUILDING</p>
           <h3>个人主页</h3>
@@ -154,11 +155,17 @@
           <h3>接上数据库与数字分身</h3>
           <p>用 Supabase 做了带 RLS 权限的反馈系统，又加上纯前端的数字分身——现在它应付得了五十多个问题，答不上来还会推荐你换个问法。</p>
         </li>
+        <li class="tl-item">
+          <span class="tl-dot" aria-hidden="true"></span>
+          <p class="tl-stage">V4</p>
+          <h3>补齐「上线之后才想起来」的细节</h3>
+          <p>分享卡片、站点图标、结构化数据与 SEO 一并补上。从这一版起，主页才真正像一张对外的名片，而不只是作业。</p>
+        </li>
         <li class="tl-item is-now">
           <span class="tl-dot" aria-hidden="true"></span>
-          <p class="tl-stage">现在 · V4</p>
-          <h3>高数、英语、AI 应用三线推进</h3>
-          <p>一边补基础，一边把主页继续做深：这版顺手补齐了分享卡片、站点图标和 SEO 这些「上线之后才想起来」的细节。</p>
+          <p class="tl-stage">现在 · V11</p>
+          <h3>更轻、更稳，也更好读</h3>
+          <p>V5 起给照片瘦身（WebP + 三级清晰度），V9 把字体按站点用字本地子集化，V10 加上 Service Worker——断网也能打开。V11 收掉了一批满屏自动流动的装饰，把偏暗的小字提亮到无障碍标准之上：主页更安静、也更好读的同时，高数、英语、AI 应用三线同步推进。</p>
         </li>
       </ol>
     </section>

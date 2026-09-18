@@ -261,6 +261,11 @@ document.getElementById("back-top")?.addEventListener("click",()=>window.scrollT
 //       注：灯带只保留这三张卡片，其余板块不再注入。
 // ============================================================
 (function initBorderBeam(){
+  // V11 收敛视觉特效：滚动区那条「沿卡片边框无限循环流动的霓虹灯带」属于
+  // 常驻自动动画（5s linear infinite），是本页最重的装饰，先停用。
+  // 想恢复：删掉下面这行 return 即可——以下代码与 style.css 的 .border-beam
+  // 规则都完整保留，且仍受系统「减少动态效果」开关保护。
+  return;
   if(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;
   // 每组 = 一段渐变：[内层主色, 外层收尾色]
   const BEAMS=[
@@ -317,7 +322,19 @@ document.getElementById("back-top")?.addEventListener("click",()=>window.scrollT
   function loop(){rx+=(mx-rx)*0.18;ry+=(my-ry)*0.18;dot.style.transform="translate("+mx+"px, "+my+"px)";ring.style.transform="translate("+rx+"px, "+ry+"px)";requestAnimationFrame(loop)}
   // 可交互元素：原版列表 + 当前站点的头像/名字（Cool Mode 喷粒子）与相册花瓣
   const INTERACTIVE="a, button, .chip, .followup, .suggest-item, .chat-clear, input, select, textarea, label, .portrait-frame, .portrait-name, .petal";
-  window.addEventListener("mousemove",e=>{mx=e.clientX;my=e.clientY;document.body.classList.add("is-active");const target=e.target&&e.target.closest?e.target.closest(INTERACTIVE):null;dot.classList.toggle("is-hover",!!target);ring.classList.toggle("is-hover",!!target)});
+  // V11：输入密集区让位给系统光标。数字分身与反馈区里有输入框、下拉与文本域，
+  // 隐藏系统光标会让「点哪儿能编辑」变得难以判断，也会削弱输入法候选框的定位感。
+  // 指针进入这两个区块时给 body 挂 .cursor-ui-off（样式见 style.css 末尾），
+  // 离开后自动摘掉，站内其它区域的平滑光标体验不受影响。
+  const CURSOR_UI_OFF=".chat-section, .feedback-section";
+  let cursorUiOff=false;
+  const syncCursorUi=target=>{
+    const off=!!(target&&target.closest&&target.closest(CURSOR_UI_OFF));
+    if(off===cursorUiOff)return;
+    cursorUiOff=off;
+    document.body.classList.toggle("cursor-ui-off",off);
+  };
+  window.addEventListener("mousemove",e=>{mx=e.clientX;my=e.clientY;document.body.classList.add("is-active");syncCursorUi(e.target);const target=e.target&&e.target.closest?e.target.closest(INTERACTIVE):null;dot.classList.toggle("is-hover",!!target);ring.classList.toggle("is-hover",!!target)});
   window.addEventListener("mousedown",()=>{dot.classList.add("is-down");ring.classList.add("is-down")});
   window.addEventListener("mouseup",()=>{dot.classList.remove("is-down");ring.classList.remove("is-down")});
   document.addEventListener("mouseleave",()=>document.body.classList.remove("is-active"));

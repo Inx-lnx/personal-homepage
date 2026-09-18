@@ -2,9 +2,10 @@
 
 这是一个**纯静态前端项目**，只有 HTML / CSS / JavaScript，无框架、无构建工具、无后端、无依赖。
 
-当前是 **V10**（已发布：<https://Inx-lnx.github.io/personal-homepage/>），视觉为**深空科技风 + 紫青渐变强调**：
+当前是 **V11**（已发布：<https://Inx-lnx.github.io/personal-homepage/>），视觉为**深空科技风 + 紫青渐变强调**：
 全屏深色首屏（打字机进场）、玻璃拟态卡片与 Bento 介绍区、经历时间线 / Now 两个内容区块、
 花瓣拼图相册（点击灯箱放大：内联小图 → 过渡图 → 高清图三级渐进）、终端式数字分身（53 条本地知识库）、像素化过渡页脚；字体已本地子集化托管，不依赖 Google Fonts；V10 起带 Service Worker，断网也能打开。
+V11 做的是**收敛与可读性**：收掉自动循环的边框灯带、把「灰字流动渐变」的范围缩回首屏标题与姓名两处，移动端首屏改用 `svh`，深色底小字统一提亮到 WCAG AA 之上，并补上「跳到主要内容」与全站 `:focus-visible`。
 
 ## 项目结构
 
@@ -208,7 +209,7 @@ python tools/deploy_github_pages.py --token-file ..\.deepworks\tmp\github_token.
 
 ### 改了站点文件要顺手做一件事
 
-把 `sw.js` 顶部的版本号加一，例如 `const CACHE = "ph-v10";` → `const CACHE = "ph-v11";`。
+把 `sw.js` 顶部的版本号加一，例如 `const CACHE = "ph-v11";` → `const CACHE = "ph-v12";`。
 不加也能用（HTML 走网络优先，内容照样是新的），但旧缓存文件会一直留在访客浏览器里。
 
 ### 怎么自己验证离线能不能用
