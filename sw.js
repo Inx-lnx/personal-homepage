@@ -1,6 +1,9 @@
 /* 离线可用：HTML 走网络优先（保证部署后立刻拿到新版），静态资源走缓存优先（重复访问不再走网络）。
-   改动站点文件后，请把下面的 CACHE 版本号 +1，旧缓存会在 activate 时清掉。 */
-const CACHE = "ph-v13";
+   改动站点文件后，请把下面的 CACHE 版本号 +1，旧缓存会在 activate 时清掉。
+   本文件的 install 里有 skipWaiting、activate 里有 clients.claim：新版装好立刻接管；
+   配合 index.html 末尾那段「接管后自动刷新一次」的小脚本，改版后访客刷新一次即可看到
+   新的样式/脚本，不会像以前那样要连续刷两次。 */
+const CACHE = "ph-v17";
 const OFFLINE_FALLBACK = "index.html";
 
 /* 安装时预缓存的关键骨架：不含字体二进制与相册图，避免慢网下安装阶段抢带宽；

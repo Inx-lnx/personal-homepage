@@ -243,7 +243,7 @@ if(fbForm)fbForm.addEventListener("submit",async e=>{e.preventDefault();const na
 
 (function initReveal(){if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;const targets=document.querySelectorAll(".statement>* ,.feature-card,.skills-heading,.skill-row,.section-head,.petal,.chat-copy,.chat-window,.feedback-section>*");targets.forEach(el=>el.classList.add("reveal"));const io=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add("is-visible");io.unobserve(entry.target)}}),{threshold:.08});targets.forEach(el=>io.observe(el))})();
 
-(function initLightbox(){const imgs=[...document.querySelectorAll(".petal img")];if(!imgs.length)return;let index=0;const overlay=document.createElement("div"),image=document.createElement("img"),close=document.createElement("button"),prev=document.createElement("button"),next=document.createElement("button"),counter=document.createElement("span");overlay.className="lightbox";overlay.setAttribute("role","dialog");overlay.setAttribute("aria-modal","true");overlay.setAttribute("aria-label",t("js.lightbox.label","照片查看"));let lastFocus=null;close.className="lb-close";close.textContent="×";close.setAttribute("aria-label",t("js.lightbox.close","关闭"));prev.className="lb-prev";prev.textContent="‹";prev.setAttribute("aria-label",t("js.lightbox.prev","上一张"));next.className="lb-next";next.textContent="›";next.setAttribute("aria-label",t("js.lightbox.next","下一张"));counter.className="lb-count";counter.setAttribute("aria-live","polite");overlay.append(image,close,prev,next,counter);document.body.appendChild(overlay);const render=()=>{const img=imgs[index];const tok=String(index)+"|"+(img.currentSrc||img.src);image.dataset.tok=tok;image.src=img.currentSrc||img.src;image.alt=img.alt;counter.textContent=t("js.lightbox.loading","载入中… ")+(index+1)+" / "+imgs.length;const seq=[img.dataset.hi,img.dataset.view].filter(Boolean);let k=0,lastDt=9999;const step=()=>{if(k>=seq.length){counter.textContent=(index+1)+" / "+imgs.length;const c=navigator.connection||{};if(c.saveData||/(^|-)2g$|^3g$/.test(c.effectiveType||"")||lastDt>1500)return;const full=img.dataset.full;if(!full)return;const big=new Image();big.onload=()=>{if(image.dataset.tok===tok&&big.naturalWidth>image.naturalWidth*1.2)image.src=full};big.src=full;return}const url=seq[k++];const ts=Date.now();const t=new Image();t.onload=()=>{if(image.dataset.tok!==tok)return;lastDt=Date.now()-ts;image.src=url;step()};t.onerror=()=>{if(image.dataset.tok===tok)step()};t.src=url};step()};const show=i=>{index=(i+imgs.length)%imgs.length;render()};const hide=()=>{overlay.classList.remove("is-open");if(lastFocus&&lastFocus.focus)lastFocus.focus();lastFocus=null};const openAt=i=>{lastFocus=document.activeElement;show(i);overlay.classList.add("is-open");close.focus()};imgs.forEach((img,i)=>{img.tabIndex=0;img.setAttribute("role","button");img.setAttribute("aria-label","放大查看："+(img.alt||"照片"));img.addEventListener("click",()=>openAt(i));img.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();openAt(i)}})});prev.addEventListener("click",e=>{e.stopPropagation();show(index-1)});next.addEventListener("click",e=>{e.stopPropagation();show(index+1)});close.addEventListener("click",hide);overlay.addEventListener("click",e=>{if(e.target===overlay)hide()});overlay.addEventListener("keydown",e=>{if(e.key!=="Tab")return;const f=[close,prev,next];const cur=f.indexOf(document.activeElement);e.preventDefault();f[e.shiftKey?((cur<=0?f.length:cur)-1):(cur>=f.length-1?0:cur+1)].focus()});document.addEventListener("keydown",e=>{if(!overlay.classList.contains("is-open"))return;if(e.key==="Escape")hide();if(e.key==="ArrowLeft")show(index-1);if(e.key==="ArrowRight")show(index+1)})})();
+(function initLightbox(){const imgs=[...document.querySelectorAll(".petal img")];if(!imgs.length)return;let index=0;const overlay=document.createElement("div"),image=document.createElement("img"),close=document.createElement("button"),prev=document.createElement("button"),next=document.createElement("button"),counter=document.createElement("span");overlay.className="lightbox";overlay.setAttribute("role","dialog");overlay.setAttribute("aria-modal","true");overlay.setAttribute("aria-label",t("js.lightbox.label","照片查看"));let lastFocus=null;close.className="lb-close";close.textContent="×";close.setAttribute("aria-label",t("js.lightbox.close","关闭"));prev.className="lb-prev";prev.textContent="‹";prev.setAttribute("aria-label",t("js.lightbox.prev","上一张"));next.className="lb-next";next.textContent="›";next.setAttribute("aria-label",t("js.lightbox.next","下一张"));counter.className="lb-count";counter.setAttribute("aria-live","polite");overlay.append(image,close,prev,next,counter);document.body.appendChild(overlay);const render=()=>{const img=imgs[index];const tok=String(index)+"|"+(img.currentSrc||img.src);image.dataset.tok=tok;image.src=img.currentSrc||img.src;image.alt=img.alt;counter.textContent=t("js.lightbox.loading","载入中… ")+(index+1)+" / "+imgs.length;const seq=[img.dataset.hi,img.dataset.view].filter(Boolean);let k=0,lastDt=9999;const step=()=>{if(k>=seq.length){counter.textContent=(index+1)+" / "+imgs.length;const c=navigator.connection||{};if(c.saveData||/(^|-)2g$|^3g$/.test(c.effectiveType||"")||lastDt>1500)return;const full=img.dataset.full;if(!full)return;const big=new Image();big.onload=()=>{if(image.dataset.tok===tok&&big.naturalWidth>image.naturalWidth*1.2)image.src=full};big.src=full;return}const url=seq[k++];const ts=Date.now();const t=new Image();t.onload=()=>{if(image.dataset.tok!==tok)return;lastDt=Date.now()-ts;image.src=url;step()};t.onerror=()=>{if(image.dataset.tok===tok)step()};t.src=url};step()};const show=i=>{index=(i+imgs.length)%imgs.length;render()};const hide=()=>{overlay.classList.remove("is-open");if(lastFocus&&lastFocus.focus)lastFocus.focus();lastFocus=null};const openAt=i=>{lastFocus=document.activeElement;show(i);overlay.classList.add("is-open");close.focus()};imgs.forEach((img,i)=>{img.tabIndex=0;img.setAttribute("role","button");img.setAttribute("aria-label",t("js.lightbox.zoom","放大查看：")+(img.alt||t("js.lightbox.photo","照片")));img.addEventListener("click",()=>openAt(i));img.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();openAt(i)}})});prev.addEventListener("click",e=>{e.stopPropagation();show(index-1)});next.addEventListener("click",e=>{e.stopPropagation();show(index+1)});close.addEventListener("click",hide);overlay.addEventListener("click",e=>{if(e.target===overlay)hide()});overlay.addEventListener("keydown",e=>{if(e.key!=="Tab")return;const f=[close,prev,next];const cur=f.indexOf(document.activeElement);e.preventDefault();f[e.shiftKey?((cur<=0?f.length:cur)-1):(cur>=f.length-1?0:cur+1)].focus()});document.addEventListener("keydown",e=>{if(!overlay.classList.contains("is-open"))return;if(e.key==="Escape")hide();if(e.key==="ArrowLeft")show(index-1);if(e.key==="ArrowRight")show(index+1)})})();
 
 document.getElementById("back-top")?.addEventListener("click",()=>window.scrollTo({top:0,behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"}));
 
@@ -251,7 +251,7 @@ document.getElementById("back-top")?.addEventListener("click",()=>window.scrollT
 (function initCopyMail(){const btn=document.getElementById("copy-mail"),tip=document.getElementById("copy-mail-status");if(!btn||!tip)return;const mail=btn.dataset.mail||"";let timer=0;const say=t=>{tip.textContent=t;clearTimeout(timer);timer=setTimeout(()=>{tip.textContent=""},2600)};btn.addEventListener("click",async()=>{try{if(navigator.clipboard&&navigator.clipboard.writeText){await navigator.clipboard.writeText(mail)}else{const ta=document.createElement("textarea");ta.value=mail;ta.setAttribute("readonly","");ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);ta.select();document.execCommand("copy");ta.remove()}say(t("js.copy.done","已复制到剪贴板"))}catch(err){console.warn(err);say(t("js.copy.fail","复制失败，可手动选中"))}})})();
 
 // 打字机状态行（原版效果）：逐字打出 → 停顿 → 逐字删除 → 下一句
-(function initTyped(){const typedEl=document.getElementById("typed-text"),cursorEl=document.querySelector(".type-cursor");if(!typedEl)return;const PHRASES=tList("js.typed",["高数 · 英语 · AI 应用","练习编程中","听着音乐学习","会打羽毛球","爱看二次元","把主页迭代到 V4"]);if(matchMedia("(prefers-reduced-motion: reduce)").matches){typedEl.textContent=PHRASES[0];return}let phraseIdx=0,charIdx=0,deleting=false;function step(){const phrase=PHRASES[phraseIdx];if(!deleting){charIdx++;typedEl.textContent=phrase.slice(0,charIdx);cursorEl&&cursorEl.classList.remove("is-idle");if(charIdx>=phrase.length){deleting=true;cursorEl&&cursorEl.classList.add("is-idle");setTimeout(step,1800);return}setTimeout(step,90)}else{charIdx--;typedEl.textContent=phrase.slice(0,charIdx);cursorEl&&cursorEl.classList.remove("is-idle");if(charIdx<=0){deleting=false;phraseIdx=(phraseIdx+1)%PHRASES.length;setTimeout(step,400);return}setTimeout(step,50)}}setTimeout(step,800)})();
+(function initTyped(){const typedEl=document.getElementById("typed-text"),cursorEl=document.querySelector(".type-cursor");if(!typedEl)return;const TYPED_FALLBACK=["高数 · 英语 · AI 应用","练习编程中","听着音乐学习","会打羽毛球","爱看二次元","把主页迭代到 V4"];let PHRASES=tList("js.typed",TYPED_FALLBACK),phraseIdx=0,charIdx=0,deleting=false,timer=0;const reduceMotion=matchMedia("(prefers-reduced-motion: reduce)").matches;function step(){const phrase=PHRASES[phraseIdx]||"";if(!deleting){charIdx++;typedEl.textContent=phrase.slice(0,charIdx);cursorEl&&cursorEl.classList.remove("is-idle");if(charIdx>=phrase.length){deleting=true;cursorEl&&cursorEl.classList.add("is-idle");timer=setTimeout(step,1800);return}timer=setTimeout(step,90)}else{charIdx--;typedEl.textContent=phrase.slice(0,charIdx);cursorEl&&cursorEl.classList.remove("is-idle");if(charIdx<=0){deleting=false;phraseIdx=(phraseIdx+1)%PHRASES.length;timer=setTimeout(step,400);return}timer=setTimeout(step,50)}}function restart(){clearTimeout(timer);PHRASES=tList("js.typed",TYPED_FALLBACK);phraseIdx=0;charIdx=0;deleting=false;if(reduceMotion){typedEl.textContent=PHRASES[0]||"";return}typedEl.textContent="";step()}document.addEventListener("site:langchange",restart);if(reduceMotion){typedEl.textContent=PHRASES[0]||"";return}timer=setTimeout(step,800)})();
 
 // ============================================================
 // Meteors · 流星雨背景（原版 v3 效果，注入 Hero 区）
@@ -323,6 +323,21 @@ document.getElementById("back-top")?.addEventListener("click",()=>window.scrollT
 //       悬停可交互元素时放大、按下时收缩；首次移动鼠标后才显形，
 //       指针离开文档时隐藏。触摸设备（hover:none）与系统“减少动态
 //       效果”下直接不创建，保持零开销。圆点/圆环样式见 style.css。
+// V14 修「光标有时候会丢失」：原来所有状态都只在 mousemove 里更新，
+//       于是只要指针不动、页面自己在动，状态就会永久卡住——
+//       ① 指针停在可交互元素上（圆环放大态）、用滚轮把页面滚走之后
+//          （enter 有、leave 没有）放大态摘不掉，圆环就一直鼓着；
+//       ② 按下缩小态同样会卡住（拖到窗口外松手、Alt+Tab 切走时收不到
+//          mouseup，圆环会一直缩着不恢复）；
+//       ③ 若有脚本重建 body 子节点，圆点/圆环被删掉且永不回来。
+//       现在：滚动/缩放/切语言/拖放结束/切回标签页都会按指针当前位置重
+//       算（rAF 合并 + 每秒兜底），失焦与指针离开文档时清掉按下态，每帧
+//       确认两个节点还挂在 body 上。CSS 侧 system 光标也不再一上来就藏，
+//       见 style.css 的 body.smooth-cursor.is-active。
+// V16 撤掉「让位给系统光标」这套机制：V11 起数字分身与反馈区整块不发特效，
+//       V15 只把范围收窄到 input / select / textarea，用户仍然觉得这两块没有
+//       鼠标特效，于是全站统一——圆点+圆环在任何元素上都在，输入框上也不例外
+//       （聚焦后浏览器自带的文本插入符照常出现，不影响打字）。
 // ============================================================
 (function initSmoothCursor(){
   // 仅在有鼠标（支持 hover）的环境启用
@@ -333,28 +348,55 @@ document.getElementById("back-top")?.addEventListener("click",()=>window.scrollT
   dot.className="cursor-dot";ring.className="cursor-ring";dot.setAttribute("aria-hidden","true");ring.setAttribute("aria-hidden","true");
   document.body.appendChild(dot);document.body.appendChild(ring);
   document.body.classList.add("smooth-cursor");
-  let mx=window.innerWidth/2,my=window.innerHeight/2,rx=mx,ry=my;
+  const body=document.body;
+  // mx/my 用 NaN 表示「还没收到过真实指针位置」：在那之前不画圆点，
+  // 免得它凭空出现在屏幕正中（原来初值是窗口中心，首帧会闪一下）。
+  let mx=NaN,my=NaN,rx=NaN,ry=NaN;
+  // 节点补挂：任何脚本重建 body 子节点后把圆点/圆环接回来，否则它们会被
+  // 删掉且永不回来——这也是一类「光标丢失」。
+  function ensureMounted(){
+    if(!dot.isConnected)body.appendChild(dot);
+    if(!ring.isConnected)body.appendChild(ring);
+    if(!body.classList.contains("smooth-cursor"))body.classList.add("smooth-cursor");
+  }
   // 圆环 lerp 逼近指针，圆点直接跟随
-  function loop(){rx+=(mx-rx)*0.18;ry+=(my-ry)*0.18;dot.style.transform="translate("+mx+"px, "+my+"px)";ring.style.transform="translate("+rx+"px, "+ry+"px)";requestAnimationFrame(loop)}
+  function loop(){ensureMounted();if(mx===mx){rx+=(mx-rx)*0.18;ry+=(my-ry)*0.18;dot.style.transform="translate("+mx+"px, "+my+"px)";ring.style.transform="translate("+rx+"px, "+ry+"px)"}requestAnimationFrame(loop)}
   // 可交互元素：原版列表 + 当前站点的头像/名字（Cool Mode 喷粒子）与相册花瓣
   const INTERACTIVE="a, button, .chip, .followup, .suggest-item, .chat-clear, input, select, textarea, label, .portrait-frame, .portrait-name, .petal";
-  // V11：输入密集区让位给系统光标。数字分身与反馈区里有输入框、下拉与文本域，
-  // 隐藏系统光标会让「点哪儿能编辑」变得难以判断，也会削弱输入法候选框的定位感。
-  // 指针进入这两个区块时给 body 挂 .cursor-ui-off（样式见 style.css 末尾），
-  // 离开后自动摘掉，站内其它区域的平滑光标体验不受影响。
-  const CURSOR_UI_OFF=".chat-section, .feedback-section";
-  let cursorUiOff=false;
-  const syncCursorUi=target=>{
-    const off=!!(target&&target.closest&&target.closest(CURSOR_UI_OFF));
-    if(off===cursorUiOff)return;
-    cursorUiOff=off;
-    document.body.classList.toggle("cursor-ui-off",off);
-  };
-  window.addEventListener("mousemove",e=>{mx=e.clientX;my=e.clientY;document.body.classList.add("is-active");syncCursorUi(e.target);const target=e.target&&e.target.closest?e.target.closest(INTERACTIVE):null;dot.classList.toggle("is-hover",!!target);ring.classList.toggle("is-hover",!!target)});
+  // V16：这里原本是「让位给系统光标」的判定（V11 整块 .chat-section /
+  // .feedback-section，V15 收窄到 input / select / textarea），现在整套撤掉——
+  // 数字分身与反馈区要的是全程都有圆点+圆环，不留任何例外。
+  // 状态判定的唯一入口：mousemove 直接把 e.target 递进来（省掉一次 hit-test），
+  // 其它时机由 resync() 用 elementFromPoint 取指针底下当前是谁。
+  function sync(target){
+    const el=target&&target.nodeType===1?target:null;
+    const hit=el&&el.closest?el.closest(INTERACTIVE):null;
+    dot.classList.toggle("is-hover",!!hit);ring.classList.toggle("is-hover",!!hit);
+  }
+  // 指针没动、页面自己在动（滚轮、缩放、切语言、原生下拉收起、拖放结束）时
+  // 重新判定一次。用 rAF 合并，滚动过程中不会每来一个 scroll 就触发布局计算。
+  let resyncQueued=false;
+  function resync(){
+    if(mx!==mx||resyncQueued)return;
+    resyncQueued=true;
+    requestAnimationFrame(function(){resyncQueued=false;sync(document.elementFromPoint(mx,my))});
+  }
+  // 按下鼠标后拖到窗口外松手、或 Alt+Tab 切走，都收不到 mouseup：不主动清理的
+  // 话圆环会一直停在缩小态，看着就像「光标坏了」。
+  function release(){dot.classList.remove("is-down");ring.classList.remove("is-down")}
+  window.addEventListener("mousemove",e=>{mx=e.clientX;my=e.clientY;if(rx!==rx){rx=mx;ry=my}body.classList.add("is-active");sync(e.target)},{passive:true});
   window.addEventListener("mousedown",()=>{dot.classList.add("is-down");ring.classList.add("is-down")});
-  window.addEventListener("mouseup",()=>{dot.classList.remove("is-down");ring.classList.remove("is-down")});
-  document.addEventListener("mouseleave",()=>document.body.classList.remove("is-active"));
-  document.addEventListener("mouseenter",()=>document.body.classList.add("is-active"));
+  window.addEventListener("mouseup",release);
+  document.addEventListener("mouseleave",()=>{body.classList.remove("is-active");release()});
+  document.addEventListener("mouseenter",()=>{body.classList.add("is-active");resync()});
+  window.addEventListener("blur",()=>{release();resync()});
+  // scroll 用捕获：页面滚动与 .chat-box 这类内层滚动容器都能监听到。
+  // 这几个时机指针通常没动，但指针底下的元素已经换了。
+  ["scroll","resize","dragend","drop"].forEach(t=>window.addEventListener(t,resync,{passive:true,capture:true}));
+  document.addEventListener("visibilitychange",()=>{if(!document.hidden)resync()});
+  document.addEventListener("site:langchange",resync);
+  // 兜底：原生 select 弹层、拖拽、脚本改 DOM 这类不留事件的情况，每秒校验一次
+  setInterval(()=>{if(!document.hidden)resync()},1000);
   loop();
 })();
 
@@ -572,6 +614,11 @@ if(window.I18N){
       if(lbPrev)lbPrev.setAttribute("aria-label",t("js.lightbox.prev","上一张"));
       if(lbNext)lbNext.setAttribute("aria-label",t("js.lightbox.next","下一张"));
     }
+    //    花瓣图的 alt 由 index.html 的 data-i18n-attr 换成新语言了，但按钮化的
+    //    aria-label（含「放大查看」前缀）是 initLightbox 一次性拼好的，这里跟着重拼。
+    document.querySelectorAll(".petal img").forEach(im=>{
+      im.setAttribute("aria-label",t("js.lightbox.zoom","放大查看：")+(im.alt||t("js.lightbox.photo","照片")));
+    });
     // 4. 背景音乐气泡与按钮文案（audio 缺失时还要把排查提示重新贴回去）
     if(refreshBgmHint)refreshBgmHint();
     // 5. 输入框里刚打出来的联想词是按旧语言匹配的，直接收掉

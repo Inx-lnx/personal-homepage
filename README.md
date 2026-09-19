@@ -2,11 +2,14 @@
 
 这是一个**纯静态前端项目**，只有 HTML / CSS / JavaScript，无框架、无构建工具、无后端、无依赖。
 
-当前是 **V12**（已发布：<https://Inx-lnx.github.io/personal-homepage/>），视觉为**深空科技风 + 紫青渐变强调**：
+当前是 **V16**（已发布：<https://Inx-lnx.github.io/personal-homepage/>），视觉为**深空科技风 + 紫青渐变强调**：
 全屏深色首屏（打字机进场）、玻璃拟态卡片与 Bento 介绍区、经历时间线 / Now 两个内容区块、
 花瓣拼图相册（点击灯箱放大：内联小图 → 过渡图 → 高清图三级渐进）、终端式数字分身（53 条本地知识库）、像素化过渡页脚；字体已本地子集化托管，不依赖 Google Fonts；V10 起带 Service Worker，断网也能打开。
 V11 做的是**收敛与可读性**：收掉自动循环的边框灯带、把「灰字流动渐变」的范围缩回首屏标题与姓名两处，移动端首屏改用 `svh`，深色底小字统一提亮到 WCAG AA 之上，并补上「跳到主要内容」与全站 `:focus-visible`。
 V12 加了**整站英文版**：顶栏一个按钮切换中英，数字分身换了整套英文知识库，选择记在本地，也能用 `?lang=en` 直接进英文版（见下面「中英文切换」一节）。
+V13 给大标题第二行（`h2 em`）单独做了一份 MiSans 子集字体，并配了渐变效果（见下面「标题第二行换字体」一节）。
+V14 修掉自定义光标「偶尔不见 / 卡住」的老毛病：滚动、缩放、切语言、切窗口或标签页后都会按指针当前位置重新判定，不再需要「动一下鼠标」才恢复。
+V16 把「自定义光标在输入密集区让位给系统光标」这套机制**整套删除**：数字分身与反馈区（以及全站任何位置，包括输入框本身）都保持圆点 + 圆环；同时让新版 Service Worker 接管后自动刷新一次，改版后访客刷新一次即可看到新样式。
 
 ## 项目结构
 
@@ -21,7 +24,7 @@ V12 加了**整站英文版**：顶栏一个按钮切换中英，数字分身换
   sw.js               # Service Worker：离线缓存（V10，必须放在站点根目录）
   assets/
     style.css         # 深空科技风设计系统（响应式 + 减少动态效果支持）
-    app.js            # 数字分身（53 条本地知识库）+ 反馈提交 + 相册灯箱 + 进场动画 + 背景音乐 + SW 注册（V10）
+    app.js            # 数字分身（53 条本地知识库）+ 反馈提交 + 相册灯箱 + 进场动画 + 背景音乐 + 平滑光标（V16）+ SW 注册（V10）
     i18n.js           # 中英文案字典（V12）
     twin-en.js        # 数字分身的英文知识库：53 条，与中文表一一对应（V12）
     lang.js           # 语言引擎：检测 / 应用 / 切换 / 记忆（V12）
@@ -34,7 +37,7 @@ V12 加了**整站英文版**：顶栏一个按钮切换中英，数字分身换
     favicon.svg / icon-192.png / icon-512.png / apple-touch-icon.png
     gallery/          # 相册图片：花瓣显示图已内联进 index.html；preview-01~09（灯箱过渡图，长边 500px）+ view-01~09（灯箱高清图，长边 1400px）+ gallery-01~09（原图，仅网络快时后台升级用）
     music/            # 背景音乐目录（内置原创钢琴曲 bgm.mp3，详见该目录下 README.txt）
-    fonts/            # 本地字体子集：Inter + Noto Sans SC（3 个 woff2 + fonts.css，按站点用字生成）
+    fonts/            # 本地字体子集：Inter + Noto Sans SC（3 个 woff2 + fonts.css）+ 标题第二行专用的 MiSans（misans-title.woff2），都按站点实际用字生成
   tools/
     deploy_github_pages.py     # 一键发布到 GitHub Pages（只用 Python 标准库）
     capture_screenshots.py     # 生成 versions/ 里的整页截图（无头 Edge + CDP）
@@ -42,6 +45,7 @@ V12 加了**整站英文版**：顶栏一个按钮切换中英，数字分身换
     make_bgm.py                # 钢琴背景音乐生成器（可改速度/音量/结构重新生成）
     make_bgm_sampled.py        # 采样版背景音乐生成器
     subset_fonts.py            # 按站点实际用字生成字体子集（V9 起用这个）
+    subset_title_font.py       # 只给「大标题第二行」（h2 em）生成 MiSans 子集（V13 起用这个）
     localize_fonts.py          # 旧方案：整块搬 Google 的分块字体（已被 subset_fonts.py 取代）
   supabase/
     schema.sql        # 反馈表建表 + RLS 策略
@@ -191,8 +195,37 @@ python tools/subset_fonts.py --clean-old  # 生成子集，并把旧的 Google �
 
 - 脚本会把 Inter 的 `opsz`（光学尺寸）轴固定成默认值 —— Google 的分块没有这个轴，
   不固定的话浏览器会对较大字号自动套用光学尺寸，西文字宽会变（实测页脚邮箱链接窄 12px）。
-- 源字体缓存在 `tools/.fontcache/`（约 18 MB，`tools/` 不发布，只在本机用）。
+- 源字体缓存在 `tools/.fontcache/`（约 25 MB，`tools/` 不发布，只在本机用）。
   旧的 `tools/localize_fonts.py` 保留作参考，但已被 `tools/subset_fonts.py` 取代。
+
+### 标题第二行是另一款字体（V13 起）
+
+各区块 `h2` 的第二行，也就是 `index.html` 里那六个 `<em>`（首屏下方「真实、可见的
+作品。」「走到现在。」「能力矩阵。」「三件事。」「直接问我。」「会让这里更好。」），
+用的是**小米 MiSans**（Bold）而不是 Noto Sans SC —— 它的字形更几何、笔画更平直，
+做标题比思源黑更「硬」。
+
+| 项目 | 数值 |
+| --- | --- |
+| 实际文件 | `assets/fonts/misans-title.woff2` 12.6 KB（源字体 `MiSans-Bold.otf` 6.27 MB） |
+| 收字 | 203 个：六行标题的中英文案（含各自的英文版）+ ASCII 与常用标点打底 |
+| `@font-face` 位置 | `assets/style.css` 末尾「V13 · 标题第二行」一段，**不在** `fonts.css` 里 |
+| 动效 | 横向流光 11s + 柔光呼吸 7s，六处色相与相位各自错开；小屏只留流光，「减少动态效果」时全部停住 |
+
+它和 `subset_fonts.py` 是两条互不干扰的线：那边生成 `assets/fonts/fonts.css` 与三个
+woff2，这边只产出这一个字体文件，`@font-face` 写在 `style.css` 里 —— 所以重跑任何
+一个脚本都不会覆盖对方。改了这一行的文案后重跑：
+
+```powershell
+python tools/subset_title_font.py             # 生成子集
+python tools/subset_title_font.py --dry-run   # 只看会收哪些字，不下载不写文件
+```
+
+`unicode-range` 是宽写的（拉丁 + 常用 CJK 全段），字体里没有的字形会自动落回
+Inter / Noto Sans SC —— 以后往这行塞生僻字不会变方块，只是那一两个字换字体。
+
+想退回 V11 的静态灰字：删掉 `style.css` 末尾的「V13」整段即可
+（上游那条 `h2 em{color:#6f6f74}` 会重新生效）。
 
 改完后照常部署：
 
@@ -200,7 +233,7 @@ python tools/subset_fonts.py --clean-old  # 生成子集，并把旧的 Google �
 python tools/deploy_github_pages.py --token-file ..\.deepworks\tmp\github_token.txt --wait
 ```
 
-字体许可：Inter 与 Noto Sans SC 均为 **SIL Open Font License 1.1**，允许自托管与再分发。
+字体许可：Inter 与 Noto Sans SC 均为 **SIL Open Font License 1.1**，允许自托管与再分发；标题第二行用的 MiSans 由小米免费提供商用授权（遵循 MiSans 字体知识产权许可协议），本站只自托管子集、不随仓库分发完整字体。
 
 ## 离线可用（V10 · Service Worker）
 
@@ -209,11 +242,11 @@ python tools/deploy_github_pages.py --token-file ..\.deepworks\tmp\github_token.
 - **HTML**：网络优先，离线时回落到缓存里的首页。所以每次联网访问都能拿到最新页面，不会出现「改了却看不到」。
 - **静态资源**（CSS / JS / 字体 / 相册图 / 音乐）：缓存优先，第二次访问直接读本地缓存不走网络，同时后台悄悄更新。
 - 首页、404 页、样式、脚本、字体 CSS 在首次访问后预缓存；字体二进制与相册图在首次用到时自动入库。
-- 首次访问只是把 Service Worker 装上，**第二次打开（或再刷新一次）才由它接管**——这是浏览器规定，不是故障。
+- 首次访问只是把 Service Worker 装上，**第二次打开（或再刷新一次）才由它接管**——这是浏览器规定，不是故障。V16 起 `index.html` 末尾有一小段脚本（见文件内注释），会在新版接管的那一刻自动刷新一次，所以「页面还是旧的」这种情况刷新一次就能解决。
 
 ### 改了站点文件要顺手做一件事
 
-把 `sw.js` 顶部的版本号加一，例如 `const CACHE = "ph-v13";` → `const CACHE = "ph-v14";`。
+把 `sw.js` 顶部的版本号加一，例如 `const CACHE = "ph-v17";` → `const CACHE = "ph-v18";`。
 不加也能用，但要分清两种情况：HTML 走网络优先，所以页面文字照样是新的；而 `assets/app.js`、`assets/style.css` 这类静态资源走缓存优先，老访客会继续读旧版本。所以**只要改动涉及 CSS 或 JS，这个版本号就必须加**，否则会出现「页面变了、脚本没变」的错位。
 
 ### 怎么自己验证离线能不能用
@@ -231,11 +264,12 @@ python tools/deploy_github_pages.py --token-file ..\.deepworks\tmp\github_token.
 | `python -m http.server` 报“不是内部或外部命令” | 说明 Python 不在 PATH。方式 A 直接双击即可；或改用 `py -m http.server 8000`。 |
 | 端口被占用（Address already in use） | 换一个端口，如 `python -m http.server 8001`。 |
 | 页面空白、控制台报错 | 按 F12 看 Console。数字分身问答在 `app.js`，若报错通常是文件路径不对或文件损坏。 |
+| 鼠标指针（圆点 + 圆环）偶尔不见或卡住 | 那是自定义光标，只在有鼠标（`hover` 可用）且系统没开「减少动态效果」时启用。V14 起在滚动、缩放、切换语言、切换窗口/标签页后都会按指针当前位置重新判定，不再需要「动一下鼠标」才恢复。V16 起**全站统一显示**：数字分身、反馈区、以及输入框本身都有圆点 + 圆环，不再有「让位给系统光标」的例外（聚焦输入框后浏览器自带的文本插入符照常出现，不影响打字）。若整页都看不到，先刷新一次——V16 起新版 Service Worker 接管后会自动刷新一次，一次刷新即可生效（版本号见 `sw.js` 与上面「改了站点文件要顺手做一件事」）；再按 F12 看 Console 有无脚本报错。 |
 
 ## 说明
 
 - 数字分身是本地内置知识库：纯前端、不联网、不收集任何信息。
-- 当前是 **V12**（已发布上线：<https://Inx-lnx.github.io/personal-homepage/>）；从 V1 起每一版的截图与源码备份都放在 `versions/` 下（现有 `v1` / `v3` / `v4`）。
+- 当前是 **V16**（已发布上线：<https://Inx-lnx.github.io/personal-homepage/>）；从 V1 起每一版的截图与源码备份都放在 `versions/` 下（现有 `v1` / `v3` / `v4`）。
 
 ## 中英文切换（V12）
 

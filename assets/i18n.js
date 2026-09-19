@@ -89,6 +89,15 @@ window.SITE_I18N = {
     // ---------- 相册 ----------
     "gallery.title": "生活的切片。",
     "gallery.desc": "九张照片围成一朵花。<br />点击任意一张可放大查看。",
+    "gallery.alt1": "相册照片 1",
+    "gallery.alt2": "相册照片 2",
+    "gallery.alt3": "相册照片 3",
+    "gallery.alt4": "相册照片 4",
+    "gallery.alt5": "相册照片 5",
+    "gallery.alt6": "相册照片 6",
+    "gallery.alt7": "相册照片 7",
+    "gallery.alt8": "相册照片 8",
+    "gallery.alt9": "相册照片 9",
 
     // ---------- 数字分身 ----------
     "chat.title": "想了解更多？<br /><em>直接问我。</em>",
@@ -174,6 +183,8 @@ window.SITE_I18N = {
     "js.lightbox.prev": "上一张",
     "js.lightbox.next": "下一张",
     "js.lightbox.loading": "载入中… ",
+    "js.lightbox.zoom": "放大查看：",
+    "js.lightbox.photo": "照片",
     "js.copy.done": "已复制到剪贴板",
     "js.copy.fail": "复制失败，可手动选中",
     "js.fb.ok": "收到，谢谢你的反馈。",
@@ -261,6 +272,15 @@ window.SITE_I18N = {
     // ---------- 相册 ----------
     "gallery.title": "Slices of life.",
     "gallery.desc": "Nine photos arranged in a flower.<br />Click any one to enlarge it.",
+    "gallery.alt1": "Gallery photo 1",
+    "gallery.alt2": "Gallery photo 2",
+    "gallery.alt3": "Gallery photo 3",
+    "gallery.alt4": "Gallery photo 4",
+    "gallery.alt5": "Gallery photo 5",
+    "gallery.alt6": "Gallery photo 6",
+    "gallery.alt7": "Gallery photo 7",
+    "gallery.alt8": "Gallery photo 8",
+    "gallery.alt9": "Gallery photo 9",
 
     // ---------- 数字分身 ----------
     "chat.title": "Want to know more?<br /><em>Just ask me.</em>",
@@ -347,6 +367,8 @@ window.SITE_I18N = {
     "js.lightbox.prev": "Previous photo",
     "js.lightbox.next": "Next photo",
     "js.lightbox.loading": "Loading… ",
+    "js.lightbox.zoom": "Zoom in: ",
+    "js.lightbox.photo": "Photo",
     "js.copy.done": "Copied to clipboard",
     "js.copy.fail": "Copy failed — please select manually",
     "js.fb.ok": "Got it — thanks for the feedback.",
