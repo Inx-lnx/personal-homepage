@@ -12,7 +12,8 @@
 //   所以「你最近在做什么」不会被「你是谁」抢走。
 // 一条都没命中 → 用 FALLBACK 回答，并推荐几个「肯定答得上」的问题。
 // ============================================================
-const TWIN_KB=[
+// 中文知识库（英文版在 assets/twin-en.js，两张表同构、id 一一对应）
+const TWIN_KB_ZH=[
 /* ---------- 关于我 ---------- */
 {id:"greet",ask:"你好",keys:["你好","您好","hi","hello","嗨","在吗","在不在"],answer:"你好呀！我是崇施涵的数字分身，也就是他的「小抄版」。学习、AI、兴趣、这站怎么做出来的，都能问——问倒我算你厉害。"},
 {id:"who",ask:"你是谁？",keys:["你是谁","你的名字","你叫什么","自我介绍","介绍一下你","你是什么","你是干啥的"],answer:"我叫崇施涵：学生、开发者、二次元，三个词差不多够用。真人版在天津大学读计算机，平时在深圳学习，主攻 AI 应用；业余还有音乐、羽毛球和围棋。",followups:["你在学什么？","你最近在做什么？","怎么联系你？"]},
@@ -73,8 +74,21 @@ const TWIN_KB=[
 {id:"howlearn",ask:"你是怎么学编程的？",keys:["怎么学编程","怎么学的","学习方法","自学","怎么入门","学习方式"],answer:"边做边学：想做什么就先动手，卡住了再查文档、问 AI，做完回头补基础。这站本身就是练习册——每想加一个功能，就得多学一点。",followups:["你的学习经历是怎样的？","你用什么工具写代码？","你接下来打算做什么？"]},
 {id:"settle",ask:"你平时怎么放松？",keys:["放松","解压","减压","累的时候","怎么放松"],answer:"听歌、看番、偶尔打场球，三样轮着来，不挑场地。要是全用完了还没缓过来，那就再去改两行代码——看着它跑起来其实也挺解压的。",followups:["你有什么兴趣？","你喜欢哪些番？","你平时都在干嘛？"]}
 ];
+
+// ============================================================
+// 多语言 · 取文案的两个小工具
+// 字典在 assets/i18n.js、语言引擎在 assets/lang.js，两者都在本文件之前加载。
+// 第二个参数是「字典里万一没这条」时的中文兜底，保证任何时候都有话说。
+// ============================================================
+const t=(key,fallback)=>{const v=window.I18N?window.I18N.t(key):"";return typeof v==="string"&&v?v:fallback};
+const tList=(key,fallback)=>{const v=window.I18N?window.I18N.t(key):"";return Array.isArray(v)&&v.length?v:fallback};
+
+// 当前语言的知识库：中文用上面的 TWIN_KB_ZH，英文用 twin-en.js 的 TWIN_KB_EN。
+// 两张表 id 完全对应，所以匹配、追问、输入联想都不用分语言写两套。
+let TWIN_KB=window.I18N&&window.I18N.lang==="en"&&window.TWIN_KB_EN?window.TWIN_KB_EN:TWIN_KB_ZH;
+
 // 一条都没命中时的兜底：先认怂，再给 4 个「肯定答得上」的问题
-const FALLBACK={
+let FALLBACK={
   id:"fallback",
   answer:"这个问题超出我的小抄范围了（我是一页不联网的本地知识库，不是万能 AI）。要不咱换个方向——下面这几个我保证答得上来。",
   followups:["你是谁？","你最近在做什么？","你会做什么？","怎么联系你？"]
@@ -87,8 +101,10 @@ const FALLBACK={
 // 节点见 index.html 的 <section id="chat">
 // ============================================================
 const chatBox=document.getElementById("chat-box"),chatForm=document.getElementById("chat-form"),chatText=document.getElementById("chat-text"),chatClear=document.getElementById("chat-clear"),chatSuggest=document.getElementById("chat-suggest");
-const WELCOME="你好呀！我是崇施涵的数字分身，关于学习、AI、兴趣都可以问我～";
-const ASK_POOL=TWIN_KB.map(item=>item.ask).filter(Boolean);
+let WELCOME=t("js.welcome","你好呀！我是崇施涵的数字分身，关于学习、AI、兴趣都可以问我～");
+let ASK_POOL=TWIN_KB.map(item=>item.ask).filter(Boolean);
+// 背景音乐那段（本文件末尾）注册的刷新回调：切换语言时按当前语言重刷气泡与按钮文案
+let refreshBgmHint=null;
 
 // 归一化：去掉空白与常见标点、统一小写，让「你是谁？」与「你是谁」等价
 const normQ=text=>String(text||"").toLowerCase().replace(/[\s，。？！、,.?!~～…：:；;"'“”‘’（）()【】\[\]—-]/g,"");
@@ -223,19 +239,19 @@ document.querySelectorAll(".chat-quick .chip").forEach(chip=>chip.addEventListen
 
 const fbForm=document.getElementById("feedback-form"),fbStatus=document.getElementById("fb-status");
 function setFbStatus(text,cls){if(!fbStatus)return;fbStatus.textContent=text;fbStatus.className="fb-status"+(cls?" "+cls:"")}
-if(fbForm)fbForm.addEventListener("submit",async e=>{e.preventDefault();const name=document.getElementById("fb-name").value.trim(),relation=document.getElementById("fb-relation").value,message=document.getElementById("fb-message").value.trim(),btn=fbForm.querySelector(".form-submit"),cfg=window.SITE_CONFIG||{},honey=document.getElementById("fb-website");if(honey&&honey.value.trim()){fbForm.reset();setFbStatus("收到，谢谢你的反馈。","ok");return}if(!name||!relation||!message){setFbStatus("请把姓名、关系和留言填写完整。","warn");return}const lastAt=Number(localStorage.getItem("fb-last-at")||0);if(Date.now()-lastAt<60000){setFbStatus("刚提交过啦，等一分钟再发下一条吧。","warn");return}if(!cfg.isConfigured){setFbStatus("反馈功能正在配置中，你也可以直接给我发邮件。","warn");return}btn.disabled=true;btn.textContent="提交中…";try{const res=await fetch(cfg.supabaseUrl+"/rest/v1/feedback",{method:"POST",headers:{"Content-Type":"application/json",apikey:cfg.supabaseAnonKey,Authorization:"Bearer "+cfg.supabaseAnonKey,Prefer:"return=minimal"},body:JSON.stringify({name,relation,message})});if(!res.ok)throw new Error("HTTP "+res.status);localStorage.setItem("fb-last-at",String(Date.now()));setFbStatus("收到，谢谢你的反馈。","ok");fbForm.reset()}catch(err){console.error(err);setFbStatus("提交失败，请稍后再试。","warn")}finally{btn.disabled=false;btn.innerHTML="提交反馈 <b>↗</b>"}});
+if(fbForm)fbForm.addEventListener("submit",async e=>{e.preventDefault();const name=document.getElementById("fb-name").value.trim(),relation=document.getElementById("fb-relation").value,message=document.getElementById("fb-message").value.trim(),btn=fbForm.querySelector(".form-submit"),btnLabel=btn?btn.querySelector("span"):null,cfg=window.SITE_CONFIG||{},honey=document.getElementById("fb-website");if(honey&&honey.value.trim()){fbForm.reset();setFbStatus(t("js.fb.ok","收到，谢谢你的反馈。"),"ok");return}if(!name||!relation||!message){setFbStatus(t("js.fb.incomplete","请把姓名、关系和留言填写完整。"),"warn");return}const lastAt=Number(localStorage.getItem("fb-last-at")||0);if(Date.now()-lastAt<60000){setFbStatus(t("js.fb.rate","刚提交过啦，等一分钟再发下一条吧。"),"warn");return}if(!cfg.isConfigured){setFbStatus(t("js.fb.notConfigured","反馈功能正在配置中，你也可以直接给我发邮件。"),"warn");return}btn.disabled=true;btn.textContent=t("js.fb.submitting","提交中…");try{const res=await fetch(cfg.supabaseUrl+"/rest/v1/feedback",{method:"POST",headers:{"Content-Type":"application/json",apikey:cfg.supabaseAnonKey,Authorization:"Bearer "+cfg.supabaseAnonKey,Prefer:"return=minimal"},body:JSON.stringify({name,relation,message})});if(!res.ok)throw new Error("HTTP "+res.status);localStorage.setItem("fb-last-at",String(Date.now()));setFbStatus(t("js.fb.ok","收到，谢谢你的反馈。"),"ok");fbForm.reset()}catch(err){console.error(err);setFbStatus(t("js.fb.fail","提交失败，请稍后再试。"),"warn")}finally{btn.disabled=false;if(btnLabel)btnLabel.textContent=t("feedback.submit","提交反馈")}});
 
 (function initReveal(){if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;const targets=document.querySelectorAll(".statement>* ,.feature-card,.skills-heading,.skill-row,.section-head,.petal,.chat-copy,.chat-window,.feedback-section>*");targets.forEach(el=>el.classList.add("reveal"));const io=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add("is-visible");io.unobserve(entry.target)}}),{threshold:.08});targets.forEach(el=>io.observe(el))})();
 
-(function initLightbox(){const imgs=[...document.querySelectorAll(".petal img")];if(!imgs.length)return;let index=0;const overlay=document.createElement("div"),image=document.createElement("img"),close=document.createElement("button"),prev=document.createElement("button"),next=document.createElement("button"),counter=document.createElement("span");overlay.className="lightbox";overlay.setAttribute("role","dialog");overlay.setAttribute("aria-modal","true");overlay.setAttribute("aria-label","照片查看");let lastFocus=null;close.className="lb-close";close.textContent="×";close.setAttribute("aria-label","关闭");prev.className="lb-prev";prev.textContent="‹";prev.setAttribute("aria-label","上一张");next.className="lb-next";next.textContent="›";next.setAttribute("aria-label","下一张");counter.className="lb-count";counter.setAttribute("aria-live","polite");overlay.append(image,close,prev,next,counter);document.body.appendChild(overlay);const render=()=>{const img=imgs[index];const tok=String(index)+"|"+(img.currentSrc||img.src);image.dataset.tok=tok;image.src=img.currentSrc||img.src;image.alt=img.alt;counter.textContent="载入中… "+(index+1)+" / "+imgs.length;const seq=[img.dataset.hi,img.dataset.view].filter(Boolean);let k=0,lastDt=9999;const step=()=>{if(k>=seq.length){counter.textContent=(index+1)+" / "+imgs.length;const c=navigator.connection||{};if(c.saveData||/(^|-)2g$|^3g$/.test(c.effectiveType||"")||lastDt>1500)return;const full=img.dataset.full;if(!full)return;const big=new Image();big.onload=()=>{if(image.dataset.tok===tok&&big.naturalWidth>image.naturalWidth*1.2)image.src=full};big.src=full;return}const url=seq[k++];const ts=Date.now();const t=new Image();t.onload=()=>{if(image.dataset.tok!==tok)return;lastDt=Date.now()-ts;image.src=url;step()};t.onerror=()=>{if(image.dataset.tok===tok)step()};t.src=url};step()};const show=i=>{index=(i+imgs.length)%imgs.length;render()};const hide=()=>{overlay.classList.remove("is-open");if(lastFocus&&lastFocus.focus)lastFocus.focus();lastFocus=null};const openAt=i=>{lastFocus=document.activeElement;show(i);overlay.classList.add("is-open");close.focus()};imgs.forEach((img,i)=>{img.tabIndex=0;img.setAttribute("role","button");img.setAttribute("aria-label","放大查看："+(img.alt||"照片"));img.addEventListener("click",()=>openAt(i));img.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();openAt(i)}})});prev.addEventListener("click",e=>{e.stopPropagation();show(index-1)});next.addEventListener("click",e=>{e.stopPropagation();show(index+1)});close.addEventListener("click",hide);overlay.addEventListener("click",e=>{if(e.target===overlay)hide()});overlay.addEventListener("keydown",e=>{if(e.key!=="Tab")return;const f=[close,prev,next];const cur=f.indexOf(document.activeElement);e.preventDefault();f[e.shiftKey?((cur<=0?f.length:cur)-1):(cur>=f.length-1?0:cur+1)].focus()});document.addEventListener("keydown",e=>{if(!overlay.classList.contains("is-open"))return;if(e.key==="Escape")hide();if(e.key==="ArrowLeft")show(index-1);if(e.key==="ArrowRight")show(index+1)})})();
+(function initLightbox(){const imgs=[...document.querySelectorAll(".petal img")];if(!imgs.length)return;let index=0;const overlay=document.createElement("div"),image=document.createElement("img"),close=document.createElement("button"),prev=document.createElement("button"),next=document.createElement("button"),counter=document.createElement("span");overlay.className="lightbox";overlay.setAttribute("role","dialog");overlay.setAttribute("aria-modal","true");overlay.setAttribute("aria-label",t("js.lightbox.label","照片查看"));let lastFocus=null;close.className="lb-close";close.textContent="×";close.setAttribute("aria-label",t("js.lightbox.close","关闭"));prev.className="lb-prev";prev.textContent="‹";prev.setAttribute("aria-label",t("js.lightbox.prev","上一张"));next.className="lb-next";next.textContent="›";next.setAttribute("aria-label",t("js.lightbox.next","下一张"));counter.className="lb-count";counter.setAttribute("aria-live","polite");overlay.append(image,close,prev,next,counter);document.body.appendChild(overlay);const render=()=>{const img=imgs[index];const tok=String(index)+"|"+(img.currentSrc||img.src);image.dataset.tok=tok;image.src=img.currentSrc||img.src;image.alt=img.alt;counter.textContent=t("js.lightbox.loading","载入中… ")+(index+1)+" / "+imgs.length;const seq=[img.dataset.hi,img.dataset.view].filter(Boolean);let k=0,lastDt=9999;const step=()=>{if(k>=seq.length){counter.textContent=(index+1)+" / "+imgs.length;const c=navigator.connection||{};if(c.saveData||/(^|-)2g$|^3g$/.test(c.effectiveType||"")||lastDt>1500)return;const full=img.dataset.full;if(!full)return;const big=new Image();big.onload=()=>{if(image.dataset.tok===tok&&big.naturalWidth>image.naturalWidth*1.2)image.src=full};big.src=full;return}const url=seq[k++];const ts=Date.now();const t=new Image();t.onload=()=>{if(image.dataset.tok!==tok)return;lastDt=Date.now()-ts;image.src=url;step()};t.onerror=()=>{if(image.dataset.tok===tok)step()};t.src=url};step()};const show=i=>{index=(i+imgs.length)%imgs.length;render()};const hide=()=>{overlay.classList.remove("is-open");if(lastFocus&&lastFocus.focus)lastFocus.focus();lastFocus=null};const openAt=i=>{lastFocus=document.activeElement;show(i);overlay.classList.add("is-open");close.focus()};imgs.forEach((img,i)=>{img.tabIndex=0;img.setAttribute("role","button");img.setAttribute("aria-label","放大查看："+(img.alt||"照片"));img.addEventListener("click",()=>openAt(i));img.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();openAt(i)}})});prev.addEventListener("click",e=>{e.stopPropagation();show(index-1)});next.addEventListener("click",e=>{e.stopPropagation();show(index+1)});close.addEventListener("click",hide);overlay.addEventListener("click",e=>{if(e.target===overlay)hide()});overlay.addEventListener("keydown",e=>{if(e.key!=="Tab")return;const f=[close,prev,next];const cur=f.indexOf(document.activeElement);e.preventDefault();f[e.shiftKey?((cur<=0?f.length:cur)-1):(cur>=f.length-1?0:cur+1)].focus()});document.addEventListener("keydown",e=>{if(!overlay.classList.contains("is-open"))return;if(e.key==="Escape")hide();if(e.key==="ArrowLeft")show(index-1);if(e.key==="ArrowRight")show(index+1)})})();
 
 document.getElementById("back-top")?.addEventListener("click",()=>window.scrollTo({top:0,behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"}));
 
 // 复制邮箱：内容保护开着的时候右键/选中都不方便，给个一键复制
-(function initCopyMail(){const btn=document.getElementById("copy-mail"),tip=document.getElementById("copy-mail-status");if(!btn||!tip)return;const mail=btn.dataset.mail||"";let timer=0;const say=t=>{tip.textContent=t;clearTimeout(timer);timer=setTimeout(()=>{tip.textContent=""},2600)};btn.addEventListener("click",async()=>{try{if(navigator.clipboard&&navigator.clipboard.writeText){await navigator.clipboard.writeText(mail)}else{const ta=document.createElement("textarea");ta.value=mail;ta.setAttribute("readonly","");ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);ta.select();document.execCommand("copy");ta.remove()}say("已复制到剪贴板")}catch(err){console.warn(err);say("复制失败，可手动选中")}})})();
+(function initCopyMail(){const btn=document.getElementById("copy-mail"),tip=document.getElementById("copy-mail-status");if(!btn||!tip)return;const mail=btn.dataset.mail||"";let timer=0;const say=t=>{tip.textContent=t;clearTimeout(timer);timer=setTimeout(()=>{tip.textContent=""},2600)};btn.addEventListener("click",async()=>{try{if(navigator.clipboard&&navigator.clipboard.writeText){await navigator.clipboard.writeText(mail)}else{const ta=document.createElement("textarea");ta.value=mail;ta.setAttribute("readonly","");ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);ta.select();document.execCommand("copy");ta.remove()}say(t("js.copy.done","已复制到剪贴板"))}catch(err){console.warn(err);say(t("js.copy.fail","复制失败，可手动选中"))}})})();
 
 // 打字机状态行（原版效果）：逐字打出 → 停顿 → 逐字删除 → 下一句
-(function initTyped(){const typedEl=document.getElementById("typed-text"),cursorEl=document.querySelector(".type-cursor");if(!typedEl)return;const PHRASES=["高数 · 英语 · AI 应用","练习编程中","听着音乐学习","会打羽毛球","爱看二次元","把主页迭代到 V4"];if(matchMedia("(prefers-reduced-motion: reduce)").matches){typedEl.textContent=PHRASES[0];return}let phraseIdx=0,charIdx=0,deleting=false;function step(){const phrase=PHRASES[phraseIdx];if(!deleting){charIdx++;typedEl.textContent=phrase.slice(0,charIdx);cursorEl&&cursorEl.classList.remove("is-idle");if(charIdx>=phrase.length){deleting=true;cursorEl&&cursorEl.classList.add("is-idle");setTimeout(step,1800);return}setTimeout(step,90)}else{charIdx--;typedEl.textContent=phrase.slice(0,charIdx);cursorEl&&cursorEl.classList.remove("is-idle");if(charIdx<=0){deleting=false;phraseIdx=(phraseIdx+1)%PHRASES.length;setTimeout(step,400);return}setTimeout(step,50)}}setTimeout(step,800)})();
+(function initTyped(){const typedEl=document.getElementById("typed-text"),cursorEl=document.querySelector(".type-cursor");if(!typedEl)return;const PHRASES=tList("js.typed",["高数 · 英语 · AI 应用","练习编程中","听着音乐学习","会打羽毛球","爱看二次元","把主页迭代到 V4"]);if(matchMedia("(prefers-reduced-motion: reduce)").matches){typedEl.textContent=PHRASES[0];return}let phraseIdx=0,charIdx=0,deleting=false;function step(){const phrase=PHRASES[phraseIdx];if(!deleting){charIdx++;typedEl.textContent=phrase.slice(0,charIdx);cursorEl&&cursorEl.classList.remove("is-idle");if(charIdx>=phrase.length){deleting=true;cursorEl&&cursorEl.classList.add("is-idle");setTimeout(step,1800);return}setTimeout(step,90)}else{charIdx--;typedEl.textContent=phrase.slice(0,charIdx);cursorEl&&cursorEl.classList.remove("is-idle");if(charIdx<=0){deleting=false;phraseIdx=(phraseIdx+1)%PHRASES.length;setTimeout(step,400);return}setTimeout(step,50)}}setTimeout(step,800)})();
 
 // ============================================================
 // Meteors · 流星雨背景（原版 v3 效果，注入 Hero 区）
@@ -426,29 +442,39 @@ document.getElementById("back-top")?.addEventListener("click",()=>window.scrollT
   const readStore=key=>{try{return localStorage.getItem(key)}catch(err){return null}};
   const writeStore=(key,val)=>{try{localStorage.setItem(key,val)}catch(err){}};
 
-  // 气泡文案由 config.js 控制，改文案不用动这里的代码
-  if(hintTitle&&cfg.title)hintTitle.textContent=cfg.title;
-  if(hintText&&cfg.hint)hintText.textContent=cfg.hint;
+  // 气泡文案：HTML 上标了 data-i18n 的，中英文都交给 assets/i18n.js 的字典
+  // （切换由 lang.js 负责）；没标 data-i18n 的老页面仍认 config.js 的 title / hint。
+  const hasI18n=el=>!!(el&&el.hasAttribute("data-i18n"));
+  const setHint=(titleText,textText)=>{
+    if(hintTitle&&!hasI18n(hintTitle)&&titleText)hintTitle.textContent=titleText;
+    if(hintText&&!hasI18n(hintText)&&textText)hintText.textContent=textText;
+  };
+  setHint(cfg.title,cfg.hint);
 
   const setState=state=>{
     dock.dataset.state=state;
     const playing=state==="playing";
     btn.setAttribute("aria-pressed",playing?"true":"false");
-    btn.setAttribute("aria-label",playing?"暂停背景音乐":"播放背景音乐");
+    btn.setAttribute("aria-label",playing?t("bgm.btnPause","暂停背景音乐"):t("bgm.btnPlay","播放背景音乐"));
   };
   const openHint=()=>dock.classList.add("is-hint-open");
   // remember=true 表示「以后不用再主动弹这条提示了」
   const closeHint=remember=>{dock.classList.remove("is-hint-open");if(remember)writeStore(STORE_HINT,"1")};
   // 音频缺失时的排查提示（站长把文件放对后，访客就再也不会看到它）
   const showMissingHint=()=>{
-    if(hintTitle)hintTitle.textContent="还没找到音乐文件";
-    if(hintText)hintText.textContent="把 mp3 放到 assets/music/bgm.mp3，或在 config.js 里改 music.src。";
+    if(hintTitle)hintTitle.textContent=t("bgm.missingTitle","还没找到音乐文件");
+    if(hintText)hintText.textContent=t("bgm.missingText","把 mp3 放到 assets/music/bgm.mp3，或在 config.js 里改 music.src。");
     openHint();
   };
-  // 恢复 config.js 里配置的原始气泡文案
-  const restoreHint=()=>{
-    if(hintTitle&&cfg.title)hintTitle.textContent=cfg.title;
-    if(hintText&&cfg.hint)hintText.textContent=cfg.hint;
+  // 恢复配置里的原始气泡文案
+  const restoreHint=()=>{setHint(cfg.title,cfg.hint)};
+  // 切换语言后由 syncLang() 调用：把按钮的 aria-label 和气泡文案按当前语言刷新一遍
+  // （气泡文案若被 lang.js 的字典覆盖，missing 状态下要重新显示排查提示）
+  refreshBgmHint=()=>{
+    const playing=dock.dataset.state==="playing";
+    btn.setAttribute("aria-label",playing?t("bgm.btnPause","暂停背景音乐"):t("bgm.btnPlay","播放背景音乐"));
+    if(dock.dataset.state==="missing")showMissingHint();
+    else restoreHint();
   };
 
   const tryPlay=()=>{
@@ -514,3 +540,41 @@ setTimeout(()=>{document.querySelectorAll(".reveal").forEach(el=>el.classList.ad
 
 /* V10 离线可用：注册 Service Worker（仅 http/https，file:// 打开时自动跳过） */
 if("serviceWorker" in navigator && location.protocol.indexOf("http")===0){window.addEventListener("load",()=>{navigator.serviceWorker.register("sw.js").catch(()=>{});});}
+
+// ============================================================
+// V12 · 中英文切换：重建「依赖语言」的那几样东西
+// 由 assets/lang.js 的 onChange 负责触发——它在启动时会立刻用当前语言跑一次，
+// 所以这里不需要再自己初始化一遍，之后每点一次切换按钮都会再跑。
+// 静态文案（标题、段落、按钮、placeholder…）不归这里管，见 index.html 的
+// data-i18n* 属性与 assets/lang.js 的 apply()。
+// ============================================================
+if(window.I18N){
+  window.I18N.onChange(lang=>{
+    const isEn=lang==="en";
+    // 1. 知识库换成对应语言的那一张表，兜底文案与输入联想池跟着重建
+    TWIN_KB=isEn&&window.TWIN_KB_EN?window.TWIN_KB_EN:TWIN_KB_ZH;
+    ASK_POOL=TWIN_KB.map(item=>item.ask).filter(Boolean);
+    WELCOME=t("js.welcome","你好呀！我是崇施涵的数字分身，关于学习、AI、兴趣都可以问我～");
+    FALLBACK={
+      id:"fallback",
+      answer:t("js.fallback","这个问题超出我的小抄范围了（我是一页不联网的本地知识库，不是万能 AI）。要不咱换个方向——下面这几个我保证答得上来。"),
+      followups:tList("js.fallbackFollowups",["你是谁？","你最近在做什么？","你会做什么？","怎么联系你？"])
+    };
+    // 2. 重开对话：换语言前已经答过的内容不翻译，那是访客自己问出来的记录，
+    //    与其留半截旧语言的回答，不如清干净、用新语言的欢迎语重来。
+    resetChat();
+    // 3. 相册灯箱的读屏标签（灯箱节点由 initLightbox 建好后一直在 DOM 里）
+    const lb=document.querySelector(".lightbox");
+    if(lb){
+      lb.setAttribute("aria-label",t("js.lightbox.label","照片查看"));
+      const lbClose=lb.querySelector(".lb-close"),lbPrev=lb.querySelector(".lb-prev"),lbNext=lb.querySelector(".lb-next");
+      if(lbClose)lbClose.setAttribute("aria-label",t("js.lightbox.close","关闭"));
+      if(lbPrev)lbPrev.setAttribute("aria-label",t("js.lightbox.prev","上一张"));
+      if(lbNext)lbNext.setAttribute("aria-label",t("js.lightbox.next","下一张"));
+    }
+    // 4. 背景音乐气泡与按钮文案（audio 缺失时还要把排查提示重新贴回去）
+    if(refreshBgmHint)refreshBgmHint();
+    // 5. 输入框里刚打出来的联想词是按旧语言匹配的，直接收掉
+    hideSuggest();
+  });
+}

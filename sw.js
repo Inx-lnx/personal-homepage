@@ -1,6 +1,6 @@
 /* 离线可用：HTML 走网络优先（保证部署后立刻拿到新版），静态资源走缓存优先（重复访问不再走网络）。
    改动站点文件后，请把下面的 CACHE 版本号 +1，旧缓存会在 activate 时清掉。 */
-const CACHE = "ph-v12";
+const CACHE = "ph-v13";
 const OFFLINE_FALLBACK = "index.html";
 
 /* 安装时预缓存的关键骨架：不含字体二进制与相册图，避免慢网下安装阶段抢带宽；
@@ -17,6 +17,9 @@ const SHELL = [
   "assets/config.js",
   "assets/cool-mode.js",
   "assets/meteors.js",
+  "assets/i18n.js",
+  "assets/twin-en.js",
+  "assets/lang.js",
   "assets/fonts/fonts.css"
 ];
 

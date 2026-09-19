@@ -345,3 +345,31 @@ body.smooth-cursor.cursor-ui-off *{cursor:auto!important}
 .skip-link{position:absolute;left:-9999px;top:0;z-index:3000;background:var(--purple);color:#fff;padding:12px 18px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
 .skip-link:focus{left:12px;top:12px}
 a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible,[tabindex]:focus-visible{outline:2px solid #67e8f9;outline-offset:3px}
+
+/* ============================================================
+   V12 · 中英文切换（语言引擎见 assets/lang.js）
+   切语言只改 html[lang] 与 data-lang，所以「英文比中文长一截」这类排版
+   问题，全用 html[lang="en"] 前缀单独兜，中文版观感一点不动。
+   ============================================================ */
+
+/* ---------- 1. 顶栏右侧：语言按钮 + 联系我 ---------- */
+.topbar-actions{justify-self:end;display:flex;align-items:center;gap:14px}
+.lang-toggle{display:inline-flex;align-items:center;white-space:nowrap;border:1px solid #3b3b42;background:transparent;color:#c9c9cf;font:inherit;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:11px 13px;cursor:pointer;transition:border-color .25s,background .25s,color .25s}
+.lang-toggle:hover{border-color:var(--purple2);background:rgba(157,86,255,.14);color:#fff}
+
+/* ---------- 2. 英文版排版微调 ----------
+   英文句子比中文长，同一个位置换语言后会多折一两行。这里只收紧字号，
+   不改布局结构，中英两版的栅格与断点完全一致。 */
+html[lang="en"] h1{font-size:clamp(44px,4.8vw,76px);line-height:.98;letter-spacing:-.045em}
+html[lang="en"] .hero-intro{max-width:580px}
+html[lang="en"] .portrait-name .aurora-text{font-size:clamp(22px,2.3vw,34px);letter-spacing:.05em}
+html[lang="en"] .footer-brand strong{font-size:26px}
+html[lang="en"] .desktop-nav{gap:24px;letter-spacing:.08em}
+
+@media(max-width:600px){
+  .topbar-actions{gap:9px}
+  .lang-toggle{padding:9px 10px;letter-spacing:.09em}
+  html[lang="en"] h1{font-size:clamp(36px,9.6vw,50px)}
+  html[lang="en"] .portrait-name .aurora-text{font-size:22px;letter-spacing:.03em}
+}
+@media(prefers-reduced-motion:reduce){.lang-toggle{transition:none}}

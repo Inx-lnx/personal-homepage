@@ -2,16 +2,17 @@
 
 这是一个**纯静态前端项目**，只有 HTML / CSS / JavaScript，无框架、无构建工具、无后端、无依赖。
 
-当前是 **V11**（已发布：<https://Inx-lnx.github.io/personal-homepage/>），视觉为**深空科技风 + 紫青渐变强调**：
+当前是 **V12**（已发布：<https://Inx-lnx.github.io/personal-homepage/>），视觉为**深空科技风 + 紫青渐变强调**：
 全屏深色首屏（打字机进场）、玻璃拟态卡片与 Bento 介绍区、经历时间线 / Now 两个内容区块、
 花瓣拼图相册（点击灯箱放大：内联小图 → 过渡图 → 高清图三级渐进）、终端式数字分身（53 条本地知识库）、像素化过渡页脚；字体已本地子集化托管，不依赖 Google Fonts；V10 起带 Service Worker，断网也能打开。
 V11 做的是**收敛与可读性**：收掉自动循环的边框灯带、把「灰字流动渐变」的范围缩回首屏标题与姓名两处，移动端首屏改用 `svh`，深色底小字统一提亮到 WCAG AA 之上，并补上「跳到主要内容」与全站 `:focus-visible`。
+V12 加了**整站英文版**：顶栏一个按钮切换中英，数字分身换了整套英文知识库，选择记在本地，也能用 `?lang=en` 直接进英文版（见下面「中英文切换」一节）。
 
 ## 项目结构
 
 ```
 个人主页/
-  index.html          # 页面入口（主文件）
+  index.html          # 页面入口（主文件，文案上标着 data-i18n / data-i18n-html / data-i18n-attr）
   404.html            # 404 页面（回首页 / 问数字分身两个出口）
   manifest.webmanifest# PWA 清单（图标名与主题色）
   favicon.ico
@@ -21,6 +22,9 @@ V11 做的是**收敛与可读性**：收掉自动循环的边框灯带、把「
   assets/
     style.css         # 深空科技风设计系统（响应式 + 减少动态效果支持）
     app.js            # 数字分身（53 条本地知识库）+ 反馈提交 + 相册灯箱 + 进场动画 + 背景音乐 + SW 注册（V10）
+    i18n.js           # 中英文案字典（V12）
+    twin-en.js        # 数字分身的英文知识库：53 条，与中文表一一对应（V12）
+    lang.js           # 语言引擎：检测 / 应用 / 切换 / 记忆（V12）
     cool-mode.js      # cool 输入彩蛋：粒子特效
     meteors.js        # 流星雨背景
     config.js         # Supabase 公开配置 + 背景音乐配置 + 内容保护开关
@@ -209,7 +213,7 @@ python tools/deploy_github_pages.py --token-file ..\.deepworks\tmp\github_token.
 
 ### 改了站点文件要顺手做一件事
 
-把 `sw.js` 顶部的版本号加一，例如 `const CACHE = "ph-v12";` → `const CACHE = "ph-v13";`。
+把 `sw.js` 顶部的版本号加一，例如 `const CACHE = "ph-v13";` → `const CACHE = "ph-v14";`。
 不加也能用，但要分清两种情况：HTML 走网络优先，所以页面文字照样是新的；而 `assets/app.js`、`assets/style.css` 这类静态资源走缓存优先，老访客会继续读旧版本。所以**只要改动涉及 CSS 或 JS，这个版本号就必须加**，否则会出现「页面变了、脚本没变」的错位。
 
 ### 怎么自己验证离线能不能用
@@ -231,7 +235,48 @@ python tools/deploy_github_pages.py --token-file ..\.deepworks\tmp\github_token.
 ## 说明
 
 - 数字分身是本地内置知识库：纯前端、不联网、不收集任何信息。
-- 当前是 **V4**（已发布上线：<https://Inx-lnx.github.io/personal-homepage/>）；从 V1 起每一版的截图与源码备份都放在 `versions/` 下（现有 `v1` / `v3` / `v4`）。
+- 当前是 **V12**（已发布上线：<https://Inx-lnx.github.io/personal-homepage/>）；从 V1 起每一版的截图与源码备份都放在 `versions/` 下（现有 `v1` / `v3` / `v4`）。
+
+## 中英文切换（V12）
+
+顶栏那个 `EN / 中文` 按钮就是入口：点一下整站换语言，选择记在 `localStorage` 的 `csh-lang` 里，下次打开还是这个语言。想直接进英文版用 `?lang=en`（按钮切换时也会顺手把这个参数写进地址栏，方便复制给别人）。
+
+语言按这个顺序定：`?lang=` → `localStorage` → 浏览器语言（`navigator.language`）→ 默认中文。`zh-CN` / `en-US` 这类带地区的值会收敛成 `zh` / `en`，其它语言一律回落到中文；因为中文是默认，切回中文时会把地址栏里的 `?lang` 参数删掉。
+
+拆成三个文件：
+
+| 文件 | 干什么 |
+| --- | --- |
+| `assets/i18n.js` | 文案字典 `window.SITE_I18N = { zh:{…}, en:{…} }`，中英两份 key 同名 |
+| `assets/twin-en.js` | 数字分身的英文知识库 `window.TWIN_KB_EN`，与中文表同构、`id` 一一对应 |
+| `assets/lang.js` | 语言引擎：检测当前语言、把字典刷到页面、切按钮、写 URL 与 `localStorage` |
+
+### 页面文案怎么跟字典对上
+
+HTML 里不写脚本，只挂属性（`lang.js` 启动时扫一遍，每次切换再扫一遍）：
+
+| 属性 | 作用 |
+| --- | --- |
+| `data-i18n="key"` | 用字典里的纯文本替换 `textContent` |
+| `data-i18n-html="key"` | 用字典里的 HTML 替换 `innerHTML`，值里可以有 `<br>` / `<em>` / `<small>` |
+| `data-i18n-attr="placeholder:key;aria-label:key2"` | 按属性名逐个替换 |
+| `data-i18n-q="key"` | 替换 `data-q`：快捷提问按钮上显示的字，和实际问出去的那句话可以不一样 |
+
+带箭头的按钮这样写：`<span data-i18n="key">中文</span> <b>↗</b>`——箭头不进字典，字典里只写文字。两种语言写法一样的元素（比如 `SCROLL TO EXPLORE`）不加任何标注。
+
+### 脚本里的文案
+
+`assets/app.js` 顶上备了两个取值工具：`t("key", 中文兜底)` 取字符串，`tList("key", 中文兜底)` 取数组（打字机短语、未命中的推荐问题用这个）。只给脚本用的 key 统一挂 `js.` 前缀，好在字典里一眼分出来。
+
+切换语言时 `lang.js` 会通知所有监听者（`window.I18N.onChange(fn)`，也会派发一次 `site:langchange` 事件），`app.js` 据此重建跟语言绑在一起的东西：换知识库、换欢迎语与兜底答案、重开对话、重刷灯箱读屏标签与背景音乐气泡。已经答过的内容不翻译——那是访客自己问出来的记录，与其留半截旧语言，不如清干净用新语言重来。
+
+### 想加一句翻译
+
+两处都写：`assets/i18n.js` 的 `zh` 与 `en` 各加一行同名 key，再在 HTML 对应元素上挂 `data-i18n`。只写一边不会报错，只是那一处会停在上一次的语言。
+
+### 改英文知识库
+
+跟中文一样在 `assets/twin-en.js` 里改，但有两条硬规矩：`followups` 必须与目标条目的 `ask` **逐字一致**（追问按钮就是拿这串字去提问的）；`keys` 全小写、撇号和空格会被 `normQ` 去掉（所以写 `whats` 而不是 `what's`），另外别用太短的词当命中词，容易误伤别的问法。
 
 ## 数字分身怎么改（V4：53 条本地知识库）
 
