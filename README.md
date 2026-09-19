@@ -209,8 +209,8 @@ python tools/deploy_github_pages.py --token-file ..\.deepworks\tmp\github_token.
 
 ### 改了站点文件要顺手做一件事
 
-把 `sw.js` 顶部的版本号加一，例如 `const CACHE = "ph-v11";` → `const CACHE = "ph-v12";`。
-不加也能用（HTML 走网络优先，内容照样是新的），但旧缓存文件会一直留在访客浏览器里。
+把 `sw.js` 顶部的版本号加一，例如 `const CACHE = "ph-v12";` → `const CACHE = "ph-v13";`。
+不加也能用，但要分清两种情况：HTML 走网络优先，所以页面文字照样是新的；而 `assets/app.js`、`assets/style.css` 这类静态资源走缓存优先，老访客会继续读旧版本。所以**只要改动涉及 CSS 或 JS，这个版本号就必须加**，否则会出现「页面变了、脚本没变」的错位。
 
 ### 怎么自己验证离线能不能用
 
