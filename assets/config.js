@@ -19,6 +19,22 @@ window.SITE_CONFIG = {
   blockSelect: false,     // 允许选中 / 复制文本：设为 true 会让访客没法复制邮箱地址，得不偿失
   blockImageSave: true,   // 禁止拖拽图片，以及长按 / 右键另存图片
 
+  // ---- V17 内容保护增强（实现见 app.js 的 initContentProtection，样式见 style.css 末尾）----
+  // 目标：把「随手看源码 / 右键保存」抬高一档，并且拦住「整站抄走、换个域名上线」这一种。
+  // 仍然只是威慑、不是加密：HTML/CSS/JS 与图片都必须下发给浏览器，
+  // view-source:、开发者工具菜单、抓包、wget / HTTrack 依然能拿到同样的内容。
+  // 本地预览（localhost / 127.0.0.1 / 局域网 IP / file://）会自动跳过下面全部增强项，
+  // 方便自己在本地调试；线上授权域名的正常访客也完全无感。
+  blockDevtools: true,    // 检测到开发者工具「停靠」打开 → 盖一层遮罩，关掉开发者工具后自动消失
+  blockFraming: true,     // 禁止本站被别的网页用 iframe 嵌套（防「套壳镜像」）
+  blockCopySite: true,    // 域名校验：非授权域名打开本站 → 顶部显示版权提示条
+  blockCrawlers: true,    // 自动化工具 / 下载器（wget、HTTrack、爬虫框架）→ 控制台留痕警告
+  consoleWarning: true,   // 在开发者工具 Console 打印版权声明
+  // 授权域名白名单：以后换了域名、或绑了自定义域名，务必把新域名补进来，
+  // 否则访客打开会看到版权提示条。子域自动放行（写了 inx-lnx.github.io，
+  // www.inx-lnx.github.io 也算授权）。本地预览不需要写在这里。
+  allowedHosts: ["inx-lnx.github.io"],
+
   // ---- 背景音乐（实现见 app.js 的 initBackgroundMusic，样式见 style.css 末尾）----
   // 用法：把你的 mp3 放进 assets/music/ 目录。
   //       默认约定文件名就是 bgm.mp3，所以直接改名成 bgm.mp3 丢进去即可，不用改代码；

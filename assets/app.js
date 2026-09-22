@@ -404,6 +404,10 @@ document.getElementById("back-top")?.addEventListener("click",()=>window.scrollT
 // ContentProtection · 内容保护（右键 / 查看源代码 / 选中 / 图片另存）
 // 说明：挡掉随手右键、F12、Ctrl+U、拖选文字、拖拽或长按保存图片，
 //       劝退顺手搬走内容与源码的访客。
+// V17 增强（第 4~8 条）：开发者工具停靠检测、禁止被 iframe 嵌套、
+//       非授权域名版权提示条、自动化工具留痕、Console 版权声明。
+//       上述增强项在本地预览（localhost / 127.0.0.1 / 局域网 IP / file://）下
+//       自动跳过，方便自己调试；开关全在 config.js。
 //       ⚠️ 这只是「威慑」，不是「加密」：页面上的 HTML/CSS/JS 与图片
 //       都必须下发给浏览器，访客依然能用 view-source:、开发者工具的
 //       菜单入口、抓包或直接下载整个页面拿到完全一样的内容。
@@ -419,6 +423,15 @@ document.getElementById("back-top")?.addEventListener("click",()=>window.scrollT
   // 输入区：粘贴、选中编辑、输入法选词都要用到，必须放行
   const EDITABLE="input, textarea, select, [contenteditable], [contenteditable='true']";
   const isEditable=target=>!!(target&&target.closest&&target.closest(EDITABLE));
+
+  // 本地预览（localhost / 127.0.0.1 / 局域网 IP / file://）视为作者自己，
+  // 下面第 4~8 条的 V17 增强项全部跳过 —— 否则自己改页面时会被遮罩挡住。
+  // 判定只看「打开页面的域名」，与访客是谁无关；线上授权域名照常生效。
+  const host=(location.hostname||"").toLowerCase();
+  const isLocal=location.protocol==="file:"||!host||host==="localhost"||host==="127.0.0.1"||host==="[::1]"||/^\d{1,3}(\.\d{1,3}){3}$/.test(host);
+  // 中英文提示文案：跟 documentElement 上的 data-lang 走（lang.js 切换时会同步改它），
+  // 所以不做进 i18n 字典 —— 这层是「保护提示」而不是站点内容，字典里没有对应的 key 体系。
+  const isEn=()=>document.documentElement.getAttribute("data-lang")==="en";
 
   // 1. 右键菜单 + 「查看源代码 / 开发者工具」快捷键
   if(cfg.blockRightClick!==false){
@@ -457,6 +470,90 @@ document.getElementById("back-top")?.addEventListener("click",()=>window.scrollT
       const holdsImg=!!(t.querySelector&&t.querySelector("img"));
       if(isImg||holdsImg)e.preventDefault();
     });
+  }
+
+  // 4. 开发者工具检测（V17）
+  //    原理：开发者工具「停靠」在页面左 / 右 / 下侧时，浏览器可视区（innerWidth /
+  //    innerHeight）会缩小，而窗口外框（outerWidth / outerHeight）不变，两者差值
+  //    会明显变大。阈值取得保守：正常窗口的宽度差约 0~20、高度差约 80~110
+  //    （含地址栏、书签栏），200 / 260 两个阈值在常见高 DPI 缩放下也不会顶到 ——
+  //    宁可漏判也不误伤访客。浮动窗口式的开发者工具检测不到，这没关系：这一层是
+  //    「劝退」不是「加密」，真想看源码的人可以关掉遮罩再看，也能用 view-source:
+  //    或抓包绕开。
+  //    只在「桌面 + 精确指针」设备启用（手机上不存在停靠式开发者工具）。
+  if(cfg.blockDevtools!==false&&!isLocal&&window.matchMedia&&window.matchMedia("(pointer:fine)").matches){
+    const GAP_W=200,GAP_H=260;
+    let veil=null;
+    const opened=()=>window.outerWidth-window.innerWidth>GAP_W||window.outerHeight-window.innerHeight>GAP_H;
+    const build=()=>{
+      if(veil||!document.body)return;
+      const en=isEn();
+      veil=document.createElement("div");
+      veil.className="guard-veil";
+      veil.setAttribute("role","alertdialog");
+      veil.setAttribute("aria-modal","true");
+      veil.innerHTML='<div class="guard-card"><span class="guard-icon" aria-hidden="true">&lt;/&gt;</span><b></b><p></p></div>';
+      veil.querySelector("b").textContent=en?"Developer tools detected":"检测到开发者工具已打开";
+      veil.querySelector("p").textContent=en
+        ?"This page's markup, styles, scripts and photos are protected. Close the developer tools (F12) and the page will come back on its own."
+        :"本站的页面结构、样式、脚本与照片都做了保护。关闭开发者工具（F12）后，页面会自动恢复。";
+      document.body.appendChild(veil);
+    };
+    const drop=()=>{if(veil){veil.remove();veil=null}};
+    const check=()=>{opened()?build():drop()};
+    window.addEventListener("resize",check,{passive:true});
+    window.addEventListener("focus",check);
+    // 切语言时把遮罩文案也换成新语言（lang.js 会派发这个事件）
+    document.addEventListener("site:langchange",()=>{if(veil){veil.remove();veil=null;check()}});
+    setInterval(()=>{if(!document.hidden)check()},1000);
+    check();
+  }
+
+  // 5. 禁止被 iframe 嵌套（V17）：被别的页面套壳时直接跳回自己的地址。
+  //    跨域受限（对方给 iframe 加了 sandbox）跳不出去时退化为整页隐藏 ——
+  //    总之不给套壳站当内容源。
+  if(cfg.blockFraming!==false&&!isLocal&&window.top!==window.self){
+    try{window.top.location.replace(window.self.location.href)}
+    catch(e){document.documentElement.classList.add("is-framed")}
+  }
+
+  // 6. 域名校验（V17）：站点被整站抄走、换到别的域名上线时，访客会看到顶部版权提示条。
+  //    只提示、不清空内容 —— 万一以后换了域名却忘了改白名单，页面也不至于直接报废。
+  if(cfg.blockCopySite!==false&&!isLocal&&document.body){
+    const allow=(cfg.allowedHosts||[]).map(v=>String(v).trim().toLowerCase()).filter(Boolean);
+    const ok=allow.some(v=>host===v||host.endsWith("."+v));
+    if(!ok){
+      const en=isEn();
+      const bar=document.createElement("div");
+      bar.className="guard-banner";
+      bar.setAttribute("role","status");
+      bar.innerHTML='<span class="gb-text"></span><button class="gb-close" type="button" aria-label="关闭">&times;</button>';
+      bar.querySelector(".gb-text").innerHTML=en
+        ?'<b>This copy is not licensed for this domain.</b> 崇施涵的个人主页 only publishes at <b>inx-lnx.github.io/personal-homepage</b> — if you are reading this elsewhere, it was taken without permission.'
+        :'<b>当前域名未获授权使用本站内容。</b>崇施涵的个人主页只发布在 <b>inx-lnx.github.io/personal-homepage</b>，你在别处看到的这一份属于未经许可的复制。';
+      bar.querySelector(".gb-close").addEventListener("click",()=>bar.remove());
+      document.body.appendChild(bar);
+    }
+  }
+
+  // 7. 自动化工具 / 下载器留痕（V17）
+  //    说明：静态站挡不住下载 —— wget / HTTrack 要的那份 HTML 早就发出去了，这里能做
+  //    的只是把对方标识记进控制台留个凭据。真实浏览器不会命中这些特征，不误伤访客。
+  if(cfg.blockCrawlers!==false){
+    const ua=navigator.userAgent||"";
+    const TOOL=/wget|curl|httrack|webcopier|teleport|python-requests|python-urllib|scrapy|aiohttp|libwww|node-fetch|axios|okhttp|go-http-client|phantomjs|puppeteer|playwright|jsdom|htmlunit|headlesschrome/i;
+    if(navigator.webdriver===true||TOOL.test(ua)){
+      console.warn("[内容保护] 检测到自动化工具或下载器访问，访客标识：",ua||"(空)");
+    }
+  }
+
+  // 8. Console 版权声明（V17）：用开发者工具看源码的人，先看到这段话。
+  //    末尾那句安全提示是惯例做法 —— 提醒访客别往 Console 里粘贴陌生人给的代码。
+  if(cfg.consoleWarning!==false){
+    try{
+      console.log("%c崇施涵 · 个人主页","font-size:20px;font-weight:700;color:#a78bfa;text-shadow:0 0 14px rgba(167,139,250,.55)");
+      console.log("%c这站是纯手写的 HTML / CSS / 原生 JavaScript，没有框架、没有构建工具。\n代码可以读 —— 但抄走之前请先注明出处，或者直接来问我怎么实现的。\n\n⚠️ 友情提示：那些让你把代码粘贴到 Console 里执行的「教程」可能盗走你的登录状态，陌生人给的代码请不要运行。","font-size:12px;line-height:1.8;color:#9a9aa2");
+    }catch(e){/* 老浏览器不支持样式化输出也无所谓 */}
   }
 })();
 
