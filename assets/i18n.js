@@ -57,7 +57,6 @@ window.SITE_I18N = {
     // ---------- 经历 ----------
     "journey.title": "怎么一步步<br /><em>走到现在。</em>",
     "journey.desc": "学校课程之外，基本靠想做点什么时现学。<br />每一版都留在本地，看得见进步。",
-    "journey.1.stage": "起点",
     "journey.1.title": "先让想法变成能看的东西",
     "journey.1.copy": "从 HTML 和 CSS 起手：标签、盒模型、Flex、Grid，一点点折腾出第一版能看的个人主页。现在回头看很粗糙，但那是起点。",
     "journey.2.title": "让它好看，也让它动起来",
@@ -66,9 +65,6 @@ window.SITE_I18N = {
     "journey.3.copy": "用 Supabase 做了带 RLS 权限的反馈系统，又加上纯前端的数字分身——现在它应付得了五十多个问题，答不上来还会推荐你换个问法。",
     "journey.4.title": "补齐「上线之后才想起来」的细节",
     "journey.4.copy": "分享卡片、站点图标、结构化数据与 SEO 一并补上。从这一版起，主页才真正像一张对外的名片，而不只是作业。",
-    "journey.5.stage": "现在 · V11",
-    "journey.5.title": "更轻、更稳，也更好读",
-    "journey.5.copy": "V5 起给照片瘦身（WebP + 三级清晰度），V9 把字体按站点用字本地子集化，V10 加上 Service Worker——断网也能打开。V11 收掉了一批满屏自动流动的装饰，把偏暗的小字提亮到无障碍标准之上：主页更安静、也更好读的同时，高数、英语、AI 应用三线同步推进。",
 
     // ---------- 能力矩阵 ----------
     "skills.title": "持续进化的<br /><em>能力矩阵。</em>",
@@ -240,7 +236,6 @@ window.SITE_I18N = {
     // ---------- 经历 ----------
     "journey.title": "How I got<br /><em>here, step by step.</em>",
     "journey.desc": "Outside of coursework, I mostly learn by building whatever I feel like making.<br />Every version is kept locally, so the progress is visible.",
-    "journey.1.stage": "The start",
     "journey.1.title": "Making ideas visible first",
     "journey.1.copy": "Started with HTML and CSS — tags, the box model, Flex, Grid — until the first presentable homepage appeared. It looks rough in hindsight, but that was the starting point.",
     "journey.2.title": "Making it look good, then making it move",
@@ -249,9 +244,6 @@ window.SITE_I18N = {
     "journey.3.copy": "Built a feedback system on Supabase with row-level security, then added a purely front-end digital twin — it now handles 50-plus questions and suggests another angle when it can't answer.",
     "journey.4.title": "Filling in the after-launch details",
     "journey.4.copy": "Share cards, favicons, structured data, and SEO all came next. From this version on, the site finally felt like a public calling card rather than homework.",
-    "journey.5.stage": "Now · V11",
-    "journey.5.title": "Lighter, steadier, easier to read",
-    "journey.5.copy": "From V5 I started slimming photos down (WebP at three quality tiers), V9 subsetted the fonts to the characters this site actually uses, and V10 added a Service Worker so the page opens offline. V11 retired a batch of full-screen auto-flowing decorations and lifted the dimmest small text above accessibility thresholds — the page is quieter and easier to read, while calculus, English, and AI work all move forward in parallel.",
 
     // ---------- 能力矩阵 ----------
     "skills.title": "A skill set<br /><em>still evolving.</em>",

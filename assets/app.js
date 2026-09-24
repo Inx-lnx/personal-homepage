@@ -277,7 +277,7 @@ document.getElementById("back-top")?.addEventListener("click",()=>window.scrollT
 //       注：灯带只保留这三张卡片，其余板块不再注入。
 // ============================================================
 (function initBorderBeam(){
-  // V11 收敛视觉特效：滚动区那条「沿卡片边框无限循环流动的霓虹灯带」属于
+  // 收敛视觉特效：滚动区那条「沿卡片边框无限循环流动的霓虹灯带」属于
   // 常驻自动动画（5s linear infinite），是本页最重的装饰，先停用。
   // 想恢复：删掉下面这行 return 即可——以下代码与 style.css 的 .border-beam
   // 规则都完整保留，且仍受系统「减少动态效果」开关保护。
@@ -323,7 +323,7 @@ document.getElementById("back-top")?.addEventListener("click",()=>window.scrollT
 //       悬停可交互元素时放大、按下时收缩；首次移动鼠标后才显形，
 //       指针离开文档时隐藏。触摸设备（hover:none）与系统“减少动态
 //       效果”下直接不创建，保持零开销。圆点/圆环样式见 style.css。
-// V14 修「光标有时候会丢失」：原来所有状态都只在 mousemove 里更新，
+// 修「光标有时候会丢失」：原来所有状态都只在 mousemove 里更新，
 //       于是只要指针不动、页面自己在动，状态就会永久卡住——
 //       ① 指针停在可交互元素上（圆环放大态）、用滚轮把页面滚走之后
 //          （enter 有、leave 没有）放大态摘不掉，圆环就一直鼓着；
@@ -334,8 +334,8 @@ document.getElementById("back-top")?.addEventListener("click",()=>window.scrollT
 //       算（rAF 合并 + 每秒兜底），失焦与指针离开文档时清掉按下态，每帧
 //       确认两个节点还挂在 body 上。CSS 侧 system 光标也不再一上来就藏，
 //       见 style.css 的 body.smooth-cursor.is-active。
-// V16 撤掉「让位给系统光标」这套机制：V11 起数字分身与反馈区整块不发特效，
-//       V15 只把范围收窄到 input / select / textarea，用户仍然觉得这两块没有
+// 撤掉「让位给系统光标」这套机制：先是数字分身与反馈区整块不发特效，
+//       后来只把范围收窄到 input / select / textarea，用户仍然觉得这两块没有
 //       鼠标特效，于是全站统一——圆点+圆环在任何元素上都在，输入框上也不例外
 //       （聚焦后浏览器自带的文本插入符照常出现，不影响打字）。
 // ============================================================
@@ -363,8 +363,8 @@ document.getElementById("back-top")?.addEventListener("click",()=>window.scrollT
   function loop(){ensureMounted();if(mx===mx){rx+=(mx-rx)*0.18;ry+=(my-ry)*0.18;dot.style.transform="translate("+mx+"px, "+my+"px)";ring.style.transform="translate("+rx+"px, "+ry+"px)"}requestAnimationFrame(loop)}
   // 可交互元素：原版列表 + 当前站点的头像/名字（Cool Mode 喷粒子）与相册花瓣
   const INTERACTIVE="a, button, .chip, .followup, .suggest-item, .chat-clear, input, select, textarea, label, .portrait-frame, .portrait-name, .petal";
-  // V16：这里原本是「让位给系统光标」的判定（V11 整块 .chat-section /
-  // .feedback-section，V15 收窄到 input / select / textarea），现在整套撤掉——
+  // 这里原本是「让位给系统光标」的判定（先是整块 .chat-section /
+  // .feedback-section，后来收窄到 input / select / textarea），现在整套撤掉——
   // 数字分身与反馈区要的是全程都有圆点+圆环，不留任何例外。
   // 状态判定的唯一入口：mousemove 直接把 e.target 递进来（省掉一次 hit-test），
   // 其它时机由 resync() 用 elementFromPoint 取指针底下当前是谁。
@@ -404,7 +404,7 @@ document.getElementById("back-top")?.addEventListener("click",()=>window.scrollT
 // ContentProtection · 内容保护（右键 / 查看源代码 / 选中 / 图片另存）
 // 说明：挡掉随手右键、F12、Ctrl+U、拖选文字、拖拽或长按保存图片，
 //       劝退顺手搬走内容与源码的访客。
-// V17 增强（第 4~8 条）：开发者工具停靠检测、禁止被 iframe 嵌套、
+// 内容保护增强项（第 4~8 条）：开发者工具停靠检测、禁止被 iframe 嵌套、
 //       非授权域名版权提示条、自动化工具留痕、Console 版权声明。
 //       上述增强项在本地预览（localhost / 127.0.0.1 / 局域网 IP / file://）下
 //       自动跳过，方便自己调试；开关全在 config.js。
@@ -425,7 +425,7 @@ document.getElementById("back-top")?.addEventListener("click",()=>window.scrollT
   const isEditable=target=>!!(target&&target.closest&&target.closest(EDITABLE));
 
   // 本地预览（localhost / 127.0.0.1 / 局域网 IP / file://）视为作者自己，
-  // 下面第 4~8 条的 V17 增强项全部跳过 —— 否则自己改页面时会被遮罩挡住。
+  // 下面第 4~8 条的增强项全部跳过 —— 否则自己改页面时会被遮罩挡住。
   // 判定只看「打开页面的域名」，与访客是谁无关；线上授权域名照常生效。
   const host=(location.hostname||"").toLowerCase();
   const isLocal=location.protocol==="file:"||!host||host==="localhost"||host==="127.0.0.1"||host==="[::1]"||/^\d{1,3}(\.\d{1,3}){3}$/.test(host);
@@ -472,7 +472,7 @@ document.getElementById("back-top")?.addEventListener("click",()=>window.scrollT
     });
   }
 
-  // 4. 开发者工具检测（V17）
+  // 4. 开发者工具检测
   //    原理：开发者工具「停靠」在页面左 / 右 / 下侧时，浏览器可视区（innerWidth /
   //    innerHeight）会缩小，而窗口外框（outerWidth / outerHeight）不变，两者差值
   //    会明显变大。阈值取得保守：正常窗口的宽度差约 0~20、高度差约 80~110
@@ -509,7 +509,7 @@ document.getElementById("back-top")?.addEventListener("click",()=>window.scrollT
     check();
   }
 
-  // 5. 禁止被 iframe 嵌套（V17）：被别的页面套壳时直接跳回自己的地址。
+  // 5. 禁止被 iframe 嵌套：被别的页面套壳时直接跳回自己的地址。
   //    跨域受限（对方给 iframe 加了 sandbox）跳不出去时退化为整页隐藏 ——
   //    总之不给套壳站当内容源。
   if(cfg.blockFraming!==false&&!isLocal&&window.top!==window.self){
@@ -517,7 +517,7 @@ document.getElementById("back-top")?.addEventListener("click",()=>window.scrollT
     catch(e){document.documentElement.classList.add("is-framed")}
   }
 
-  // 6. 域名校验（V17）：站点被整站抄走、换到别的域名上线时，访客会看到顶部版权提示条。
+  // 6. 域名校验：站点被整站抄走、换到别的域名上线时，访客会看到顶部版权提示条。
   //    只提示、不清空内容 —— 万一以后换了域名却忘了改白名单，页面也不至于直接报废。
   if(cfg.blockCopySite!==false&&!isLocal&&document.body){
     const allow=(cfg.allowedHosts||[]).map(v=>String(v).trim().toLowerCase()).filter(Boolean);
@@ -536,7 +536,7 @@ document.getElementById("back-top")?.addEventListener("click",()=>window.scrollT
     }
   }
 
-  // 7. 自动化工具 / 下载器留痕（V17）
+  // 7. 自动化工具 / 下载器留痕
   //    说明：静态站挡不住下载 —— wget / HTTrack 要的那份 HTML 早就发出去了，这里能做
   //    的只是把对方标识记进控制台留个凭据。真实浏览器不会命中这些特征，不误伤访客。
   if(cfg.blockCrawlers!==false){
@@ -547,7 +547,7 @@ document.getElementById("back-top")?.addEventListener("click",()=>window.scrollT
     }
   }
 
-  // 8. Console 版权声明（V17）：用开发者工具看源码的人，先看到这段话。
+  // 8. Console 版权声明：用开发者工具看源码的人，先看到这段话。
   //    末尾那句安全提示是惯例做法 —— 提醒访客别往 Console 里粘贴陌生人给的代码。
   if(cfg.consoleWarning!==false){
     try{
@@ -667,21 +667,21 @@ document.getElementById("back-top")?.addEventListener("click",()=>window.scrollT
   window.__BGM={audio,play:tryPlay,pause:()=>audio.pause(),state:()=>dock.dataset.state};
 })();
 
-/* V5 相册加载占位：图片迟迟没出来时给出可见反馈，而不是空白 */
+/* 相册加载占位：图片迟迟没出来时给出可见反馈，而不是空白 */
 (()=>{const run=()=>{document.querySelectorAll(".petal img").forEach(im=>{const okk=()=>im.complete&&im.naturalWidth>0;if(okk())return;const t=setTimeout(()=>{if(!okk())im.classList.add("img-pending")},3500);im.addEventListener("load",()=>{clearTimeout(t);im.classList.remove("img-pending")},{once:true});im.addEventListener("error",()=>{clearTimeout(t);im.classList.remove("img-pending");im.classList.add("img-failed")},{once:true})})};document.readyState==="loading"?document.addEventListener("DOMContentLoaded",run,{once:true}):run()})();
 
-/* V6 动画兜底：无论滚动监听是否生效，内容都不会永久停在不可见状态 */
+/* 动画兜底：无论滚动监听是否生效，内容都不会永久停在不可见状态 */
 setTimeout(()=>{document.querySelectorAll(".reveal").forEach(el=>el.classList.add("is-visible"))},3500);
 
-/* V7 高清升级：内联小图先秒显；只有屏幕像素密度确实需要更清晰时才去后台取网络图（省流量，慢网下不添乱） */
+/* 高清升级：内联小图先秒显；只有屏幕像素密度确实需要更清晰时才去后台取网络图（省流量，慢网下不添乱） */
 (()=>{const go=()=>{const c=navigator.connection||{};if(c.saveData)return;if(/(^|-)2g$/.test(c.effectiveType||""))return;document.querySelectorAll("img[data-hi]").forEach(im=>{const hi=im.dataset.hi;if(!hi)return;const need=Math.ceil((im.clientWidth||im.width||0)*(window.devicePixelRatio||1)*1.15);if(im.naturalWidth>=need)return;const b=new Image();b.onload=()=>{if(b.naturalWidth>im.naturalWidth)im.src=hi};b.src=hi})};if(document.readyState==="complete")go();else window.addEventListener("load",()=>setTimeout(go,1200),{once:true})})();
 
 
-/* V10 离线可用：注册 Service Worker（仅 http/https，file:// 打开时自动跳过） */
+/* 离线可用：注册 Service Worker（仅 http/https，file:// 打开时自动跳过） */
 if("serviceWorker" in navigator && location.protocol.indexOf("http")===0){window.addEventListener("load",()=>{navigator.serviceWorker.register("sw.js").catch(()=>{});});}
 
 // ============================================================
-// V12 · 中英文切换：重建「依赖语言」的那几样东西
+// 中英文切换：重建「依赖语言」的那几样东西
 // 由 assets/lang.js 的 onChange 负责触发——它在启动时会立刻用当前语言跑一次，
 // 所以这里不需要再自己初始化一遍，之后每点一次切换按钮都会再跑。
 // 静态文案（标题、段落、按钮、placeholder…）不归这里管，见 index.html 的

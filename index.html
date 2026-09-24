@@ -125,7 +125,7 @@
       </article>
       <article class="feature-card">
         <span class="card-index">02</span>
-          <div class="terminal-art" aria-hidden="true"><i></i><i></i><i></i><code>&gt; building ideas_<br />&gt; learning everyday<br />&gt; shipping v10</code></div>
+          <div class="terminal-art" aria-hidden="true"><i></i><i></i><i></i><code>&gt; building ideas_<br />&gt; learning everyday<br />&gt; shipping v4</code></div>
         <div>
           <p class="mini-label">BUILDING</p>
           <h3 data-i18n="work.build.title">个人主页</h3>
@@ -155,7 +155,7 @@
       <ol class="timeline">
         <li class="tl-item">
           <span class="tl-dot" aria-hidden="true"></span>
-          <p class="tl-stage" data-i18n="journey.1.stage">起点</p>
+          <p class="tl-stage">V1</p>
           <h3 data-i18n="journey.1.title">先让想法变成能看的东西</h3>
           <p data-i18n="journey.1.copy">从 HTML 和 CSS 起手：标签、盒模型、Flex、Grid，一点点折腾出第一版能看的个人主页。现在回头看很粗糙，但那是起点。</p>
         </li>
@@ -171,17 +171,11 @@
           <h3 data-i18n="journey.3.title">接上数据库与数字分身</h3>
           <p data-i18n="journey.3.copy">用 Supabase 做了带 RLS 权限的反馈系统，又加上纯前端的数字分身——现在它应付得了五十多个问题，答不上来还会推荐你换个问法。</p>
         </li>
-        <li class="tl-item">
+        <li class="tl-item is-now">
           <span class="tl-dot" aria-hidden="true"></span>
           <p class="tl-stage">V4</p>
           <h3 data-i18n="journey.4.title">补齐「上线之后才想起来」的细节</h3>
           <p data-i18n="journey.4.copy">分享卡片、站点图标、结构化数据与 SEO 一并补上。从这一版起，主页才真正像一张对外的名片，而不只是作业。</p>
-        </li>
-        <li class="tl-item is-now">
-          <span class="tl-dot" aria-hidden="true"></span>
-          <p class="tl-stage" data-i18n="journey.5.stage">现在 · V11</p>
-          <h3 data-i18n="journey.5.title">更轻、更稳，也更好读</h3>
-          <p data-i18n="journey.5.copy">V5 起给照片瘦身（WebP + 三级清晰度），V9 把字体按站点用字本地子集化，V10 加上 Service Worker——断网也能打开。V11 收掉了一批满屏自动流动的装饰，把偏暗的小字提亮到无障碍标准之上：主页更安静、也更好读的同时，高数、英语、AI 应用三线同步推进。</p>
         </li>
       </ol>
     </section>
@@ -358,7 +352,7 @@
   <script src="assets/lang.js"></script>
   <script src="assets/app.js"></script>
 
-  <!-- V16：新版 Service Worker 接管时自动刷新一次。
+  <!-- 新版 Service Worker 接管时自动刷新一次。
        为什么放在 HTML 里而不是 app.js：HTML 走网络优先，这段永远是最新的，所以
        即使访客的浏览器还在用旧的 app.js / style.css 缓存，也能当场把新资源换上来——
        改版后只需刷新一次，不再需要「连刷两次」。

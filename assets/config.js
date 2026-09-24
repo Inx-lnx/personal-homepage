@@ -19,7 +19,7 @@ window.SITE_CONFIG = {
   blockSelect: false,     // 允许选中 / 复制文本：设为 true 会让访客没法复制邮箱地址，得不偿失
   blockImageSave: true,   // 禁止拖拽图片，以及长按 / 右键另存图片
 
-  // ---- V17 内容保护增强（实现见 app.js 的 initContentProtection，样式见 style.css 末尾）----
+  // ---- 内容保护增强（实现见 app.js 的 initContentProtection，样式见 style.css 末尾）----
   // 目标：把「随手看源码 / 右键保存」抬高一档，并且拦住「整站抄走、换个域名上线」这一种。
   // 仍然只是威慑、不是加密：HTML/CSS/JS 与图片都必须下发给浏览器，
   // view-source:、开发者工具菜单、抓包、wget / HTTrack 依然能拿到同样的内容。

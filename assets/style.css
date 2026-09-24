@@ -29,8 +29,8 @@ footer{position:relative;z-index:21;background:var(--white);color:#090909;paddin
 /* ---------- 首页名字：原版炫彩 aurora 流光配色 ---------- */
 .aurora-text{display:inline-block;color:transparent;background-image:linear-gradient(120deg,#ffffff 0%,#a5f3fc 18%,#c4b5fd 38%,#f9a8d4 58%,#67e8f9 78%,#ffffff 100%);background-size:250% auto;background-position:0% 50%;background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 12px rgba(165,243,252,.32));animation:aurora-text-flow 5s ease-in-out infinite alternate}
 @keyframes aurora-text-flow{0%{background-position:0% 50%}100%{background-position:100% 50%}}
-/* ---------- 流光彩字（V11 起范围已收敛到首屏 h1 span + 姓名 .aurora-text） ----------
-   V10 曾把下面这串「设计性灰字」全部改成自动流动的渐变：
+/* ---------- 流光彩字（范围已收敛到首屏 h1 span + 姓名 .aurora-text） ----------
+   下面这串「设计性灰字」曾经全部是自动流动的渐变：
      h1 span #85858a · h2 em #6f6f74 · .section-kicker/.eyebrow/
      .mini-label #a8a8ae · .card-index #66666c · .skill-row span
      #68686e · .scroll-cue #68686e · .card-arrow #777 ·
@@ -50,12 +50,12 @@ footer{position:relative;z-index:21;background:var(--white);color:#090909;paddin
       故排除：.floating-label（自带 #09090b 底色药丸）、footer 与
       .pixel-transition 内的灰字（白底，浅色渐变会看不见）。
    4. 首屏大标题（h1 span）额外加一层青色柔光，与名字呼应。
-   V11 变更：上述「统一改成流动渐变」的范围已收敛为 h1 span 一处
+   变更：上述「统一改成流动渐变」的范围已收敛为 h1 span 一处
    （.aurora-text 是上面单独定义的另一套）。原因：整页到处同时在流动
    会拉平视觉层级，首屏大标题不再突出；且每个文字元素常驻
    background-clip:text + 无限动画，中低端手机上明显掉帧，10px 级
    小字也更难读。其余元素回到静态灰，并提亮到 WCAG AA 之上——见文件
-   末尾「V11 · 视觉收敛与可读性」一段；想整站恢复 V10，把下面这条的
+   末尾「视觉收敛与可读性」一段；想整站恢复旧效果，把下面这条的
    选择器重新展开成上面那串灰字清单即可。 */
 h1 span{color:transparent;background-image:linear-gradient(100deg,#a5f3fc 0%,#c4b5fd 26%,#f0abfc 50%,#c4b5fd 74%,#a5f3fc 100%);background-size:200% 100%;background-position:0% 50%;background-repeat:repeat;background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:var(--grad-anim)}
 h1 span{filter:drop-shadow(0 0 14px rgba(165,243,252,.28))}
@@ -235,7 +235,7 @@ html.no-drag img{-webkit-user-drag:none;-webkit-touch-callout:none}
 
 /* ============================================================
    V4 新增分区：经历时间线 #journey / 正在做 #now
-   原作品区块 #works 已于 V5 移除，相关样式一并删除（备份在 .deepworks/tmp）
+   原作品区块 #works 已移除，相关样式一并删除（备份在 .deepworks/tmp）
    想让某一块留白更大或更紧，改各自的 padding 就行
    ============================================================ */
 
@@ -295,7 +295,7 @@ html.no-drag img{-webkit-user-drag:none;-webkit-touch-callout:none}
   .now-card,.copy-mail{transition:none}
 }
 
-/* V5 图片瘦身追加 */
+/* 图片瘦身追加 */
 picture{display:contents}
 .petal img.img-pending{min-height:96px;aspect-ratio:4/3;background:linear-gradient(135deg,rgba(100,28,255,.34),rgba(157,86,255,.14));box-shadow:0 0 18px rgba(139,92,246,.26)}
 .petal img.img-failed{min-height:96px;aspect-ratio:4/3;background:repeating-linear-gradient(135deg,rgba(157,86,255,.16) 0 10px,rgba(100,28,255,.07) 10px 20px);box-shadow:none}
@@ -303,10 +303,10 @@ picture{display:contents}
 .petal img:focus-visible{outline:2px solid var(--purple2);outline-offset:3px}
 
 /* ============================================================
-   V11 · 视觉收敛与可读性
+   视觉收敛与可读性
    背景：整页评估后做了三项收敛（特效收敛 / 移动端 / 可读性）。
    约定：本节全部写在文件末尾，靠「后者优先」覆盖前面的旧值；
-        回退到 V10 只需删掉本节、并把上面「流光彩字」的选择器恢复成
+        回退只需删掉本节、并把上面「流光彩字」的选择器恢复成
         那一串灰字清单即可。
    ============================================================ */
 
@@ -332,23 +332,23 @@ h2 em{color:#6f6f74}
 .tl-stage{color:#a99ce0}
 .bgm-hint span{color:#a0a0a8}
 
-/* ---------- 3. 自定义光标：全站显示，输入控件上也不例外（V16） ----------
-   V11 ~ V15 期间这里有一组「让位给系统光标」的规则：指针压在输入密集区（后来
+/* ---------- 3. 自定义光标：全站显示，输入控件上也不例外 ----------
+   这里曾经有一组「让位给系统光标」的规则：指针压在输入密集区（后来
    收窄成 input / select / textarea）时，app.js 给 body 挂 .cursor-ui-off，
-   隐藏圆点圆环、换回系统光标。用户反馈数字分身与反馈区「没有鼠标特效」，V16
-   起整套机制删除，任何元素上都是圆点 + 圆环；聚焦输入框后浏览器自带的文本
+   隐藏圆点圆环、换回系统光标。用户反馈数字分身与反馈区「没有鼠标特效」，于是
+   整套机制删除，任何元素上都是圆点 + 圆环；聚焦输入框后浏览器自带的文本
    插入符照常出现，不影响打字。 */
 
 /* ---------- 4. 跳到主要内容 + 全站键盘焦点 ----------
    页首第一个可聚焦元素，键盘/读屏用户按 Tab 的第一落点，直接跳过顶栏导航。
-   自定义光标被隐藏时，焦点环是键盘用户唯一的定位线索，所以补一条统一的
+   自定义光标本身很轻，焦点环是键盘用户最可靠的定位线索，所以补一条统一的
    :focus-visible（原来只有相册花瓣有）。 */
 .skip-link{position:absolute;left:-9999px;top:0;z-index:3000;background:var(--purple);color:#fff;padding:12px 18px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
 .skip-link:focus{left:12px;top:12px}
 a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible,[tabindex]:focus-visible{outline:2px solid #67e8f9;outline-offset:3px}
 
 /* ============================================================
-   V12 · 中英文切换（语言引擎见 assets/lang.js）
+   中英文切换（语言引擎见 assets/lang.js）
    切语言只改 html[lang] 与 data-lang，所以「英文比中文长一截」这类排版
    问题，全用 html[lang="en"] 前缀单独兜，中文版观感一点不动。
    ============================================================ */
@@ -376,7 +376,7 @@ html[lang="en"] .desktop-nav{gap:24px;letter-spacing:.08em}
 @media(prefers-reduced-motion:reduce){.lang-toggle{transition:none}}
 
 /* ============================================================
-   V13 · 标题第二行：科技感标题字体 + 分区块渐变色与柔和呼吸
+   标题第二行：科技感标题字体 + 分区块渐变色与柔和呼吸
    背景：各区块 h2 的第二行（<em>真实、可见的作品。</em> 这类）原先是静态灰 #6f6f74，
    安静是安静，但整页最该带「技术感」的那一行恰恰最平。本次只动这一行，
    正文字体（Inter + Noto Sans SC）与其余灰字层级一律不变。
@@ -395,7 +395,7 @@ html[lang="en"] .desktop-nav{gap:24px;letter-spacing:.08em}
       一起闪。系统开启「减少动态效果」时全部停住，只保留静态渐变 ——
       停的是动画，不是把内容藏掉。
 
-   回退：删掉本节即可回到 V11 的静态灰字（上面 h2 em{color:#6f6f74}
+   回退：删掉本节即可回到静态灰字（上面 h2 em{color:#6f6f74}
    会重新生效）—— 本节全靠「写在文件末尾 + 后者优先」覆盖旧值。 */
 
 @font-face{
@@ -445,7 +445,7 @@ html[lang="en"] .desktop-nav{gap:24px;letter-spacing:.08em}
 #feedback h2 em{--em-a:#ffa9d4;--em-b:#ffd0e6;--em-glow:rgba(255,169,212,.3);animation-delay:-8.1s,-4.4s}
 
 /* 小屏省电：只留横向流光，去掉模糊呼吸 —— drop-shadow 每帧重绘，
-   中低端手机在这几行大字号上容易掉帧（同 V11 的收敛思路） */
+   中低端手机在这几行大字号上容易掉帧（同上面的收敛思路） */
 @media(max-width:600px){
   .statement h2 em,.skills-heading h2 em,.section-head h2 em,.chat-copy h2 em,.feedback-section h2 em{animation:title-em-flow 13s linear infinite;filter:none}
 }
@@ -454,7 +454,7 @@ html[lang="en"] .desktop-nav{gap:24px;letter-spacing:.08em}
 }
 
 /* ============================================================
-   V17 · 内容保护增强（与 app.js 的 initContentProtection 配套）
+   内容保护增强（与 app.js 的 initContentProtection 配套）
    开关：config.js 的 blockDevtools / blockFraming / blockCopySite
    前提：全部是「威慑」性质，不是加密 —— 样式和脚本都要下发给浏览器，
         真正敏感的东西不要放前端。本节样式只在线上授权域名之外的场景生效，
