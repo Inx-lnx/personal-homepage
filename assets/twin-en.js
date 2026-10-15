@@ -13,6 +13,8 @@
 //    "google"、"going" 这类无关提问。
 // ============================================================
 window.TWIN_KB_EN = [
+/* ---------- Easter egg: any mention triggers it (placed first so it wins score ties; no `ask` on purpose, so it never appears in quick-ask buttons or input suggestions) ---------- */
+{id:"moonlight",keys:["岳梓璐","yzl","圆周率"],answer:"白月光"},
 /* ---------- 关于我 ---------- */
 {id:"greet",ask:"Hi",keys:["hi","hello","hey","you there","anyone there","good morning","good evening"],answer:"Hi there! I'm Chong Shihan's digital twin — his cheat-sheet version. Ask me about his studies, AI, hobbies, or how this site was built. Stump me if you can."},
 {id:"who",ask:"Who are you?",keys:["who are you","your name","whats your name","introduce yourself","what are you","who is this"],answer:"I'm Chong Shihan: student, developer, anime fan — three words cover most of it. The real one studies Computer Science at Tianjin University and is based in Shenzhen, focused on AI applications, with music, badminton, and Go on the side.",followups:["What are you studying?","What are you up to lately?","How can I reach you?"]},
